@@ -10,20 +10,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class ProfileType extends AbstractType
+class ProfileTypeForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('email')
-            ->add('roles')
             ->add('password')
             ->add('nom')
             ->add('prenom')
             ->add('pseudo')
             ->add('telephone')
-            ->add('motdepasse')
-            ->add('actif')
         ;
     }
 

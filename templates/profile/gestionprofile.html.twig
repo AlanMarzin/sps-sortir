@@ -1,0 +1,11 @@
+{% block tittle %}Modification profile{% endblock %}
+
+{% block body %}
+    <h1>Modifier votre profil</h1>
+
+    {{ form_start(profileForm)}}
+    {{ form_widget(profileForm) }}
+    <button>Valider</button>
+
+    {{ form_end(profileForm) }}
+{% endblock %}

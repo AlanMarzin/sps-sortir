@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}SPS-Sortir{% endblock %}</title>
@@ -26,6 +26,8 @@
     </body>
     <footer>
         <div class="">
+            <h3>Navigation</h3>
+            {%  include'inc/_nav.html.twig' %}
             © SPS-Sortir {{ 'now'|date('Y') }}
         </div>
     </footer>

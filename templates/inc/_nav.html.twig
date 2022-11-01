@@ -1,0 +1,12 @@
+<nav>
+    <ul>
+            {% if app.user %}
+                <li>
+                    <a href="{{ path('user_details', {"id": app.user.id}) }}">Modifier mon compte</a>
+                </li>
+                <li>
+                    <a href="{{ path('app_logout') }}">Deconnexion</a>
+                </li>
+            {% endif %}
+    </ul>
+</nav>
