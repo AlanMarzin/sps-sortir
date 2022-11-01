@@ -10,7 +10,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class LoginController extends AbstractController
 {
-    #[Route('/login', name: 'app_login')]
+    #[Route('/', name: 'app_login')]
     public function index(AuthenticationUtils $authentificationUtils): Response
     {
         //obtenir le login error s'il y en a un
@@ -24,4 +24,5 @@ class LoginController extends AbstractController
             'error'         => $error,
         ]);
     }
+
 }

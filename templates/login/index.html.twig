@@ -7,6 +7,13 @@
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
+    {% if app.user %}
+    <h1>Hello {{ app.user.prenom }}! ✅</h1>
+        <a href="{{ path('app_logout') }}">Déconnexion</a>
+    {% endif %}
+
+
+
     <form action="{{ path('app_login') }}" method="post">
         <label for="username">Email:</label>
         <input type="text" id="username" name="_username" value="{{ last_username }}"/>
