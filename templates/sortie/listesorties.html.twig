@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Liste des sorties{% endblock %}
+
+{% block body %}
+    <p>Date du jour : {{ 'now'|date('d/m/Y') }}</p>
+    {% if app.user %}
+        <p>Participant : {{ app.user.prenom }}</p>
+    {% endif %}
+
+    <h2>Filtrer les sorties</h2>
+    <form>
+        <div>
+            <label for="campus">Campus</label>
+            <select name="campus" id="campus">
+                {% for site in campus %}
+                    <option value="{{ site.nom }}">{{ site.nom }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="name">Le nom de la sortie contient :</label>
+            <input type="search" name="name" id="name" />
+        </div>
+        <div>
+            <label for="debut">Entre</label>
+            <input type="date" name="debut" id="debut" />
+            <label for="fin">Entre</label>
+            <input type="date" name="fin" id="fin" />
+        </div>
+        <div>
+            <input type="checkbox" name="sorties_organisateur" id="sorties_organisateur" value="sorties_organisateur" /><label for="sorties_organisateur">Sorties dont je suis l'organisateur.trice</label>
+            <input type="checkbox" name="sorties_inscrit" id="sorties_inscrit" value="sorties_inscrit" /><label for="sorties_inscrit">Sorties auxquelles je suis inscrit.e</label>
+            <input type="checkbox" name="sorties_non_inscrit" id="sorties_non_inscrit" value="sorties_non_inscrit" /><label for="sorties_non_inscrit">Sorties auxquelles je ne suis pas inscrit.e</label>
+            <input type="checkbox" name="sorties_passees" id="sorties_passees" value="sorties_passees" /><label for="sorties_passees">Sorties passées</label>
+        </div>
+        <input type="submit" value="Rechercher" />
+    </form>
+
+    <table>
+        <tr>
+            <th>Nom de la sortie</th>
+            <th>Date de la sortie</th>
+            <th>Clôture</th>
+            <th>Inscrits/Places</th>
+            <th>Etat</th>
+            <th>Inscrit</th>
+            <th>Organisateur</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for sortie in sorties %}
+            <tr>
+                <td>{{ sortie.nom }}</td>
+                <td>{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</td>
+                <td>{{ sortie.dateLimiteInscription|date('d/m/Y') }}</td>
+                <td>{{ sortie.nbInscriptionsMax }}</td>
+                <td>{{ sortie.etat.libelle }}</td>
+                <td></td>
+                <td></td>
+                <td>
+                    <a href="{{ path('sortie_list') }}">Afficher</a>
+                    S'inscrire
+                    Se désister
+                    Modifier
+                    Publier
+                    Annuler
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <a href='{{ path('sortie_list') }}'><button>Créer une sortie</button></a>
+
+{% endblock %}
