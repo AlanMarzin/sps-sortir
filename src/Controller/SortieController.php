@@ -11,7 +11,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SortieController extends AbstractController
 {
-    #[Route('/', name: 'sortie_list')]
+    #[Route('/', name: 'app_login')]
     public function list(AuthenticationUtils $authentificationUtils, SortieRepository $sortieRepository, CampusRepository $campusRepository): Response
     {
         //obtenir le login error s'il y en a un
