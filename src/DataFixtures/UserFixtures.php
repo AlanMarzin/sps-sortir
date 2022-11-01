@@ -8,7 +8,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserFixtures extends Fixture
+class UserFixtures extends Fixture implements  DependentFixtureInterface
 {
     public function __construct(private UserPasswordHasherInterface $hasher)
     {
@@ -17,27 +17,49 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
 
-//        $axelle = new User();
-//        $axelle->setPseudo('axelle');
-//        $axelle->setEmail('axelle.cardin@gmail.com');
-//        $axelle->setPassword($this->hasher->hashPassword($axelle, 'axelle'));
-//        $manager->persist($axelle);
-//
-//        $fred = new User();
-//        $fred->setPseudo('fred');
-//        $fred->setEmail('fred.arthaud@gmail.com');
-//        $fred->setPassword($this->hasher->hashPassword($fred, 'fred'));
-//        $manager->persist($fred);
-//
-//        $alan = new User();
-//        $alan->setPseudo('alan');
-//        $alan->setEmail('alan.marzin@gmail.com');
-//        $alan->setPassword($this->hasher->hashPassword($alan, 'alan'));
-//        $manager->persist($alan);
-//
-//
-//        $manager->flush();
+        $axelle = new User();
+        $axelle->setPseudo('axelle');
+        $axelle->setEmail('axelle.cardin@gmail.com');
+        $axelle->setPassword($this->hasher->hashPassword($axelle, 'axelle'));
+        $axelle->setCampus($this->getReference('campus-rennes'));
+        $axelle->setRoles(['ROLE_USER']);
+        $axelle->setActif(true);
+        $axelle->setTelephone('0123456789');
+        $axelle->setNom('CARDIN');
+        $axelle->setPrenom('Axelle');
+        $manager->persist($axelle);
+
+        $fred = new User();
+        $fred->setPseudo('fred');
+        $fred->setEmail('fred.arthaud@gmail.com');
+        $fred->setPassword($this->hasher->hashPassword($fred, 'fred'));
+        $fred->setCampus($this->getReference('campus-rennes'));
+        $fred->setRoles(['ROLE_USER']);
+        $fred->setActif(true);
+        $fred->setTelephone('0123456789');
+        $fred->setNom('ARTHAUD');
+        $fred->setPrenom('Fred');
+        $manager->persist($fred);
+
+        $alan = new User();
+        $alan->setPseudo('alan');
+        $alan->setEmail('alan.marzin@gmail.com');
+        $alan->setPassword($this->hasher->hashPassword($alan, 'alan'));
+        $alan->setCampus($this->getReference('campus-rennes'));
+        $alan->setRoles(['ROLE_USER']);
+        $alan->setActif(true);
+        $alan->setTelephone('0123456789');
+        $alan->setNom('MARZIN');
+        $alan->setPrenom('Alan');
+        $manager->persist($alan);
+
+
+        $manager->flush();
 
     }
 
+    public function getDependencies()
+    {
+        return [CampusFixtures::class];
+    }
 }
