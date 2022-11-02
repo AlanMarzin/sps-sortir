@@ -1,12 +1,11 @@
 body {
-    background: linear-gradient(#000000, #132135);
+    background: linear-gradient(#000000, #649dda);
     background-attachment: fixed;
     background-position: center center;
     background-size: cover;
     color: #EEE;
     font-family: 'Roboto', serif;
 }
-
 
 h1{
     text-align: center;
@@ -17,6 +16,9 @@ body > .container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+}
+header{
+    background-image: url("../images/font_header.jpg");
 }
 
 header img {

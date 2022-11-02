@@ -17,17 +17,25 @@
 {#        {% endblock %}#}
     </head>
     <body>
-    <header>
-        <img src="{{ asset('images/logoEni.png') }}" alt="SPS-Sortie">
-        <div >
-            {%  include'inc/_nav.html.twig' %}
-        </div>
-    </header>
-        {% block body %}
+        <header>
+            <img src="{{ asset('images/logoEni.png') }}" alt="SPS-Sortie">
+            <div >
+                {%  include'inc/_nav.html.twig' %}
+            </div>
+        </header>
+        <main>
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="flash flash-{{ label }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
 
-        {% endblock %}
+            {% block body %}{% endblock %}
+        </main>
+        <footer>
+            © SPS-Sortir {{ 'now'|date('Y') }}
+        </footer>
     </body>
-    <footer>
-        © SPS-Sortir {{ 'now'|date('Y') }}
-    </footer>
 </html>

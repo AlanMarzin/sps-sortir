@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Campus;
 use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -26,7 +28,7 @@ class ProfileTypeForm extends AbstractType
             ->add('password', PasswordType::class, [
                 'label'=> 'Mot de Passe : ',
                 'required'=>false,
-                'mapped' => false,
+                //'mapped' => false,
                 'attr' =>['autocomplete'=>'nouveau mot de passe'],
                 'constraints'=>[
                     new Length([
@@ -36,6 +38,12 @@ class ProfileTypeForm extends AbstractType
                     ]),
                 ]
             ])
+            ->add('passwordConfirmation', PasswordType::class, [
+                'label'=> 'Confirmer Mot de Passe : ',
+                'required'=>false,
+                'mapped'=>false,
+                ])
+
             ->add('nom', TextType::class, [
                 'label'=>'Nom : '
             ])
@@ -47,6 +55,11 @@ class ProfileTypeForm extends AbstractType
             ])
             ->add('telephone', TextType::class, [
                 'label'=>'Numéro de téléphone : '
+            ])
+            ->add('campus' ,EntityType::class, [
+                'class' => Campus::class,
+                'choice_label' => 'nom',
+                'label' => 'Campus ',
             ])
         ;
     }
