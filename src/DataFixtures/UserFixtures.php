@@ -28,6 +28,7 @@ class UserFixtures extends Fixture implements  DependentFixtureInterface
         $axelle->setNom('CARDIN');
         $axelle->setPrenom('Axelle');
         $manager->persist($axelle);
+        $this->addReference('user-axelle', $axelle);
 
         $fred = new User();
         $fred->setPseudo('fred');
@@ -40,6 +41,7 @@ class UserFixtures extends Fixture implements  DependentFixtureInterface
         $fred->setNom('ARTHAUD');
         $fred->setPrenom('Fred');
         $manager->persist($fred);
+        $this->addReference('user-fred', $fred);
 
         $alan = new User();
         $alan->setPseudo('alan');
@@ -52,7 +54,7 @@ class UserFixtures extends Fixture implements  DependentFixtureInterface
         $alan->setNom('MARZIN');
         $alan->setPrenom('Alan');
         $manager->persist($alan);
-
+        $this->addReference('user-alan', $alan);
 
         $manager->flush();
 

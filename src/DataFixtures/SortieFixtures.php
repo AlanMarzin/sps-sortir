@@ -20,6 +20,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         $escalade->setInfosSortie('Session grimpe puis session bière.');
         $escalade->setNbInscriptionsMax(10);
         $escalade->setEtat($this->getReference('etat-terminee'));
+        $escalade->setOrganisateur($this->getReference('user-axelle'));
         $manager->persist($escalade);
 
         $muscu = new Sortie();
@@ -30,6 +31,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         $muscu->setInfosSortie('Concours de muscle up chez Fitness Park');
         $muscu->setNbInscriptionsMax(3);
         $muscu->setEtat($this->getReference('etat-creation'));
+        $muscu->setOrganisateur($this->getReference('user-alan'));
         $manager->persist($muscu);
 
         $moto = new Sortie();
@@ -40,6 +42,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         $moto->setInfosSortie('Balade en moto à l\'heure du déjeuner.');
         $moto->setNbInscriptionsMax(6);
         $moto->setEtat($this->getReference('etat-ouverte'));
+        $moto->setOrganisateur($this->getReference('user-fred'));
         $manager->persist($moto);
 
         $manager->flush();
@@ -47,7 +50,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
 
     public function getDependencies()
     {
-        return [EtatFixtures::class];
+        return [EtatFixtures::class, UserFixtures::class];
     }
 
 }
