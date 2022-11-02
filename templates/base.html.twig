@@ -19,16 +19,16 @@
     <body>
     <header>
         <img src="{{ asset('images/logoEni.png') }}" alt="SPS-Sortie">
+        <div class="">
+            <h3>Navigation</h3>
+            {%  include'inc/_nav.html.twig' %}
+        </div>
     </header>
         {% block body %}
 
         {% endblock %}
     </body>
     <footer>
-        <div class="">
-            <h3>Navigation</h3>
-            {%  include'inc/_nav.html.twig' %}
-            © SPS-Sortir {{ 'now'|date('Y') }}
-        </div>
+        © SPS-Sortir {{ 'now'|date('Y') }}
     </footer>
 </html>
