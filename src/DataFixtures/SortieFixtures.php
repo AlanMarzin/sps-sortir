@@ -14,7 +14,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
     {
         $escalade = new Sortie();
         $escalade->setNom('Grimpette au Roof');
-        $escalade->setDateHeureDebut(DateTime::createFromFormat('d-m-y H:i:s', '02-11-22 17:30:00'));
+        $escalade->setDateHeureDebut(DateTime::createFromFormat('d-m-y H:i:s', '01-11-22 17:30:00'));
         $escalade->setDateLimiteInscription(DateTime::createFromFormat('d-m-y', '31-10-22'));
         $escalade->setDuree(180);
         $escalade->setInfosSortie('Session grimpe puis session bière.');

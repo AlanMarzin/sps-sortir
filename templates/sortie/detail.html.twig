@@ -10,8 +10,13 @@
                 {{ sortie.nom }}
         </div>
         <div>
-                {{ sortie.dateHeureDebut|date('d/m/Y H:i') }}
+                Date de début = {{ sortie.dateHeureDebut|date('d/m/Y H:i') }}
         </div>
+
+        <div>
+                Date de fin = {{ dateFin|date('d/m/Y H:i') }}
+        </div>
+
         <div>
                 {{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}
         </div>
