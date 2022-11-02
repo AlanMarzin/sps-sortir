@@ -11,10 +11,10 @@ class FiltresSortiesFormModel
     private ?string $nomRecherche;
     private ?\DateTimeInterface $dateDebut;
     private ?\DateTimeInterface$dateFin;
-    private ?\boolean $isOrganisateur;
-    private ?\boolean $isInscrit;
-    private ?\boolean $isNotInscrit;
-    private ?\boolean $isPassee;
+    private ?bool $isOrganisateur;
+    private ?bool $isInscrit;
+    private ?bool $isNotInscrit;
+    private ?bool $isPassee;
 
     /**
      * @return Campus|null
