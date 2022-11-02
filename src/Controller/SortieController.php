@@ -6,6 +6,7 @@ use App\Form\FiltresSortiesType;
 use App\Form\Model\FiltresSortiesFormModel;
 use App\Repository\CampusRepository;
 use App\Repository\SortieRepository;
+use DateInterval;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,8 +52,11 @@ class SortieController extends AbstractController
             throw $this->createNotFoundException('Page not found');
         }
 
+        $dateFin = clone $sortie->getDateHeureDebut();
+        $dateFin->add(new DateInterval('PT' . $sortie->getDuree() . 'M'));
         return $this->render('sortie/detail.html.twig', [
-            'sortie' => $sortie
+            'sortie' => $sortie,
+            'dateFin' => $dateFin
         ]);
     }
 

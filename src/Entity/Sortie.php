@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SortieRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -47,6 +49,14 @@ class Sortie
     #[ORM\ManyToOne(inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Campus $campus = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'sortiesInscrit')]
+    private Collection $inscrits;
+
+    public function __construct()
+    {
+        $this->inscrits = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -169,6 +179,30 @@ class Sortie
     public function setCampus(?Campus $campus): self
     {
         $this->campus = $campus;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getInscrits(): Collection
+    {
+        return $this->inscrits;
+    }
+
+    public function addInscrit(User $inscrit): self
+    {
+        if (!$this->inscrits->contains($inscrit)) {
+            $this->inscrits->add($inscrit);
+        }
+
+        return $this;
+    }
+
+    public function removeInscrit(User $inscrit): self
+    {
+        $this->inscrits->removeElement($inscrit);
 
         return $this;
     }

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Sortie;
 use App\Form\Model\FiltresSortiesFormModel;
+use DateInterval;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -43,34 +44,54 @@ class SortieRepository extends ServiceEntityRepository
 
     public function findByFiltresSorties(FiltresSortiesFormModel $filtres, UserInterface $currentUser): array
     {
-        $qb = $this->createQueryBuilder('s');
-        $qb->addSelect('s');
-        $qb->leftJoin('s.etat', 'etat');
-        $qb->addSelect('etat');
+        $qb = $this->createQueryBuilder('sortie');
+        $qb->addSelect('sortie');
 
         if ($filtres->getCampus()) {
-            $qb->leftJoin('s.campus', 'campus')
+            $qb->leftJoin('sortie.campus', 'campus')
                 ->addSelect('campus')
                 ->andWhere('campus.nom = :campus')
                 ->setParameter('campus', $filtres->getCampus()->getNom());
         }
 
         if ($filtres->getDateDebut()) {
-            $qb->andWhere('s.dateHeureDebut >= :debut')
+            $qb->andWhere('sortie.dateHeureDebut >= :debut')
                 ->setParameter('debut', $filtres->getDateDebut());
         }
+
         if ($filtres->getDateFin()) {
-            $qb->andWhere('s.dateHeureDebut <= :fin')
-                ->setParameter('fin', $filtres->getDateFin());
+            $fin = date_add($filtres->getDateFin(), new DateInterval('P1D'));
+            $qb->andWhere('sortie.dateHeureDebut <= :fin')
+                ->setParameter('fin', $fin);
         }
+
         if ($filtres->getIsOrganisateur()) {
-            $qb->andWhere('s.organisateur = :organisateur')
+            $qb->andWhere('sortie.organisateur = :organisateur')
                 ->setParameter('organisateur', $currentUser);
         }
-        if ($filtres->getIsPassee()) {
-            $qb->andWhere('etat.libelle = :passee')
-                ->setParameter('passee', 'terminée');
+
+        if ($filtres->getIsInscrit()) {
+            $qb->andWhere(':user MEMBER OF sortie.inscrits')
+                ->setParameter('user', $currentUser);
         }
+
+        if ($filtres->getIsNotInscrit()) {
+            $qb->andWhere(':user NOT MEMBER OF sortie.inscrits')
+                ->setParameter('user', $currentUser);
+        }
+
+        if ($filtres->getIsPassee()) {
+            $qb->leftJoin('sortie.etat', 'etat')
+                ->addSelect('etat')
+                ->andWhere('etat.libelle != :encours')
+                ->setParameter('encours', 'en cours')
+                ->andWhere('sortie.dateHeureDebut < CURRENT_DATE()');
+        }
+
+//        if ($filtres->getIsPassee()) {
+//            $qb->andWhere(':dateFin < CURRENT_DATE()')
+//                ->setParameter('dateFin', 'ADDTIME(sortie.dateHeureDebut + sortie.duree)');
+//        }
 
         return $qb->getQuery()->getResult();
     }
