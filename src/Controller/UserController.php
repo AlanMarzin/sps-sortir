@@ -23,7 +23,7 @@ class UserController extends AbstractController
             throw $this->createNotFoundException('Page not found');
         }
 
-        return $this->render('profile/gestionprofile.html.twig', [
+        return $this->render('profile/details_profile.html.twig', [
             'id' => $id,
             'user' => $user,
         ]);

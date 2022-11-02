@@ -1,7 +1,7 @@
 {% block tittle %}Modification profile{% endblock %}
 
 {% block body %}
-    <h1>Modifier votre profil</h1>
+    <h1>Modifier votre profil {{ id }}</h1>
 
     {{ form_start(profileForm)}}
     {{ form_widget(profileForm) }}
