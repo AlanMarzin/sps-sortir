@@ -35,7 +35,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 180, unique: true)]
     private ?string $pseudo = null;
 
     #[ORM\Column(length: 255)]
@@ -49,11 +49,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Campus $campus = null;
 
     #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class)]
-    private Collection $sorties;
+    private Collection $sortiesOrganisees;
 
     public function __construct()
     {
-        $this->sorties = new ArrayCollection();
+        $this->sortiesOrganisees = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -220,27 +220,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Sortie>
      */
-    public function getSorties(): Collection
+    public function getSortiesOrganisees(): Collection
     {
-        return $this->sorties;
+        return $this->sortiesOrganisees;
     }
 
-    public function addSorty(Sortie $sorty): self
+    public function addSortieOrganisee(Sortie $sortieOrganisee): self
     {
-        if (!$this->sorties->contains($sorty)) {
-            $this->sorties->add($sorty);
-            $sorty->setOrganisateur($this);
+        if (!$this->sortiesOrganisees->contains($sortieOrganisee)) {
+            $this->sortiesOrganisees->add($sortieOrganisee);
+            $sortieOrganisee->setOrganisateur($this);
         }
 
         return $this;
     }
 
-    public function removeSorty(Sortie $sorty): self
+    public function removeSortieOrganisee(Sortie $sortieOrganisee): self
     {
-        if ($this->sorties->removeElement($sorty)) {
+        if ($this->sortiesOrganisees->removeElement($sortieOrganisee)) {
             // set the owning side to null (unless already changed)
-            if ($sorty->getOrganisateur() === $this) {
-                $sorty->setOrganisateur(null);
+            if ($sortieOrganisee->getOrganisateur() === $this) {
+                $sortieOrganisee->setOrganisateur(null);
             }
         }
 
