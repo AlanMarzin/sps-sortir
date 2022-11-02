@@ -48,6 +48,13 @@ class SortieRepository extends ServiceEntityRepository
         $qb->leftJoin('s.etat', 'etat');
         $qb->addSelect('etat');
 
+        if ($filtres->getCampus()) {
+            $qb->leftJoin('s.campus', 'campus')
+                ->addSelect('campus')
+                ->andWhere('campus.nom = :campus')
+                ->setParameter('campus', $filtres->getCampus()->getNom());
+        }
+
         if ($filtres->getDateDebut()) {
             $qb->andWhere('s.dateHeureDebut >= :debut')
                 ->setParameter('debut', $filtres->getDateDebut());

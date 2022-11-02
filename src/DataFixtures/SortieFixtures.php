@@ -22,23 +22,21 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         $escalade->setEtat($this->getReference('etat-terminee'));
         $escalade->setOrganisateur($this->getReference('user-axelle'));
         $escalade->setLieu($this->getReference('lieu-roof'));
-
+        $escalade->setCampus($this->getReference('campus-rennes'));
         $manager->persist($escalade);
-
 
         $muscu = new Sortie();
         $muscu->setNom('Musculation');
         $muscu->setDateHeureDebut(DateTime::createFromFormat('d-m-y H:i:s', '22-11-22 18:00:00'));
         $muscu->setDateLimiteInscription(DateTime::createFromFormat('d-m-y', '20-11-22'));
         $muscu->setDuree(90);
-        $muscu->setInfosSortie('Concours de muscle up chez Fitness Park');
+        $muscu->setInfosSortie('Concours de muscle up chez Fitness Land');
         $muscu->setNbInscriptionsMax(3);
         $muscu->setEtat($this->getReference('etat-creation'));
         $muscu->setOrganisateur($this->getReference('user-alan'));
         $muscu->setLieu($this->getReference('lieu-fitnessLand'));
-
+        $muscu->setCampus($this->getReference('campus-rennes'));
         $manager->persist($muscu);
-
 
         $moto = new Sortie();
         $moto->setNom('Balade en moto');
@@ -50,10 +48,8 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         $moto->setEtat($this->getReference('etat-ouverte'));
         $moto->setOrganisateur($this->getReference('user-fred'));
         $moto->setLieu($this->getReference('lieu-rocade'));
-
+        $moto->setCampus($this->getReference('campus-rennes'));
         $manager->persist($moto);
-
-
 
         $manager->flush();
     }
