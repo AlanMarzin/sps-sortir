@@ -1,3 +1,5 @@
+{% extends 'base.html.twig' %}
+
 {% block tittle %}Modification profile{% endblock %}
 
 {% block body %}
@@ -6,9 +8,11 @@
 {#  Formulaire de modification du profil utilisateur #}
     {{ form_start(profileForm)}}
          {{ form_widget(profileForm) }}
-                 <button>Valider</button>
+                 <div class="login"><button>Valider</button></div>
     {{ form_end(profileForm) }}
 {#    Bouton de retour vers la page d'accueil#}
-    <a href="{{ path('sorties') }}"><button>Annuler</button></a>
+    <div class="login">
+        <a href="{{ path('sorties') }}"><button>Annuler</button></a>
+    </div>
 
 {% endblock %}

@@ -1,7 +1,9 @@
-{% block tittle %}Détail du profil de : {{ user.pseudo }}{% endblock %}
+{% extends 'base.html.twig' %}
+
+{% block tittle %}Détail de profil{% endblock %}
 
 {% block body %}
-
+    <h1>{{ user.pseudo }}</h1>
     <p>Nom : {{ user.nom }}</p>
     <p>Prénom : {{ user.prenom }}</p>
     <p>Email : {{ user.email }}</p>

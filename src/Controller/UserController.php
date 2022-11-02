@@ -34,7 +34,7 @@ class UserController extends AbstractController
             $profileForm = $this->createForm(ProfileTypeForm::class, $user,['validation_groups' => ['Default'],]);
             $profileForm->handleRequest($request);
 
-            if (($profileForm->isSubmitted())){
+            if (($profileForm->isSubmitted() && $profileForm->isValid())){
                 $em->flush();
                 $this->addFlash('success', 'Votre profil a été mis à jour');
             }

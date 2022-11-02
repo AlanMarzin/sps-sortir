@@ -8,24 +8,25 @@
     {% endif %}
 
     <form action="{{ path('app_login') }}" method="post">
-        <div>
+        <div class="login">
             <label for="username">Adresse mail ou Pseudo :</label>
             <input type="text" id="username" name="_username" value="{{ last_username }}"/>
         </div>
 
-        <div>
+        <div class="login">
             <label for="password">Mot de passe:</label>
             <input type="password" id="password" name="_password"/>
         </div>
-
-        <label>
-            <input type="checkbox" name="_remember_me" checked/>
-            Se souvenir de moi
-        </label>
-
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-        <button type="submit">connexion</button>
+        <div class="login">
+            <label class="login">
+                <input type="checkbox" name="_remember_me" checked/>
+                Se souvenir de moi
+            </label>
+        </div>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        <div class="login">
+            <button type="submit">connexion</button>
+        </div>
     </form>
 {% endblock %}
 
