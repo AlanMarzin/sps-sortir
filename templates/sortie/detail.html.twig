@@ -4,8 +4,32 @@
     Détails {{ sortie.nom }}
 {% endblock %}
 
-
 {% block body %}
+
+        <div>
+                {{ sortie.nom }}
+        </div>
+        <div>
+                {{ sortie.dateHeureDebut|date('d/m/Y H:i') }}
+        </div>
+        <div>
+                {{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}
+        </div>
+        <div>
+                {{ sortie.nbInscriptionsMax }}
+        </div>
+        <div>
+                {{ sortie.duree }}
+        </div>
+        <div>
+                {{ sortie.infosSortie }}
+        </div>
+        <div>
+                {{ sortie.lieu.ville.nom }}
+        </div>
+
+
+
 
 {% endblock %}
 
