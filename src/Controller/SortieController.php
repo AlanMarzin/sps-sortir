@@ -51,4 +51,19 @@ class SortieController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}', name: 'sortie_detail', requirements: ['id' => '\d+'])]
+    public function detail(SortieRepository $sortieRepository, int $id): Response
+    {
+        // Récupérer la sortie à afficher en base de données
+        $sortie = $sortieRepository->find($id);
+
+        if ($sortie === null) {
+            throw $this->createNotFoundException('Page not found');
+        }
+
+        return $this->render('sortie/detail.html.twig', [
+            'sortie' => $sortie
+        ]);
+    }
+
 }
