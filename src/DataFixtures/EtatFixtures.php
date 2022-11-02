@@ -47,5 +47,4 @@ class EtatFixtures extends Fixture
 
         $manager->flush();
     }
-
 }

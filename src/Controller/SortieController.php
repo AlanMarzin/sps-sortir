@@ -2,16 +2,17 @@
 
 namespace App\Controller;
 
+use App\Repository\CampusRepository;
+use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-
-class LoginController extends AbstractController
+class SortieController extends AbstractController
 {
-    #[Route('/login', name: 'app_login')]
-    public function index(AuthenticationUtils $authentificationUtils): Response
+    #[Route('/', name: 'app_login')]
+    public function list(AuthenticationUtils $authentificationUtils, SortieRepository $sortieRepository, CampusRepository $campusRepository): Response
     {
         //obtenir le login error s'il y en a un
         $error = $authentificationUtils->getLastAuthenticationError();
@@ -19,9 +20,15 @@ class LoginController extends AbstractController
         //dernier username entré par l'utilisateur
         $lastUsername = $authentificationUtils->getLastUsername();
 
-        return $this->render('login/index.html.twig', [
+        // récupérer les sorties et campus en BDD
+        $sorties = $sortieRepository->findAll();
+        $campus = $campusRepository->findAll();
+
+        return $this->render('sortie/listesorties.html.twig', [
             'last_username' => $lastUsername,
             'error'         => $error,
+            'sorties' => $sorties,
+            'campus' => $campus
         ]);
     }
 }
