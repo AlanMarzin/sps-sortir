@@ -60,7 +60,7 @@
                     <td>{{ sortie.nbInscriptionsMax }}</td>
                     <td>{{ sortie.etat.libelle }}</td>
                     <td></td>
-                    <td></td>
+                    <td>{{ sortie.organisateur.prenom }}</td>
                     <td>
                         Afficher
                         S'inscrire
@@ -87,6 +87,13 @@
 
             <label for="password">Password:</label>
             <input type="password" id="password" name="_password"/>
+
+            <label>
+                <input type="checkbox" name="_remember_me" checked/>
+                Keep me logged in
+            </label>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
             <button type="submit">login</button>
         </form>
