@@ -32,7 +32,7 @@ class Sortie
     #[ORM\Column(type: Types::TEXT)]
     private ?string $infosSortie = null;
 
-    #[ORM\ManyToOne(inversedBy: 'sortie')]
+    #[ORM\ManyToOne(inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Etat $etat = null;
 
@@ -40,7 +40,7 @@ class Sortie
     #[ORM\JoinColumn(nullable: false)]
     private ?User $organisateur = null;
 
-    #[ORM\ManyToOne(inversedBy: 'sortie')]
+    #[ORM\ManyToOne(inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Lieu $lieu = null;
 

@@ -10,26 +10,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+
 
 class SortieController extends AbstractController
 {
     #[Route('/', name: 'sorties')]
-    public function list(Request $request, AuthenticationUtils $authentificationUtils, SortieRepository $sortieRepository, CampusRepository $campusRepository): Response
+    public function list(Request $request, SortieRepository $sortieRepository): Response
     {
 
-//        /*
-//        Login
-//        */
-//        //obtenir le login error s'il y en a un
-//        $error = $authentificationUtils->getLastAuthenticationError();
-//
-//        //dernier username entré par l'utilisateur
-//        $lastUsername = $authentificationUtils->getLastUsername();
+        $currentUser = $this->getUser();
 
-        /*
-        Affichage des sorties
-        */
         // créer le formulaire de filtres
         $filtresSorties = new FiltresSortiesFormModel();
         $filtresSortiesForm = $this->createForm(FiltresSortiesType::class, $filtresSorties);
@@ -37,18 +27,18 @@ class SortieController extends AbstractController
 
         // traitement du formulaire de filtres
         if ($filtresSortiesForm->isSubmitted() && $filtresSortiesForm->isValid()) {
-            var_dump($filtresSorties);
+            $sorties = $sortieRepository->findByFiltresSorties($filtresSorties, $currentUser);
+        } else {
+            // récupérer toutes les sorties en BDD
+            $sorties = $sortieRepository->findAll();
         }
 
-        // récupérer les sorties et campus en BDD
-        $sorties = $sortieRepository->findAll();
-
         return $this->render('sortie/listesorties.html.twig', [
-//            'last_username' => $lastUsername,
-//            'error'         => $error,
             'filtresSortiesForm' => $filtresSortiesForm->createView(),
             'sorties' => $sorties,
+            'filtresSorties' => $filtresSorties
         ]);
+
     }
 
     #[Route('/{id}', name: 'sortie_detail', requirements: ['id' => '\d+'])]
@@ -65,5 +55,6 @@ class SortieController extends AbstractController
             'sortie' => $sortie
         ]);
     }
+
 
 }

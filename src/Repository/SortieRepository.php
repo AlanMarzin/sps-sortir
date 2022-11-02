@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Sortie;
+use App\Form\Model\FiltresSortiesFormModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @extends ServiceEntityRepository<Sortie>
@@ -38,6 +40,34 @@ class SortieRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function findByFiltresSorties(FiltresSortiesFormModel $filtres, UserInterface $currentUser): array
+    {
+        $qb = $this->createQueryBuilder('s');
+        $qb->addSelect('s');
+        $qb->leftJoin('s.etat', 'etat');
+        $qb->addSelect('etat');
+
+        if ($filtres->getDateDebut()) {
+            $qb->andWhere('s.dateHeureDebut >= :debut')
+                ->setParameter('debut', $filtres->getDateDebut());
+        }
+        if ($filtres->getDateFin()) {
+            $qb->andWhere('s.dateHeureDebut <= :fin')
+                ->setParameter('fin', $filtres->getDateFin());
+        }
+        if ($filtres->getIsOrganisateur()) {
+            $qb->andWhere('s.organisateur = :organisateur')
+                ->setParameter('organisateur', $currentUser);
+        }
+        if ($filtres->getIsPassee()) {
+            $qb->andWhere('etat.libelle = :passee')
+                ->setParameter('passee', 'terminée');
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
 
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects
