@@ -1,6 +1,7 @@
-{% block tittle %}Détail du profil de {{ user.pseudo }}{% endblock %}
+{% block tittle %}Détail du profil de : {{ user.pseudo }}{% endblock %}
 
 {% block body %}
+
     <p>Nom : {{ user.nom }}</p>
     <p>Prénom : {{ user.prenom }}</p>
     <p>Email : {{ user.email }}</p>

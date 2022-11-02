@@ -1,12 +1,14 @@
 {% block tittle %}Modification profile{% endblock %}
 
 {% block body %}
-    <h1>Modifier votre profil {{ id }}</h1>
+    <h1>Modifier votre profil {{ user.pseudo }}</h1>
 
+{#  Formulaire de modification du profil utilisateur #}
     {{ form_start(profileForm)}}
-    {{ form_widget(profileForm) }}
-    <button>Valider</button>
-
+         {{ form_widget(profileForm) }}
+                 <button>Valider</button>
     {{ form_end(profileForm) }}
+{#    Bouton de retour vers la page d'accueil#}
     <a href="{{ path('app_login') }}"><button>Annuler</button></a>
+
 {% endblock %}
