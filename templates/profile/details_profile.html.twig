@@ -1,6 +1,12 @@
-{% block tittle %}Détail du profil{% endblock %}
+{% block tittle %}Détail du profil de {{ user.pseudo }}{% endblock %}
 
 {% block body %}
-<p>Pseudo : {{ user.pseudo }}</p>
+    <p>Nom : {{ user.nom }}</p>
+    <p>Prénom : {{ user.prenom }}</p>
+    <p>Email : {{ user.email }}</p>
+    <p>Campus : {{ user.campus.nom }}</p>
+    <p>Téléphone : {{ user.telephone }}</p>
+
+    <a href="{{ path('sorties') }}"><button >RETOUR</button></a>
 {% endblock %}
 

@@ -3,6 +3,8 @@
             {% if app.user %}
                 <li>
                     <a href="{{ path('profil_update', {"id": app.user.id}) }}">Modifier mon compte</a>
+                </li>
+                <li>
                     <a href="{{ path('user_details', {"id": app.user.id}) }}">Afficher détails utilisateur</a>
                 </li>
                 <li>
