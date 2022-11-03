@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block tittle %}Modification sortie{% endblock %}
+
+{% block body %}
+    <h1>Modifier votre sortie {{ user.pseudo }}</h1>
+
+    {#  Formulaire de modification du profil utilisateur #}
+    {{ form_start(gestionForm)}}
+    {{ form_widget(gestionForm) }}
+    <div class="login"><button>Valider</button></div>
+    {{ form_end(gestionForm) }}
+    {#    Bouton de retour vers la page d'accueil#}
+    <div class="login">
+        <a href="{{ path('sorties') }}"><button>Annuler</button></a>
+    </div>
+
+{% endblock %}

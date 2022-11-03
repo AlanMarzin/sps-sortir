@@ -19,6 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SortieController extends AbstractController
 {
+
     #[Route('/', name: 'sorties')]
     public function list(Request $request, SortieRepository $sortieRepository): Response
     {
@@ -35,7 +36,7 @@ class SortieController extends AbstractController
             $sorties = $sortieRepository->findByFiltresSorties($filtresSorties, $currentUser);
         } else {
             // récupérer toutes les sorties en BDD
-            $sorties = $sortieRepository->findAll();
+            $sorties = $sortieRepository->findAllAffichables();
         }
 
         return $this->render('sortie/listesorties.html.twig', [
@@ -65,21 +66,21 @@ class SortieController extends AbstractController
     }
 
     #[Route('/inscription/{id}', name: 'sortie_inscription', requirements: ['id' => '\d+'])]
-    public function inscription(SortieRepository $sortieRepository, int $id): Response
+    public function inscription(SortieRepository $sortieRepository, int $id, EntityManagerInterface $em): Response
     {
-        // Récupérer la sortie à afficher en base de données
+        // Récupérer la sortie en base de données
         $sortie = $sortieRepository->find($id);
 
         if ($sortie === null) {
             throw $this->createNotFoundException('Page not found');
         }
 
-        $dateFin = clone $sortie->getDateHeureDebut();
-        $dateFin->add(new DateInterval('PT' . $sortie->getDuree() . 'M'));
-        return $this->render('sortie/detail.html.twig', [
-            'sortie' => $sortie,
-            'dateFin' => $dateFin
-        ]);
+        // s'inscrire
+        $sortie->addInscrit($this->getUser());
+        $em->persist($sortie);
+        $em->flush();
+
+        return $this->redirectToRoute('sorties');
     }
 
     #[Route('/new', name: 'sortie_new', requirements: ['id' => '\d+'])]
@@ -108,6 +109,25 @@ class SortieController extends AbstractController
         return $this->render('sortie/new_sortie.html.twig', [
             'sortieForm' => $sortieForm->createView(),
         ]);
+    }
+
+    #[Route('/desinscription/{id}', name: 'sortie_desinscription', requirements: ['id' => '\d+'])]
+    public function desinscription(SortieRepository $sortieRepository, int $id, EntityManagerInterface $em): Response
+    {
+        // Récupérer la sortie en base de données
+        $sortie = $sortieRepository->find($id);
+
+        if ($sortie === null) {
+            throw $this->createNotFoundException('Page not found');
+        }
+
+        // se désinscrire
+        $sortie->removeInscrit($this->getUser());
+        $em->persist($sortie);
+        $em->flush();
+
+       return $this->redirectToRoute('sorties');
+
     }
 
 }
