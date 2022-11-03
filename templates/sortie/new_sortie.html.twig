@@ -5,15 +5,20 @@
 {% block body %}
     <h1>Créer une sortie</h1>
 
-        {#  Formulaire de modification du profil utilisateur #}
-        {{ form_start(sortieForm)}}
-            {{ form_widget(sortieForm) }}
-                <div class="login"><button>Valider</button></div>
-        {{ form_end(sortieForm) }}
-        {#    Bouton de retour vers la page d'accueil#}
-                <div class="login">
-                    <a href="{{ path('sorties') }}"><button>Annuler</button></a>
-                </div>
+    {#  Formulaire de modification du profil utilisateur #}
+    {{ form_start(sortieForm)}}
+    {{ form_widget(sortieForm) }}
+
+    <div class="login"><button>Valider</button></div>
+    {{ form_end(sortieForm) }}
+
+    {#    Bouton de retour vers la page d'accueil#}
+    <div class="login">
+        <a href="{{ path('sorties') }}"><button>Annuler</button></a>
+    </div>
+    <div class="login">
+        <a href="{{ path('new_lieu') }}"><button>Créer un lieu</button></a>
+    </div>
 
 {% endblock %}
 

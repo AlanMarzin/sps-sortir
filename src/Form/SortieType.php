@@ -42,11 +42,6 @@ class SortieType extends AbstractType
                     'label'=>'Description : '
             ])
 
-            ->add('etat', EntityType::class, [
-                'class'=>Etat::class,
-                'choice_label'=>'libelle',
-                'label'=>'Etat : '
-            ])
             ->add('lieu', EntityType::class, [
                 'class'=>Lieu::class,
                 'choice_label'=>'nom',
