@@ -6,6 +6,7 @@ use App\Entity\Sortie;
 use App\Form\FiltresSortiesType;
 use App\Form\Model\FiltresSortiesFormModel;
 use App\Repository\EtatRepository;
+use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
@@ -98,12 +99,13 @@ class SortieController extends AbstractController
 
         // Vérifier si l'utilisateur est en train d'envoyer le formulaire
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-            // Enregistrer la nouvelle sortie en BDD
+            //Récupère le nom de l'organisateur
             $sortie->setOrganisateur($this->getUser());
+            // Enregistrer la nouvelle sortie en BDD
             $em->persist($sortie);
             $em->flush();
 
-            $this->addFlash('success', 'La sortie a bien été créée !');
+            $this->addFlash('success', 'Votre sortie a bien été créée !');
 
             // Rediriger l'internaute vers la liste des séries
             return $this->redirectToRoute('sorties');
