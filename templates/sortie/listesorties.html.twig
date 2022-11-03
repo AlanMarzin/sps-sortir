@@ -48,7 +48,9 @@
                         <td>{{ sortie.organisateur.prenom }}</td>
                         <td>
                             <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a>
-                            S'inscrire
+                            {% if sortie.etat.libelle == 'ouverte' %}
+                                <a href="{{ path('sortie_inscription', {'id': sortie.id}) }}">S'inscrire</a>
+                            {% endif %}
                             Se désister
                             {% if app.user == sortie.organisateur %}
                                 {% if sortie.etat.libelle == 'en création' %}
