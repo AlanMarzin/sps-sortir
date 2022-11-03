@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Sortie;
 use App\Form\FiltresSortiesType;
 use App\Form\Model\FiltresSortiesFormModel;
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
@@ -63,7 +64,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/inscription/{id}', name: 'sortie_inscription', requirements: ['id' => '\d+'])]
-    public function inscription(SortieRepository $sortieRepository, int $id, EntityManagerInterface $em): Response
+    public function inscription(EtatRepository $etatRepository, SortieRepository $sortieRepository, int $id, EntityManagerInterface $em): Response
     {
         // Récupérer la sortie en base de données
         $sortie = $sortieRepository->find($id);
@@ -74,6 +75,10 @@ class SortieController extends AbstractController
 
         // s'inscrire
         $sortie->addInscrit($this->getUser());
+        // changer l'état de la sortie si le nombre max d'inscrits est atteint
+        if ($sortie->getInscrits()->count() == $sortie->getNbInscriptionsMax()) {
+            $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'clôturée']));
+        }
         $em->persist($sortie);
         $em->flush();
 
@@ -81,11 +86,11 @@ class SortieController extends AbstractController
     }
 
     #[Route('/new', name: 'sortie_new')]
-    public function newSortie(Request $request, EntityManagerInterface $em): Response
+    public function newSortie(Request $request, EtatRepository $etatRepository, EntityManagerInterface $em): Response
     {
         // créer un objet sortie
         $sortie = new Sortie();
-        $sortie->setEtat($this->getReference('etat-creation'));
+        $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'en création']));
         $sortieForm = $this->createForm(SortieType::class, $sortie);
 
         // Récupération des données pour les insérer dans l'objet $serie
@@ -94,6 +99,7 @@ class SortieController extends AbstractController
         // Vérifier si l'utilisateur est en train d'envoyer le formulaire
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             // Enregistrer la nouvelle sortie en BDD
+            $sortie->setOrganisateur($this->getUser());
             $em->persist($sortie);
             $em->flush();
 
@@ -109,21 +115,31 @@ class SortieController extends AbstractController
     }
 
     #[Route('/desinscription/{id}', name: 'sortie_desinscription', requirements: ['id' => '\d+'])]
-    public function desinscription(SortieRepository $sortieRepository, int $id, EntityManagerInterface $em): Response
+    public function desinscription(EtatRepository $etatRepository, SortieRepository $sortieRepository, int $id, EntityManagerInterface $em): Response
     {
         // Récupérer la sortie en base de données
         $sortie = $sortieRepository->find($id);
-
+        $auj = date('d-m-Y');
         if ($sortie === null) {
             throw $this->createNotFoundException('Page not found');
         }
 
         // se désinscrire
         $sortie->removeInscrit($this->getUser());
+        // changer l'état de la sortie si le nombre max d'inscrits n'est plus atteint et si la date limite n'est pas atteinte
+        if (($sortie->getInscrits()->count() < $sortie->getNbInscriptionsMax()) and  !($sortie->getDateLimiteInscription() <  date('d-m-Y'))) {
+            $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'ouverte']));
+        }
         $em->persist($sortie);
         $em->flush();
 
-       return $this->redirectToRoute('sorties');
+//        return $this->render('sortie/test.html.twig', [
+//            'sortie' => $sortie,
+//            'auj' => $auj
+//        ]);
+
+        // Rediriger l'internaute vers la liste des séries
+        return $this->redirectToRoute('sorties');
 
     }
 

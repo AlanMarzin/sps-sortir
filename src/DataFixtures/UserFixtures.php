@@ -56,6 +56,32 @@ class UserFixtures extends Fixture implements  DependentFixtureInterface
         $manager->persist($alan);
         $this->addReference('user-alan', $alan);
 
+        $eliot = new User();
+        $eliot->setPseudo('eliot');
+        $eliot->setEmail('eliot@gmail.com');
+        $eliot->setPassword($this->hasher->hashPassword($eliot, 'eliot'));
+        $eliot->setCampus($this->getReference('campus-rennes'));
+        $eliot->setRoles(['ROLE_USER']);
+        $eliot->setActif(true);
+        $eliot->setTelephone('0123456789');
+        $eliot->setNom('GALLE');
+        $eliot->setPrenom('Eliot');
+        $manager->persist($eliot);
+        $this->addReference('user-eliot', $eliot);
+
+        $lyndzoua = new User();
+        $lyndzoua->setPseudo('ly ndzoua');
+        $lyndzoua->setEmail('lyndzoua@gmail.com');
+        $lyndzoua->setPassword($this->hasher->hashPassword($lyndzoua, 'lyndzoua'));
+        $lyndzoua->setCampus($this->getReference('campus-rennes'));
+        $lyndzoua->setRoles(['ROLE_USER']);
+        $lyndzoua->setActif(true);
+        $lyndzoua->setTelephone('0123456789');
+        $lyndzoua->setNom('XENEXAY');
+        $lyndzoua->setPrenom('Ly Ndzoua');
+        $manager->persist($lyndzoua);
+        $this->addReference('user-lyndzoua', $lyndzoua);
+
         $manager->flush();
 
     }
