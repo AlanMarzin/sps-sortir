@@ -8,6 +8,7 @@ use App\Form\Model\FiltresSortiesFormModel;
 use App\Repository\EtatRepository;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
+use App\Service\DateChecker;
 use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,8 +21,10 @@ class SortieController extends AbstractController
 {
 
     #[Route('/', name: 'sorties')]
-    public function list(Request $request, SortieRepository $sortieRepository): Response
+    public function list(Request $request, SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $em, DateChecker $dateChecker): Response
     {
+
+        $dateChecker->checkDate($sortieRepository, $etatRepository, $em);
 
         $currentUser = $this->getUser();
 
@@ -80,7 +83,7 @@ class SortieController extends AbstractController
         if ($sortie->getInscrits()->count() == $sortie->getNbInscriptionsMax()) {
             $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'clôturée']));
         }
-        $em->persist($sortie);
+//        $em->persist($sortie);
         $em->flush();
 
         return $this->redirectToRoute('sorties');
@@ -132,7 +135,7 @@ class SortieController extends AbstractController
         if (($sortie->getInscrits()->count() < $sortie->getNbInscriptionsMax()) and  !($sortie->getDateLimiteInscription() <  date('d-m-Y'))) {
             $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'ouverte']));
         }
-        $em->persist($sortie);
+//        $em->persist($sortie);
         $em->flush();
 
 //        return $this->render('sortie/test.html.twig', [

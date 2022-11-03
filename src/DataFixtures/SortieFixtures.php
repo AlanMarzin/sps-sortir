@@ -14,7 +14,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
     {
         $escalade = new Sortie();
         $escalade->setNom('Grimpette au Roof');
-        $escalade->setDateHeureDebut(DateTime::createFromFormat('d-m-y H:i:s', '01-11-22 17:30:00'));
+        $escalade->setDateHeureDebut(DateTime::createFromFormat('d-m-y H:i:s', '01-10-22 17:30:00'));
         $escalade->setDateLimiteInscription(DateTime::createFromFormat('d-m-y', '31-10-22'));
         $escalade->setDuree(180);
         $escalade->setInfosSortie('Session grimpe puis session bière.');
@@ -44,7 +44,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         $moto->setDateLimiteInscription(DateTime::createFromFormat('d-m-y', '08-11-22'));
         $moto->setDuree(60);
         $moto->setInfosSortie('Balade en moto à l\'heure du déjeuner.');
-        $moto->setNbInscriptionsMax(6);
+        $moto->setNbInscriptionsMax(3);
         $moto->setEtat($this->getReference('etat-ouverte'));
         $moto->setOrganisateur($this->getReference('user-fred'));
         $moto->setLieu($this->getReference('lieu-rocade'));
