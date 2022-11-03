@@ -8,6 +8,7 @@ use App\Entity\Lieu;
 use App\Entity\Sortie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -23,7 +24,7 @@ class SortieType extends AbstractType
             ->add('nom', TextType::class, [
                 'label'=>'Titre : '
             ])
-            ->add('dateHeureDebut', DateType::class, [
+            ->add('dateHeureDebut', DateTimeType::class, [
                 'label'=>'Date de début : ',
                 'widget'=>'single_text'
             ])

@@ -14,7 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class ProfileTypeForm extends AbstractType
+class ProfileType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -28,7 +28,7 @@ class ProfileTypeForm extends AbstractType
             ->add('password', PasswordType::class, [
                 'label'=> 'Mot de Passe : ',
                 'required'=>false,
-                //'mapped' => false,
+                'mapped' =>false,
                 'attr' =>['autocomplete'=>'nouveau mot de passe'],
                 'constraints'=>[
                     new Length([

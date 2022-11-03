@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\ProfileTypeForm;
+use App\Form\ProfileType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,7 +32,7 @@ class UserController extends AbstractController
     #[Route('update/{id}', name: 'profil_update', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     public function update(Request $request, int $id, UserPasswordHasherInterface $userPasswordHasher, UserRepository $userRepository, EntityManagerInterface $em, User $user): Response{
             $user = $userRepository->find($id);
-            $profileForm = $this->createForm(ProfileTypeForm::class, $user,['validation_groups' => ['Default'],]);
+            $profileForm = $this->createForm(ProfileType::class, $user,['validation_groups' => ['Default'],]);
             $profileForm->handleRequest($request);
 
             if (($profileForm->isSubmitted() && $profileForm->isValid())){
