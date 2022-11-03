@@ -5,9 +5,12 @@ namespace App\Controller;
 use App\Entity\Sortie;
 use App\Form\FiltresSortiesType;
 use App\Form\Model\FiltresSortiesFormModel;
+use App\Form\SortieType;
 use App\Repository\SortieRepository;
+use App\Repository\UserRepository;
 use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -79,12 +82,11 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'sortie_new')]
-    public function newSortie(Request $request, EntityManagerInterface $em): Response
+    #[Route('/new', name: 'sortie_new', requirements: ['id' => '\d+'])]
+    public function newSortie(Request $request, UserRepository $userRepository, EntityManagerInterface $em): Response
     {
         // créer un objet sortie
         $sortie = new Sortie();
-        $sortie->setEtat($this->getReference('etat-creation'));
         $sortieForm = $this->createForm(SortieType::class, $sortie);
 
         // Récupération des données pour les insérer dans l'objet $serie
@@ -93,17 +95,18 @@ class SortieController extends AbstractController
         // Vérifier si l'utilisateur est en train d'envoyer le formulaire
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             // Enregistrer la nouvelle sortie en BDD
+            $sortie->setOrganisateur($this->getUser()); //Récupère le nom de l'organisateur
             $em->persist($sortie);
             $em->flush();
 
-            $this->addFlash('success', 'La sortie a bien été créée !');
+            $this->addFlash('success', 'Votre sortie a bien été créée !');
 
             // Rediriger l'internaute vers la liste des séries
             return $this->redirectToRoute('sorties');
         }
 
         return $this->render('sortie/new_sortie.html.twig', [
-            'sortieForm' => $sortieForm->createView()
+            'sortieForm' => $sortieForm->createView(),
         ]);
     }
 
