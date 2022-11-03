@@ -6,35 +6,37 @@
 
 {% block body %}
 
-        <div>
-                {{ sortie.nom }}
-        </div>
-        <div>
-                Date de début = {{ sortie.dateHeureDebut|date('d/m/Y H:i') }}
-        </div>
+<div class ="affsortie">
 
-        <div>
-                Date de fin = {{ dateFin|date('d/m/Y H:i') }}
-        </div>
+     <div class="colonne1">
+         <div class ="nom">Nom de la sortie : {{ sortie.nom }}</div>
+         <div class="datedebut">Date de début : {{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</div>
+         <div class="datefin"> Date de fin : {{ dateFin|date('d/m/Y H:i') }}</div>
+         <div class="datelimite">Date limite d'inscription : {{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</div>
+         <div class="nbplaces">Nombre de places : {{ sortie.nbInscriptionsMax }}</div>
+         <div class="duree">Durée : {{ sortie.duree }} minutes</div>
+         <div class="description">Description et infos : {{ sortie.infosSortie }}</div>
+     </div>
 
-        <div>
-                {{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}
-        </div>
-        <div>
-                {{ sortie.nbInscriptionsMax }}
-        </div>
-        <div>
-                {{ sortie.duree }}
-        </div>
-        <div>
-                {{ sortie.infosSortie }}
-        </div>
-        <div>
-                {{ sortie.lieu.ville.nom }}
-        </div>
+     <div class="colonne2">
+         <div class"campus">Campus : {{ sortie.campus.nom }}</div>
+         <div class="emplacement">Emplacement : {{ sortie.lieu.nom }}</div>
+         <div class="adresse">Adresse : {{ sortie.lieu.rue }} {{ sortie.lieu.ville.codePostal }} {{ sortie.lieu.ville.nom }}</div>
+         <div class="latitude">Latitude : {{ sortie.lieu.latitude }}</div>
+         <div class="longitude">Longitude : {{ sortie.lieu.longitude }}</div>
+     </div>
 
 
+</div>
 
+
+        {#
+        {% for inscrit in inscrits %}
+                <tr>
+                        <td>{{ sortie.inscrits }}</td>
+                </tr>
+        {% endfor %}
+        #}
 
 {% endblock %}
 
