@@ -96,6 +96,20 @@ class SortieRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findAllAffichables(): array
+    {
+        $qb = $this->createQueryBuilder('sortie');
+        $qb->addSelect('sortie')
+            ->leftJoin('sortie.etat', 'etat')
+            ->addSelect('etat')
+            ->andWhere('etat.libelle != :creation')
+            ->setParameter('creation', 'en création')
+            ->andWhere('etat.libelle != :historisee')
+            ->setParameter('historisee', 'historisée');
+
+        return $qb->getQuery()->getResult();
+    }
+
 
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects

@@ -42,14 +42,22 @@
                         <td>{{ sortie.nom }}</td>
                         <td>{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</td>
                         <td>{{ sortie.dateLimiteInscription|date('d/m/Y') }}</td>
-                        <td>{{ sortie.nbInscriptionsMax }}</td>
+                        <td>{{ sortie.inscrits.count }}/{{ sortie.nbInscriptionsMax }}</td>
                         <td>{{ sortie.etat.libelle }}</td>
-                        <td></td>
+                        <td>
+                            {% if app.user in sortie.inscrits %}
+                                x
+                            {% endif %}
+                        </td>
                         <td>{{ sortie.organisateur.prenom }}</td>
                         <td>
                             <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a>
-                            S'inscrire
-                            Se désister
+                            {% if sortie.etat.libelle == 'ouverte' and app.user not in sortie.inscrits %}
+                                <a href="{{ path('sortie_inscription', {'id': sortie.id}) }}">S'inscrire</a>
+                            {% endif %}
+                            {% if app.user in sortie.inscrits %}
+                                <a href="{{ path('sortie_desinscription', {'id': sortie.id}) }}">Se désister</a>
+                            {% endif %}
                             {% if app.user == sortie.organisateur %}
                                 {% if sortie.etat.libelle == 'en création' %}
                                     Modifier
@@ -64,7 +72,7 @@
                 {% endfor %}
             </table>
 
-            <button>Créer une sortie</button>
+            <a href="{{ path('sortie_new') }}"><button>Créer une sortie</button></a>
         </section>
 
     {% else %}
