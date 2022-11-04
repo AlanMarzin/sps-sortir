@@ -12,19 +12,17 @@
         <div class="campus">Campus : {{ sortie.campus.nom }}</div>
         <div class="adresse">Adresse : {{ sortie.lieu.rue }} {{ sortie.lieu.ville.codePostal }} {{ sortie.lieu.ville.nom }}</div>
 
-        <form action="" method="post">
+        <form action="{{ path('sortie_annuler', {'id': sortie.id}) }}" method="post">
 
-            <div class="textarea"><label for="motif">Motif:</label><textarea id="story" name="motif" rows="5" cols="33"></textarea></div>
+            <div class="textarea">
+                <label for="motif">Motif:</label>
+                <textarea id="motif" name="motif" rows="5" cols="33"></textarea></div>
 
-            <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}"><input type="submit" value="Enregistrer"></a>
+            <input type="submit" value="Enregistrer">
 
         </form>
 
 
-    </div>
-
-    <div class="login">
-        <button>Enregistrer</button></a>
     </div>
 
     {#

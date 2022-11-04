@@ -172,6 +172,7 @@ class SortieController extends AbstractController
     {
         // Récupérer la sortie en base de données
         $sortie = $sortieRepository->find($id);
+        $motif = $_POST['motif'];
 
         if ($sortie === null) {
             throw $this->createNotFoundException('Page not found');
@@ -179,8 +180,9 @@ class SortieController extends AbstractController
 
         // changer l'état de la sortie si l'utilisateur clique
         $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'annulée']));
-        //$em->persist($sortie);
-          $em->flush();
+        $sortie->setInfosSortie($sortie->getInfosSortie()."ANNULÉE ".$motif);
+
+        $em->flush();
 
         // Rediriger l'internaute vers la liste des séries
         return $this->redirectToRoute('sorties');
