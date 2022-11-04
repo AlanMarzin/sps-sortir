@@ -67,6 +67,24 @@ class SortieController extends AbstractController
         ]);
     }
 
+    //permet d'accéder à la page de détail pour annuler une sortie
+    #[Route('/RecapAnnuler/{id}', name: 'annuler_detail', requirements: ['id' => '\d+'])]
+    public function recapAnnulSorti(SortieRepository $sortieRepository, int $id): Response
+    {
+        // Récupérer la sortie à afficher en base de données
+        $sortie = $sortieRepository->find($id);
+
+        if ($sortie === null) {
+            throw $this->createNotFoundException('Page not found');
+        }
+
+        return $this->render('sortie/annulersortie.html.twig', [
+            'sortie' => $sortie,
+            'id' => $id
+        ]);
+    }
+
+
     #[Route('/inscription/{id}', name: 'sortie_inscription', requirements: ['id' => '\d+'])]
     public function inscription(EtatRepository $etatRepository, SortieRepository $sortieRepository, int $id, EntityManagerInterface $em): Response
     {
@@ -142,6 +160,27 @@ class SortieController extends AbstractController
 //            'sortie' => $sortie,
 //            'auj' => $auj
 //        ]);
+
+        // Rediriger l'internaute vers la liste des séries
+        return $this->redirectToRoute('sorties');
+
+    }
+
+    //permet d'annuler une sortie
+    #[Route('/annulation/{id}', name: 'sortie_annuler', requirements: ['id' => '\d+'])]
+    public function annuler(EtatRepository $etatRepository, SortieRepository $sortieRepository, int $id, EntityManagerInterface $em): Response
+    {
+        // Récupérer la sortie en base de données
+        $sortie = $sortieRepository->find($id);
+
+        if ($sortie === null) {
+            throw $this->createNotFoundException('Page not found');
+        }
+
+        // changer l'état de la sortie si l'utilisateur clique
+        $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'annulée']));
+        //$em->persist($sortie);
+          $em->flush();
 
         // Rediriger l'internaute vers la liste des séries
         return $this->redirectToRoute('sorties');

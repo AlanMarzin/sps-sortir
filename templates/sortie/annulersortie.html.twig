@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Annuler la sortie : {{ sortie.nom }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="colonne1">
+        <div class ="nom">Nom de la sortie : {{ sortie.nom }}</div>
+        <div class="datedebut">Date de début : {{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</div>
+        <div class="campus">Campus : {{ sortie.campus.nom }}</div>
+        <div class="adresse">Adresse : {{ sortie.lieu.rue }} {{ sortie.lieu.ville.codePostal }} {{ sortie.lieu.ville.nom }}</div>
+
+        <form action="" method="post">
+
+            <div class="textarea"><label for="motif">Motif:</label><textarea id="story" name="motif" rows="5" cols="33"></textarea></div>
+
+            <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}"><input type="submit" value="Enregistrer"></a>
+
+        </form>
+
+
+    </div>
+
+    <div class="login">
+        <button>Enregistrer</button></a>
+    </div>
+
+    {#
+    <div class="login">
+    <a href="{{ path('sorties') }}"><button>Annuler</button></a>
+</div>
+    #}
+
+{% endblock %}
+

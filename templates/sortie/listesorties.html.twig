@@ -64,7 +64,7 @@
                                     Publier
                                 {% endif %}
                                 {% if sortie.etat.libelle == 'ouverte' or sortie.etat.libelle == 'clôturée' %}
-                                    Annuler
+                                    <a href="{{ path('annuler_detail', {'id': sortie.id} )}}">Annuler</a>
                                 {% endif %}
                             {% endif %}
                         </td>

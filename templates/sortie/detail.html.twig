@@ -19,7 +19,7 @@
      </div>
 
      <div class="colonne2">
-         <div class"campus">Campus : {{ sortie.campus.nom }}</div>
+         <div class="campus">Campus : {{ sortie.campus.nom }}</div>
          <div class="emplacement">Emplacement : {{ sortie.lieu.nom }}</div>
          <div class="adresse">Adresse : {{ sortie.lieu.rue }} {{ sortie.lieu.ville.codePostal }} {{ sortie.lieu.ville.nom }}</div>
          <div class="latitude">Latitude : {{ sortie.lieu.latitude }}</div>
@@ -30,13 +30,18 @@
 </div>
 
 
-        {#
-        {% for inscrit in inscrits %}
-                <tr>
-                        <td>{{ sortie.inscrits }}</td>
-                </tr>
-        {% endfor %}
-        #}
+<div class="listeinscrits">
+    Liste des participants inscrits :
+    {% for inscrit in sortie.inscrits %}
+        <tr>
+            <td>{{ inscrit.pseudo }}</td>
+            <td>{{ inscrit.nom }}</td>
+            <td>{{ inscrit.prenom }}</td>
+        </tr>
+    {% endfor %}
+</div>
+
+
 
 {% endblock %}
 
