@@ -180,7 +180,7 @@ class SortieController extends AbstractController
 
         // changer l'état de la sortie si l'utilisateur clique
         $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'annulée']));
-        $sortie->setInfosSortie($sortie->getInfosSortie()."ANNULÉE ".$motif);
+        $sortie->setInfosSortie($sortie->getInfosSortie()."ANNULÉE".$motif);
 
         $em->flush();
 
