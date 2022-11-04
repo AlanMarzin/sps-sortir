@@ -83,7 +83,6 @@ class SortieController extends AbstractController
         if ($sortie->getInscrits()->count() == $sortie->getNbInscriptionsMax()) {
             $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'clôturée']));
         }
-//        $em->persist($sortie);
         $em->flush();
 
         return $this->redirectToRoute('sorties');
@@ -110,7 +109,7 @@ class SortieController extends AbstractController
 
             $this->addFlash('success', 'Votre sortie a bien été créée !');
 
-            // Rediriger l'internaute vers la liste des séries
+            // Rediriger l'internaute vers la liste des sorties
             return $this->redirectToRoute('sorties');
         }
 
@@ -135,13 +134,7 @@ class SortieController extends AbstractController
         if (($sortie->getInscrits()->count() < $sortie->getNbInscriptionsMax()) and  !($sortie->getDateLimiteInscription() <  date('d-m-Y'))) {
             $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'ouverte']));
         }
-//        $em->persist($sortie);
         $em->flush();
-
-//        return $this->render('sortie/test.html.twig', [
-//            'sortie' => $sortie,
-//            'auj' => $auj
-//        ]);
 
         // Rediriger l'internaute vers la liste des séries
         return $this->redirectToRoute('sorties');
@@ -163,15 +156,13 @@ class SortieController extends AbstractController
         // changer l'état de la sortie si l'utilisateur clique
         $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'annulée']));
         $sortie->setInfosSortie($sortie->getInfosSortie()."ANNULÉE".$motif);
-
         $em->flush();
 
-        // Rediriger l'internaute vers la liste des séries
+        // Rediriger l'internaute vers la liste des sorties
         return $this->redirectToRoute('sorties');
 
     }
 
-    //    #[Route('/{id}', name: 'sortie_detail', requirements: ['id' => '\d+'])]
     #[Route('/{slug}', name: 'sortie_detail')]
     public function detail(SortieRepository $sortieRepository, string $slug): Response
     {
