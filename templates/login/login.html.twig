@@ -3,33 +3,26 @@
 {% block title %}{{ parent() }} - Se connecter{% endblock %}
 
 {% block body %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/styleLogin.css') }}">
+    {% endblock %}
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
-
-    <div class="accueil">
-        <form action="{{ path('app_login') }}" method="post">
-            <div class="login">
-                <label for="username">Adresse mail ou Pseudo :</label>
-                <input type="text" id="username" name="_username" value="{{ last_username }}"/>
+            <div class="login-card">
+                <h2>CONNEXION</h2>
+                <h3> Entrer vos identifiants </h3>
+                    <form class="login-form" action="{{ path('app_login') }}" method="post">
+                            <input type="text" id="username" name="_username" value="{{ last_username }}"/>
+                            <input type="password" id="password" name="_password"/>
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                                <div class="remember">
+                                    Se souvenir de moi
+                                    <input  type="checkbox" name="_remember_me" checked/>
+                                </div>
+                            <button type="submit">connexion</button>
+                    </form>
             </div>
-
-            <div class="login">
-                <label for="password">Mot de passe:</label>
-                <input type="password" id="password" name="_password"/>
-            </div>
-            <div class="login">
-                <label class="login">
-                    <input type="checkbox" name="_remember_me" checked/>
-                    Se souvenir de moi
-                </label>
-            </div>
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-            <div class="login">
-                <button type="submit">connexion</button>
-            </div>
-        </form>
-    </div>
 
 {% endblock %}
 
