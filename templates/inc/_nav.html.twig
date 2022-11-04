@@ -3,8 +3,6 @@
             {% if app.user %}
                     <a class="nav" href="{{ path('profil_update') }}">Modifier mon compte</a>
 
-                    <a class="nav" href="{{ path('user_details', {"id": app.user.id}) }}">Afficher détails utilisateur</a>
-
                     <a class="nav" href="{{ path('app_logout') }}">Déconnexion</a>
 
             {% endif %}
