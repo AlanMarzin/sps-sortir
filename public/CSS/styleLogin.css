@@ -60,7 +60,7 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
     animation:
-        pan 10s infinite alternate linear;
+        pan 20s infinite alternate linear;
 }
 @media (width:500px) {
     body{

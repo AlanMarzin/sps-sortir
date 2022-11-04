@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\ProfileType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\DebugUnitOfWorkListener;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,15 +30,32 @@ class UserController extends AbstractController
             'user' => $user,
         ]);
     }
-    #[Route('update/{id}', name: 'profil_update', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
-    public function update(Request $request, int $id, UserPasswordHasherInterface $userPasswordHasher, UserRepository $userRepository, EntityManagerInterface $em, User $user): Response{
-            $user = $userRepository->find($id);
+    #[Route('/update', name: 'profil_update', methods: ['GET', 'POST'])]
+        public function update(Request $request,UserRepository $userRepository,
+                               UserPasswordHasherInterface $userPasswordHasher,
+                               EntityManagerInterface $em): Response{
+        /*Je cherche dans la class $userRepository qui permet d'accéder à tous mes utilisateurs l'utilisateur avec :
+                                     "findOneBy(['id'=>$this->getUser()->getId()])"
+                    je cherche l'utilisateur ayant le même id que le "user" en cour d'utilisation du site */
+
+            $user = $userRepository->findOneBy(['id'=>$this->getUser()->getId()]);
             $profileForm = $this->createForm(ProfileType::class, $user,['validation_groups' => ['Default'],]);
             $profileForm->handleRequest($request);
 
+            /*Je teste si l'utilisateur est en train de soumettre un formulaire et si ce formulaire est valide
+                    je récupère le mot de passe du champ 1 'password' dans '$password'
+                     et celui du champ 2 'confirmation' dans '$confirmation'*/
+
+            /*TODO : Gérer les assets de vérification formulaire users.*/
             if (($profileForm->isSubmitted() && $profileForm->isValid())){
                 $confirmation=$profileForm->get('passwordConfirmation')->getData();
                 $password=$profileForm->get('password')->getData();
+
+            /*Je test que mon l'email renseigné dans mon champ confirmation est identique au mot de passe
+                    Si oui je mofifie le mot de passe dans la BDD en le hachant
+                    Si non j'affiche un message d'errreur
+                    Si aucune modif de mot de passe n'est souhaitée je valide directemnt les changements sans
+                    m'occuper du mot de passe, & j'affiche un message de "success*/
 
                 if (isset($confirmation) && isset($password)){
                     if ($confirmation ===  $profileForm->get('password')->getData() ){
@@ -59,7 +77,6 @@ class UserController extends AbstractController
             }
 
         return $this->render('profile/gestionprofile.html.twig',[
-            'id' => $id,
             'user' => $user,
             'profileForm' => $profileForm->createView()
         ]);

@@ -19,9 +19,12 @@
             <div>
                 <img src="{{ asset('images/logoEni.png') }}" alt="SPS-Sortie">
             </div>
-            <div>
-                {%  include'inc/_nav.html.twig' %}
-            </div>
+            {% block  nav%}
+                <div>
+                    {%  include'inc/_nav.html.twig' %}
+                </div>
+            {% endblock %}
+
         </header>
         <main>
             {% for label, messages in app.flashes %}
