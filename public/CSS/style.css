@@ -4,7 +4,8 @@ body {
     background-position: center center;
     background-size: cover;
     color: #EEE;
-    font-family: 'Roboto', serif;
+    font-family: 'Roboto', Arial, sans-serif;
+    margin: 0;
 }
 
 h1{
@@ -17,6 +18,7 @@ body > .container {
     flex-direction: column;
     min-height: 100vh;
 }
+
 header{
     background-image: url("../images/font_header.jpg");
 }
@@ -28,14 +30,23 @@ header img {
 
 main {
     flex: 1;
+    margin: 1em;
 }
+
+footer {
+    margin: 1em;
+}
+
 nav{
     text-align: center;
+    font-weight: bold;
 }
+
 nav a{
     padding-left: 1em;
     padding-right: 2em;
 }
+
 a {
     color: #060656;
     text-decoration: none;
