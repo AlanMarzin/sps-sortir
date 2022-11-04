@@ -33,13 +33,19 @@
 
 <div class="listeinscrits">
     Liste des participants inscrits :
-    {% for inscrit in sortie.inscrits %}
+    <table>
         <tr>
-            <td>{{ inscrit.pseudo }}</td>
-            <td>{{ inscrit.nom }}</td>
-            <td>{{ inscrit.prenom }}</td>
+            <th>Pseudo</th>
+            <th>Nom</th>
         </tr>
-    {% endfor %}
+        {% for inscrit in sortie.inscrits %}
+            <tr>
+                <td>{{ inscrit.pseudo }}</td>
+                <td>{{ inscrit.prenom }} {{ inscrit.nom|upper }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
 </div>
 
 
