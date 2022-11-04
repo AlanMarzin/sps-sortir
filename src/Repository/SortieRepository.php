@@ -54,6 +54,11 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('campus', $filtres->getCampus()->getNom());
         }
 
+        if ($filtres->getNomRecherche()) {
+            $qb->andWhere('LOWER(sortie.nom) LIKE :nomRecherche')
+                ->setParameter('nomRecherche', '%' . $filtres->getNomRecherche() . '%');
+        }
+
         if ($filtres->getDateDebut()) {
             $qb->andWhere('sortie.dateHeureDebut >= :debut')
                 ->setParameter('debut', $filtres->getDateDebut());
@@ -87,11 +92,6 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('encours', 'en cours')
                 ->andWhere('sortie.dateHeureDebut < CURRENT_DATE()');
         }
-
-//        if ($filtres->getIsPassee()) {
-//            $qb->andWhere(':dateFin < CURRENT_DATE()')
-//                ->setParameter('dateFin', 'ADDTIME(sortie.dateHeureDebut + sortie.duree)');
-//        }
 
         return $qb->getQuery()->getResult();
     }

@@ -3,6 +3,7 @@
 namespace App\Form\Model;
 
 use App\Entity\Campus;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class FiltresSortiesFormModel
 {
@@ -10,7 +11,12 @@ class FiltresSortiesFormModel
     private ?Campus $campus;
     private ?string $nomRecherche;
     private ?\DateTimeInterface $dateDebut;
-    private ?\DateTimeInterface$dateFin;
+
+//    #[Assert\Expression(
+//        "this.getDateFin() > this.getDateDebut()",
+//        message: 'La date de fin doit être postérieure à la date de début'
+//    )]
+    private ?\DateTimeInterface $dateFin;
     private ?bool $isOrganisateur;
     private ?bool $isInscrit;
     private ?bool $isNotInscrit;

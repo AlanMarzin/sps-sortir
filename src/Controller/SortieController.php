@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-
 class SortieController extends AbstractController
 {
 
@@ -24,7 +23,7 @@ class SortieController extends AbstractController
     public function list(Request $request, SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $em, DateChecker $dateChecker): Response
     {
 
-        $dateChecker->checkDate($sortieRepository, $etatRepository, $em);
+        $sorties = $dateChecker->checkDate($sortieRepository, $etatRepository, $em);
 
         $currentUser = $this->getUser();
 
@@ -37,8 +36,13 @@ class SortieController extends AbstractController
         if ($filtresSortiesForm->isSubmitted() && $filtresSortiesForm->isValid()) {
             $sorties = $sortieRepository->findByFiltresSorties($filtresSorties, $currentUser);
         } else {
-            // récupérer toutes les sorties en BDD
-            $sorties = $sortieRepository->findAllAffichables();
+            // récupérer toutes les sorties affichables en retirant les historisées et en création
+            for ($i=0; $i<count($sorties); $i++) {
+                if ($sorties[$i]->getEtat()->getLibelle() === 'en création' or $sorties[$i]->getEtat()->getLibelle() === 'historisée') {
+                    unset($sorties[$i]);
+                }
+            }
+//            $sorties = $sortieRepository->findAllAffichables();
         }
 
         return $this->render('sortie/listesorties.html.twig', [
@@ -50,7 +54,7 @@ class SortieController extends AbstractController
     }
 
     //permet d'accéder à la page de détail pour annuler une sortie
-    #[Route('/RecapAnnuler/{id}', name: 'annuler_detail', requirements: ['id' => '\d+'])]
+    #[Route('/sortie/recapAnnuler/{id}', name: 'annuler_detail', requirements: ['id' => '\d+'])]
     public function recapAnnulSorti(SortieRepository $sortieRepository, int $id): Response
     {
         // Récupérer la sortie à afficher en base de données
@@ -67,7 +71,7 @@ class SortieController extends AbstractController
     }
 
 
-    #[Route('/inscription/{id}', name: 'sortie_inscription', requirements: ['id' => '\d+'])]
+    #[Route('/sortie/inscription/{id}', name: 'sortie_inscription', requirements: ['id' => '\d+'])]
     public function inscription(EtatRepository $etatRepository, SortieRepository $sortieRepository, int $id, EntityManagerInterface $em): Response
     {
         // Récupérer la sortie en base de données
@@ -88,7 +92,7 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('sorties');
     }
 
-    #[Route('/new', name: 'sortie_new')]
+    #[Route('/sortie/new', name: 'sortie_new')]
     public function newSortie(Request $request, EtatRepository $etatRepository, EntityManagerInterface $em): Response
     {
         // créer un objet sortie
@@ -118,7 +122,7 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/desinscription/{id}', name: 'sortie_desinscription', requirements: ['id' => '\d+'])]
+    #[Route('/sortie/desinscription/{id}', name: 'sortie_desinscription', requirements: ['id' => '\d+'])]
     public function desinscription(EtatRepository $etatRepository, SortieRepository $sortieRepository, int $id, EntityManagerInterface $em): Response
     {
         // Récupérer la sortie en base de données
@@ -142,7 +146,7 @@ class SortieController extends AbstractController
     }
 
     //permet d'annuler une sortie
-    #[Route('/annulation/{id}', name: 'sortie_annuler', requirements: ['id' => '\d+'])]
+    #[Route('/sortie/annulation/{id}', name: 'sortie_annuler', requirements: ['id' => '\d+'])]
     public function annuler(EtatRepository $etatRepository, SortieRepository $sortieRepository, int $id, EntityManagerInterface $em): Response
     {
         // Récupérer la sortie en base de données
@@ -163,7 +167,7 @@ class SortieController extends AbstractController
 
     }
 
-    #[Route('/{slug}', name: 'sortie_detail')]
+    #[Route('/sortie/{slug}', name: 'sortie_detail')]
     public function detail(SortieRepository $sortieRepository, string $slug): Response
     {
         // Récupérer la sortie à afficher en base de données
