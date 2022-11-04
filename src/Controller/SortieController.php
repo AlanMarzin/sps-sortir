@@ -49,24 +49,6 @@ class SortieController extends AbstractController
 
     }
 
-    #[Route('/{id}', name: 'sortie_detail', requirements: ['id' => '\d+'])]
-    public function detail(SortieRepository $sortieRepository, int $id): Response
-    {
-        // Récupérer la sortie à afficher en base de données
-        $sortie = $sortieRepository->find($id);
-
-        if ($sortie === null) {
-            throw $this->createNotFoundException('Page not found');
-        }
-
-        $dateFin = clone $sortie->getDateHeureDebut();
-        $dateFin->add(new DateInterval('PT' . $sortie->getDuree() . 'M'));
-        return $this->render('sortie/detail.html.twig', [
-            'sortie' => $sortie,
-            'dateFin' => $dateFin
-        ]);
-    }
-
     //permet d'accéder à la page de détail pour annuler une sortie
     #[Route('/RecapAnnuler/{id}', name: 'annuler_detail', requirements: ['id' => '\d+'])]
     public function recapAnnulSorti(SortieRepository $sortieRepository, int $id): Response
@@ -187,6 +169,25 @@ class SortieController extends AbstractController
         // Rediriger l'internaute vers la liste des séries
         return $this->redirectToRoute('sorties');
 
+    }
+
+    //    #[Route('/{id}', name: 'sortie_detail', requirements: ['id' => '\d+'])]
+    #[Route('/{slug}', name: 'sortie_detail')]
+    public function detail(SortieRepository $sortieRepository, string $slug): Response
+    {
+        // Récupérer la sortie à afficher en base de données
+        $sortie = $sortieRepository->findOneBy(['slug' => $slug]);
+
+        if ($sortie === null) {
+            throw $this->createNotFoundException('Page not found');
+        }
+
+        $dateFin = clone $sortie->getDateHeureDebut();
+        $dateFin->add(new DateInterval('PT' . $sortie->getDuree() . 'M'));
+        return $this->render('sortie/detail.html.twig', [
+            'sortie' => $sortie,
+            'dateFin' => $dateFin
+        ]);
     }
 
 }

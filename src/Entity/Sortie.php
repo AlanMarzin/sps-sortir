@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Slug;
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
 class Sortie
@@ -52,6 +53,10 @@ class Sortie
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'sortiesInscrit')]
     private Collection $inscrits;
+
+    #[ORM\Column(length: 100, unique: true)]
+    #[Slug(fields: ['nom'])]
+    private ?string $slug = null;
 
     public function __construct()
     {
@@ -203,6 +208,18 @@ class Sortie
     public function removeInscrit(User $inscrit): self
     {
         $this->inscrits->removeElement($inscrit);
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
