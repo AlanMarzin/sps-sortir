@@ -45,12 +45,62 @@ class SortieRepository extends ServiceEntityRepository
     public function findByFiltresSorties(FiltresSortiesFormModel $filtres, UserInterface $currentUser): array
     {
         $qb = $this->createQueryBuilder('sortie');
-        $qb->addSelect('sortie');
+        $qb->addSelect('sortie')
+            ->leftJoin('sortie.campus', 'campus')
+            ->addSelect('campus')
+            ->leftJoin('sortie.etat', 'etat')
+            ->addSelect('etat')
+            ->leftJoin('sortie.organisateur', 'organisateur')
+            ->addSelect('organisateur');
+
+//        if ($filtres->getCampus()) {
+//            $qb->leftJoin('sortie.campus', 'campus')
+//                ->addSelect('campus')
+//                ->andWhere('campus.nom = :campus')
+//                ->setParameter('campus', $filtres->getCampus()->getNom());
+//        }
+//
+//        if ($filtres->getNomRecherche()) {
+//            $qb->andWhere('LOWER(sortie.nom) LIKE :nomRecherche')
+//                ->setParameter('nomRecherche', '%' . $filtres->getNomRecherche() . '%');
+//        }
+//
+//        if ($filtres->getDateDebut()) {
+//            $qb->andWhere('sortie.dateHeureDebut >= :debut')
+//                ->setParameter('debut', $filtres->getDateDebut());
+//        }
+//
+//        if ($filtres->getDateFin()) {
+//            $fin = date_add($filtres->getDateFin(), new DateInterval('P1D'));
+//            $qb->andWhere('sortie.dateHeureDebut <= :fin')
+//                ->setParameter('fin', $fin);
+//        }
+//
+//        if ($filtres->getIsOrganisateur()) {
+//            $qb->andWhere('sortie.organisateur = :organisateur')
+//                ->setParameter('organisateur', $currentUser);
+//        }
+//
+//        if ($filtres->getIsInscrit()) {
+//            $qb->andWhere(':user MEMBER OF sortie.inscrits')
+//                ->setParameter('user', $currentUser);
+//        }
+//
+//        if ($filtres->getIsNotInscrit()) {
+//            $qb->andWhere(':user NOT MEMBER OF sortie.inscrits')
+//                ->setParameter('user', $currentUser);
+//        }
+//
+//        if ($filtres->getIsPassee()) {
+//            $qb->leftJoin('sortie.etat', 'etat')
+//                ->addSelect('etat')
+//                ->andWhere('etat.libelle != :encours')
+//                ->setParameter('encours', 'en cours')
+//                ->andWhere('sortie.dateHeureDebut < CURRENT_DATE()');
+//        }
 
         if ($filtres->getCampus()) {
-            $qb->leftJoin('sortie.campus', 'campus')
-                ->addSelect('campus')
-                ->andWhere('campus.nom = :campus')
+            $qb->andWhere('campus.nom = :campus')
                 ->setParameter('campus', $filtres->getCampus()->getNom());
         }
 
@@ -86,9 +136,7 @@ class SortieRepository extends ServiceEntityRepository
         }
 
         if ($filtres->getIsPassee()) {
-            $qb->leftJoin('sortie.etat', 'etat')
-                ->addSelect('etat')
-                ->andWhere('etat.libelle != :encours')
+            $qb->andWhere('etat.libelle != :encours')
                 ->setParameter('encours', 'en cours')
                 ->andWhere('sortie.dateHeureDebut < CURRENT_DATE()');
         }
@@ -99,13 +147,21 @@ class SortieRepository extends ServiceEntityRepository
     public function findAllAffichables(): array
     {
         $qb = $this->createQueryBuilder('sortie');
+//        $qb->addSelect('sortie')
+//            ->leftJoin('sortie.etat', 'etat')
+//            ->addSelect('etat')
+//            ->andWhere('etat.libelle != :creation')
+//            ->setParameter('creation', 'en création')
+//            ->andWhere('etat.libelle != :historisee')
+//            ->setParameter('historisee', 'historisée');
+
         $qb->addSelect('sortie')
+            ->leftJoin('sortie.campus', 'campus')
+            ->addSelect('campus')
             ->leftJoin('sortie.etat', 'etat')
             ->addSelect('etat')
-            ->andWhere('etat.libelle != :creation')
-            ->setParameter('creation', 'en création')
-            ->andWhere('etat.libelle != :historisee')
-            ->setParameter('historisee', 'historisée');
+            ->leftJoin('sortie.organisateur', 'organisateur')
+            ->addSelect('organisateur');
 
         return $qb->getQuery()->getResult();
     }

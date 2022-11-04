@@ -9,7 +9,7 @@ class FiltresSortiesFormModel
 {
 
     private ?Campus $campus;
-    private ?string $nomRecherche;
+    private ?string $nomRecherche = "";
     private ?\DateTimeInterface $dateDebut;
 
 //    #[Assert\Expression(

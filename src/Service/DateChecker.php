@@ -12,7 +12,8 @@ use Doctrine\ORM\EntityManagerInterface;
 class DateChecker
 {
 
-    public function checkDate(SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $em): array
+//    public function checkDate(SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $em): array
+    public function checkDate(SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $em): void
     {
         // récupération des sorties et des états
         $sorties = $sortieRepository->findAll();
@@ -44,37 +45,42 @@ class DateChecker
 
         // changement d'état des sorties si nécessaire
         foreach ($sorties as $sortie) {
-            // si la date limite d'inscription est passée, changer l'état pour "clôturée"
-            if ($sortie->getDateLimiteInscription() < $now) {
-//                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'clôturée']));
-                $sortie->setEtat($etats[$indexCloturee]);
-            }
 
-            // si la sortie date d'il y a un mois ou plus, changer l'état pour "historisée"
-            if ($sortie->getDateHeureDebut() < $monthAgo) {
-//                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'historisée']));
-                $sortie->setEtat($etats[$indexHistorisee]);
-            }
+            // si la sortie n'est pas historisée
+            if ($sortie->getEtat()->getLibelle() != 'historisée') {
 
-            // si la sortie a commencé, changer l'état pour "en cours"
-            if ($sortie->getDateHeureDebut() <= $now) {
-//                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'en cours']));
-                $sortie->setEtat($etats[$indexEnCours]);
-            }
+                // si la date limite d'inscription est passée, changer l'état pour "clôturée"
+                if ($sortie->getDateLimiteInscription() < $now) {
+                    //                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'clôturée']));
+                    $sortie->setEtat($etats[$indexCloturee]);
+                }
 
-            // si la sortie est terminée, changer l'état pour "terminée"
-            $heureFinSortie = date_add($sortie->getDateHeureDebut(), new DateInterval('PT'.$sortie->getDuree().'M'));
-            if ($heureFinSortie <= $now) {
-//                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'terminée']));
-                $sortie->setEtat($etats[$indexTerminee]);
-            }
+                // si la sortie date d'il y a un mois ou plus, changer l'état pour "historisée"
+                if ($sortie->getDateHeureDebut() < $monthAgo) {
+                    //                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'historisée']));
+                    $sortie->setEtat($etats[$indexHistorisee]);
+                }
 
+                // si la sortie a commencé, changer l'état pour "en cours"
+                if ($sortie->getDateHeureDebut() <= $now) {
+                    //                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'en cours']));
+                    $sortie->setEtat($etats[$indexEnCours]);
+                }
+
+                // si la sortie est terminée, changer l'état pour "terminée"
+                $heureFinSortie = date_add($sortie->getDateHeureDebut(), new DateInterval('PT' . $sortie->getDuree() . 'M'));
+                if ($heureFinSortie <= $now) {
+                    //                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'terminée']));
+                    $sortie->setEtat($etats[$indexTerminee]);
+                }
+
+            }
         }
 
         $em->flush();
 
         // retourner les sorties
-        return $sorties;
+//        return $sorties;
 
     }
 

@@ -23,7 +23,8 @@ class SortieController extends AbstractController
     public function list(Request $request, SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $em, DateChecker $dateChecker): Response
     {
 
-        $sorties = $dateChecker->checkDate($sortieRepository, $etatRepository, $em);
+//        $sorties = $dateChecker->checkDate($sortieRepository, $etatRepository, $em);
+        $dateChecker->checkDate($sortieRepository, $etatRepository, $em);
 
         $currentUser = $this->getUser();
 
@@ -36,13 +37,14 @@ class SortieController extends AbstractController
         if ($filtresSortiesForm->isSubmitted() && $filtresSortiesForm->isValid()) {
             $sorties = $sortieRepository->findByFiltresSorties($filtresSorties, $currentUser);
         } else {
-            // récupérer toutes les sorties affichables en retirant les historisées et en création
-            for ($i=0; $i<count($sorties); $i++) {
-                if ($sorties[$i]->getEtat()->getLibelle() === 'en création' or $sorties[$i]->getEtat()->getLibelle() === 'historisée') {
-                    unset($sorties[$i]);
-                }
+            $sorties = $sortieRepository->findAllAffichables();
+        }
+
+        // récupérer toutes les sorties affichables en retirant les historisées et en création
+        for ($i=0; $i<count($sorties); $i++) {
+            if ($sorties[$i]->getEtat()->getLibelle() === 'en création' or $sorties[$i]->getEtat()->getLibelle() === 'historisée') {
+                unset($sorties[$i]);
             }
-//            $sorties = $sortieRepository->findAllAffichables();
         }
 
         return $this->render('sortie/listesorties.html.twig', [
