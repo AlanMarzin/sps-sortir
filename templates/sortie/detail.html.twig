@@ -7,7 +7,6 @@
 {% block body %}
 
 <div class ="affsortie">
-
      <div class="colonne1">
          <div class ="nom">Nom de la sortie : {{ sortie.nom }}</div>
          <div class="datedebut">Date de début : {{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</div>
@@ -24,12 +23,8 @@
          <div class="adresse">Adresse : {{ sortie.lieu.rue }} {{ sortie.lieu.ville.codePostal }} {{ sortie.lieu.ville.nom }}</div>
          <div class="latitude">Latitude : {{ sortie.lieu.latitude }}</div>
          <div class="longitude">Longitude : {{ sortie.lieu.longitude }}</div>
-
      </div>
-
-
 </div>
-
 
 <div class="listeinscrits">
     Liste des participants inscrits :
@@ -40,7 +35,7 @@
         </tr>
         {% for inscrit in sortie.inscrits %}
             <tr>
-                <td>{{ inscrit.pseudo }}</td>
+                <td><a href="{{ path('user_details', {'id': inscrit.id}) }}">{{ inscrit.pseudo }}</td>
                 <td>{{ inscrit.prenom }} {{ inscrit.nom|upper }}</td>
             </tr>
         {% endfor %}
