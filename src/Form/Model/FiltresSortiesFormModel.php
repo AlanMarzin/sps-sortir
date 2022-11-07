@@ -21,6 +21,25 @@ class FiltresSortiesFormModel
     private ?bool $isInscrit;
     private ?bool $isNotInscrit;
     private ?bool $isPassee;
+    private ?bool $isOuverte;
+
+    /**
+     * @return bool|null
+     */
+    public function getIsOuverte(): ?bool
+    {
+        return $this->isOuverte;
+    }
+
+    /**
+     * @param bool|null $isOuverte
+     * @return FiltresSortiesFormModel
+     */
+    public function setIsOuverte(?bool $isOuverte): FiltresSortiesFormModel
+    {
+        $this->isOuverte = $isOuverte;
+        return $this;
+    }
 
     /**
      * @return Campus|null

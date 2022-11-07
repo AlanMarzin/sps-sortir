@@ -40,9 +40,9 @@ class SortieController extends AbstractController
             $sorties = $sortieRepository->findAllAffichables();
         }
 
-        // récupérer toutes les sorties affichables en retirant les historisées et en création
+        // récupérer toutes les sorties affichables en retirant les historisées et en création par d'autres gens
         for ($i=0; $i<count($sorties); $i++) {
-            if ($sorties[$i]->getEtat()->getLibelle() === 'en création' or $sorties[$i]->getEtat()->getLibelle() === 'historisée') {
+            if (($sorties[$i]->getEtat()->getLibelle() === 'en création' and $sorties[$i]->getOrganisateur() != $currentUser) or $sorties[$i]->getEtat()->getLibelle() === 'historisée') {
                 unset($sorties[$i]);
             }
         }

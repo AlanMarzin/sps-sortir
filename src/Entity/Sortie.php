@@ -160,7 +160,9 @@ class Sortie
     public function setOrganisateur(?User $organisateur): self
     {
         $this->organisateur = $organisateur;
-
+        if (!$organisateur->getSortiesOrganisees()->contains($this)) {
+            $organisateur->addSortieOrganisee($this);
+        }
         return $this;
     }
 

@@ -141,6 +141,11 @@ class SortieRepository extends ServiceEntityRepository
                 ->andWhere('sortie.dateHeureDebut < CURRENT_DATE()');
         }
 
+        if ($filtres->getIsOuverte()) {
+            $qb->andWhere('etat.libelle = :ouverte')
+                ->setParameter('ouverte', 'ouverte');
+        }
+
         return $qb->getQuery()->getResult();
     }
 
