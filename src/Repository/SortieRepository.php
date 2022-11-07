@@ -51,53 +51,9 @@ class SortieRepository extends ServiceEntityRepository
             ->leftJoin('sortie.etat', 'etat')
             ->addSelect('etat')
             ->leftJoin('sortie.organisateur', 'organisateur')
-            ->addSelect('organisateur');
-
-//        if ($filtres->getCampus()) {
-//            $qb->leftJoin('sortie.campus', 'campus')
-//                ->addSelect('campus')
-//                ->andWhere('campus.nom = :campus')
-//                ->setParameter('campus', $filtres->getCampus()->getNom());
-//        }
-//
-//        if ($filtres->getNomRecherche()) {
-//            $qb->andWhere('LOWER(sortie.nom) LIKE :nomRecherche')
-//                ->setParameter('nomRecherche', '%' . $filtres->getNomRecherche() . '%');
-//        }
-//
-//        if ($filtres->getDateDebut()) {
-//            $qb->andWhere('sortie.dateHeureDebut >= :debut')
-//                ->setParameter('debut', $filtres->getDateDebut());
-//        }
-//
-//        if ($filtres->getDateFin()) {
-//            $fin = date_add($filtres->getDateFin(), new DateInterval('P1D'));
-//            $qb->andWhere('sortie.dateHeureDebut <= :fin')
-//                ->setParameter('fin', $fin);
-//        }
-//
-//        if ($filtres->getIsOrganisateur()) {
-//            $qb->andWhere('sortie.organisateur = :organisateur')
-//                ->setParameter('organisateur', $currentUser);
-//        }
-//
-//        if ($filtres->getIsInscrit()) {
-//            $qb->andWhere(':user MEMBER OF sortie.inscrits')
-//                ->setParameter('user', $currentUser);
-//        }
-//
-//        if ($filtres->getIsNotInscrit()) {
-//            $qb->andWhere(':user NOT MEMBER OF sortie.inscrits')
-//                ->setParameter('user', $currentUser);
-//        }
-//
-//        if ($filtres->getIsPassee()) {
-//            $qb->leftJoin('sortie.etat', 'etat')
-//                ->addSelect('etat')
-//                ->andWhere('etat.libelle != :encours')
-//                ->setParameter('encours', 'en cours')
-//                ->andWhere('sortie.dateHeureDebut < CURRENT_DATE()');
-//        }
+            ->addSelect('organisateur')
+            ->addSelect('inscrits')
+            ->leftJoin('sortie.inscrits', 'inscrits');
 
         if ($filtres->getCampus()) {
             $qb->andWhere('campus.nom = :campus')
@@ -166,7 +122,9 @@ class SortieRepository extends ServiceEntityRepository
             ->leftJoin('sortie.etat', 'etat')
             ->addSelect('etat')
             ->leftJoin('sortie.organisateur', 'organisateur')
-            ->addSelect('organisateur');
+            ->addSelect('organisateur')
+            ->addSelect('inscrits')
+            ->leftJoin('sortie.inscrits', 'inscrits');
 
         return $qb->getQuery()->getResult();
     }

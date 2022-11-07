@@ -102,3 +102,17 @@ button{
     width: 25%;
    /* background-color: #060656;*/
 }
+.tableau-Sorties {
+    overflow-y: scroll;
+    height: 200px;
+}
+.tableau-Sorties tr th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+th, td {
+    padding: 3px 3px;
+}
+

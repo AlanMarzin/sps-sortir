@@ -34,7 +34,7 @@
         <div class="tableau-Sorties">
             <section name="listeSorties" id="listeSorties">
                 <table>
-                    <tr>
+                    <thead>
                         <th>Nom de la sortie</th>
                         <th>Date de la sortie</th>
                         <th>Clôture</th>
@@ -43,10 +43,10 @@
                         <th>Inscrit</th>
                         <th>Organisateur</th>
                         <th>Actions</th>
-                    </tr>
+                    </thead>
 
                     {% for sortie in sorties %}
-                        <tr>
+                        <tbody>
                             <td>{{ sortie.nom }}</td>
                             <td>{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</td>
                             <td>{{ sortie.dateLimiteInscription|date('d/m/Y') }}</td>
@@ -60,7 +60,7 @@
                             <td><a href="{{ path('user_details', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.prenom }}</td>
                             <td>
                                 <a href="{{ path('sortie_detail', {'slug': sortie.slug}) }}">Afficher</a>
-                                {% if sortie.etat.libelle == 'ouverte' and app.user not in sortie.inscrits %}
+                                {% if sortie.etat.libelle == 'ouverte' and app.user not in sortie.inscrits and app.user != sortie.organisateur %}
                                     <a href="{{ path('sortie_inscription', {'id': sortie.id}) }}">S'inscrire</a>
                                 {% endif %}
                                 {% if app.user in sortie.inscrits %}
@@ -76,13 +76,12 @@
                                     {% endif %}
                                 {% endif %}
                             </td>
-                        </tr>
+                        </tbody>
                     {% endfor %}
                 </table>
-
-                <a href="{{ path('sortie_new') }}"><button>Créer une sortie</button></a>
             </section>
         </div>
+        <a href="{{ path('sortie_new') }}"><button>Créer une sortie</button></a>
 
 
     {% else %}
