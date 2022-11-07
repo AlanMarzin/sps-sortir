@@ -61,6 +61,83 @@ body{
     text-align: center;
     margin-bottom: 1rem;
 }
+.form-widget{
+    padding: 0.2em;
+}
+.form-widget > input {
+    width:auto;
+    background-color: #fcedd8;;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.form-widget > label {
+   font-size: 20px;
+    color: #0f1f3b;
+}
+.form-widget-upload > label {
+    font-size: 20px;
+    color: #0f1f3b
+}
+.form-widget-upload{
+    padding: 0.2em;
+}
+.form-widget-upload > input {
+    width:auto;
+    border-radius: 8px;
+    text-align: center;
+}
+.form-widget > select {
+    background-color: #0f1f3b;
+    color: #dfdfdf;
+    border-radius: 8px;
+}
+.form-widget > select:hover {
+    background-color: #649dda;
+    color: #060656;
+}
+.form-widget > button {
+    height: 3em;
+    width: 200px;
+    border-radius: 8px;
+    background-color: #0f1f3b;
+    color: #dfdfdf;
+}
+.form-widget > button:hover {
+    background-color: #649dda;
+    color: #dfdfdf;
+}
+.form-widget > a > button {
+    height: 3em;
+    width: 200px;
+    border-radius: 8px;
+    background-color: #d32e2e;
+    color: #000000;
+}
+.form-widget > a > button:hover {
+    height: 3em;
+    width: 200px;
+    border-radius: 8px;
+    background-color: #791313;
+    color: #000000;
+}
+.container-button {
+
+    display: flex;
+    padding: 1em    ;
+    width: 100%;
+    justify-content: space-around;
+}
+.container-info {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    /*background-color: #649dda;*/
+}
+.user-info {
+    display: flex;
+    flex-wrap: wrap;
+}
 
 @media(width: 500px){
     .login-card {

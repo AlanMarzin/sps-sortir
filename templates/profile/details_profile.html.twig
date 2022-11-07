@@ -8,7 +8,13 @@
     {% endblock %}
     <div class="user-card">
      <h1>{{ user.pseudo }}</h1>
-            <img src="{{ asset('uploads/avatar/' ~ user.photo) }}" alt="{{ user.nom }}">
+{#        Mise en place du chargement de la photo de profil de l'utilisateur et chargement
+        d'une photo pa défaut en cas d'absence d'une photo uploader.#}
+        {% if   user.photo is not null%}
+        <img src="{{ asset('uploads/avatar/' ~ user.photo) }}" alt="{{ user.nom }}">
+        {%else%}
+        <img src="{{ asset('images/icondefaut.png') }}" alt="image par defaut">
+        {% endif %}
         <div class="user-info">
             <p class="label">Nom : </p><p> {{ user.nom }}</p>
             <p class="label">Prénom :  </p><p>{{ user.prenom }}</p>

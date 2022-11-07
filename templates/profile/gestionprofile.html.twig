@@ -9,13 +9,59 @@
     <div class="user-card">
         <h1>Modifier votre profil {{ user.pseudo }}</h1>
             <div class="user-info">
-                {#  Formulaire de modification du profil utilisateur #}
-                {{ form_start(profileForm)}}
-                {{ form_widget(profileForm) }}
-                <button>Valider</button>
-                {{ form_end(profileForm) }}
-                {#    Bouton de retour vers la page d'accueil#}
-                <a href="{{ path('sorties') }}"><button>RETOUR</button></a>
+                <div class="container-info">
+                    {#  Formulaire de modification du profil utilisateur #}
+                    {{ form_start(profileForm)}}
+                    <div class="form-widget">
+                        {{ form_label(profileForm.nom) }}
+                        {{ form_widget(profileForm.nom) }}
+                    </div>
+                    <div class="form-widget">
+                        {{ form_label(profileForm.prenom )}}
+                        {{ form_widget(profileForm.prenom) }}
+                    </div>
+                    <div class="form-widget">
+                        {{ form_label(profileForm.email) }}
+                        {{ form_widget(profileForm.email) }}
+                    </div>
+                    <div class="form-widget">
+                        {{ form_label(profileForm.password) }}
+                        {{ form_widget(profileForm.password) }}
+                    </div>
+                    <div class="form-widget">
+                        {{ form_label(profileForm.passwordConfirmation) }}
+                        {{ form_widget(profileForm.passwordConfirmation) }}
+                    </div>
+                    <div class="form-widget">
+                        {{ form_label(profileForm.pseudo) }}
+                        {{ form_widget(profileForm.pseudo) }}
+                    </div>
+                    <div class="form-widget-upload">
+                        {{ form_label(profileForm.photo) }}
+                        {{ form_widget(profileForm.photo) }}
+                    </div>
+                    <div class="form-widget">
+                        {{ form_label(profileForm.telephone) }}
+                        {{ form_widget(profileForm.telephone) }}
+                    </div>
+                    <div class="form-widget">
+                        {{ form_label(profileForm.campus )}}
+                        {{ form_widget(profileForm.campus) }}
+                    </div>
+
+                </div>
+
+                    <div class="container-button">
+                        {{ form_widget(profileForm) }}
+                        <div class="form-widget">
+                            <button>Valider</button>
+                        </div>
+                        {{ form_end(profileForm) }}
+                        {#    Bouton de retour vers la page d'accueil#}
+                        <div class="form-widget">
+                            <a href="{{ path('sorties') }}"><button>RETOUR</button></a>
+                        </div>
+                    </div>
             </div>
     </div>
 

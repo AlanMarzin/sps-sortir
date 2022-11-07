@@ -6,6 +6,7 @@ use App\Entity\Campus;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -24,12 +25,14 @@ class ProfileType extends AbstractType
 //                'mapped' => true,
 //                'label' => 'Modifier votre Photo : '
 //            ])
-            ->add('email')
+            ->add('email',EmailType::class, [
+                'label'=> 'Email : '
+            ])
+
             ->add('password', PasswordType::class, [
                 'label'=> 'Mot de Passe : ',
                 'required'=>false,
                 'mapped' =>false,
-                'attr' =>['autocomplete'=>'nouveau mot de passe'],
                 'constraints'=>[
                     new Length([
                         'min' => 3,
