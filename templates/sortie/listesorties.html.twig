@@ -57,7 +57,7 @@
                                     x
                                 {% endif %}
                             </td>
-                            <td>{{ sortie.organisateur.prenom }}</td>
+                            <td><a href="{{ path('user_details', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.prenom }}</td>
                             <td>
                                 <a href="{{ path('sortie_detail', {'slug': sortie.slug}) }}">Afficher</a>
                                 {% if sortie.etat.libelle == 'ouverte' and app.user not in sortie.inscrits %}
