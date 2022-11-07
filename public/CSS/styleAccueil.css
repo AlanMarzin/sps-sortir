@@ -1,7 +1,12 @@
-
+body {
+    background-color: rgb(120, 149, 163);
+    font-family: 'Roboto', Arial, sans-serif;
+    margin: 0;
+}
 h1{
     text-align: center;
     margin-top: 0;
+}
 }
 
 h2{
@@ -81,12 +86,15 @@ button{
     display: flex;
     align-items: center;
     background-color: #B0413E;
+    justify-content: center;
 }
 
 .filtres{
     display: flex;
     background-color: #BC956B;
+    justify-content: space-around;
 }
+
 .infos{
     display: flex;
     width: 100%;
@@ -102,17 +110,21 @@ button{
     width: 25%;
    /* background-color: #060656;*/
 }
-.tableau-Sorties {
+.listeSorties {
     overflow-y: scroll;
-    height: 200px;
+    height: 250px;
 }
-.tableau-Sorties tr th {
+.listeSorties tr th {
     position: sticky;
     top: 0;
     z-index: 1;
+    min-height: 20px;
 }
 
 th, td {
     padding: 3px 3px;
 }
 
+table {
+    width: 100%;
+}

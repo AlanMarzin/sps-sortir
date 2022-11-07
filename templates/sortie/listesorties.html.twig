@@ -16,46 +16,51 @@
         </div>
 
 
-        <div class="filtres">
-            <section name="filtres" id="filtres">
+        <div class="bloc_filtres">
+            <section>
                 <h2>Filtrer les sorties</h2>
 
                 {{ form_start(filtresSortiesForm) }}
-            
-                <div class="filtres_gauche">
-                    <div>
-                        {{ form_label(filtresSortiesForm.campus) }}
-                        {{ form_widget(filtresSortiesForm.campus) }}
+
+                <div class="filtres" name="filtres" id="filtres">
+                    <div class="filtres_gauche">
+                        <div>
+                            {{ form_label(filtresSortiesForm.campus) }}
+                            {{ form_widget(filtresSortiesForm.campus) }}
+                        </div>
+                        <div>
+                            {{ form_errors(filtresSortiesForm.nomRecherche) }}
+                            {{ form_label(filtresSortiesForm.nomRecherche) }}
+                            {{ form_widget(filtresSortiesForm.nomRecherche) }}
+                        </div>
+                        <div>
+                            {{ form_errors(filtresSortiesForm.dateFin) }}
+                            {{ form_label(filtresSortiesForm.dateDebut) }}
+                            {{ form_widget(filtresSortiesForm.dateDebut) }}
+                            {{ form_label(filtresSortiesForm.dateFin) }}
+                            {{ form_widget(filtresSortiesForm.dateFin) }}
+                        </div>
                     </div>
-                    <div>
-                        {{ form_label(filtresSortiesForm.nomRecherche) }}
-                        {{ form_widget(filtresSortiesForm.nomRecherche) }}
-                    </div>
-                    <div>
-                        {{ form_label(filtresSortiesForm.dateDebut) }}
-                        {{ form_widget(filtresSortiesForm.dateDebut) }}
-                        {{ form_label(filtresSortiesForm.dateFin) }}
-                        {{ form_widget(filtresSortiesForm.dateFin) }}
+                    <div class="'filtres_droite">
+                        <div>
+                            {{ form_widget(filtresSortiesForm.isOrganisateur) }}
+                            {{ form_label(filtresSortiesForm.isOrganisateur) }}
+                        </div>
+                        <div>
+                            {{ form_widget(filtresSortiesForm.isInscrit) }}
+                            {{ form_label(filtresSortiesForm.isInscrit) }}
+                        </div>
+                        <div>
+                            {{ form_widget(filtresSortiesForm.isNotInscrit) }}
+                            {{ form_label(filtresSortiesForm.isNotInscrit) }}
+                        </div>
+                        <div>
+                            {{ form_widget(filtresSortiesForm.isPassee) }}
+                            {{ form_label(filtresSortiesForm.isPassee) }}
+                        </div>
                     </div>
                 </div>
-                <div class="'filtres_droite">
-                    <div>
-                        {{ form_widget(filtresSortiesForm.isOrganisateur) }}
-                        {{ form_label(filtresSortiesForm.isOrganisateur) }}
-                    </div>
-                    <div>
-                        {{ form_widget(filtresSortiesForm.isInscrit) }}
-                        {{ form_label(filtresSortiesForm.isInscrit) }}
-                    </div>
-                    <div>
-                        {{ form_widget(filtresSortiesForm.isNotInscrit) }}
-                        {{ form_label(filtresSortiesForm.isNotInscrit) }}
-                    </div>
-                    <div>
-                        {{ form_widget(filtresSortiesForm.isPassee) }}
-                        {{ form_label(filtresSortiesForm.isPassee) }}
-                    </div>
-                </div>
+
 
                 <button>Rechercher</button>
 
@@ -65,7 +70,7 @@
 
 
         <div class="tableau-Sorties">
-            <section name="listeSorties" id="listeSorties">
+            <section class='listeSorties' name="listeSorties" id="listeSorties">
                 <table>
                     <thead>
                         <th>Nom de la sortie</th>
@@ -78,8 +83,9 @@
                         <th>Actions</th>
                     </thead>
 
+                    <tbody>
                     {% for sortie in sorties %}
-                        <tbody>
+                         <tr>
                             <td>{{ sortie.nom }}</td>
                             <td>{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</td>
                             <td>{{ sortie.dateLimiteInscription|date('d/m/Y') }}</td>
@@ -96,7 +102,7 @@
                                 {% if sortie.etat.libelle == 'ouverte' and app.user not in sortie.inscrits and app.user != sortie.organisateur %}
                                     <a href="{{ path('sortie_inscription', {'id': sortie.id}) }}">S'inscrire</a>
                                 {% endif %}
-                                {% if app.user in sortie.inscrits %}
+                                {% if app.user in sortie.inscrits and app.user != sortie.organisateur %}
                                     <a href="{{ path('sortie_desinscription', {'id': sortie.id}) }}">Se désister</a>
                                 {% endif %}
                                 {% if app.user == sortie.organisateur %}
@@ -111,8 +117,9 @@
                                     {% endif %}
                                 {% endif %}
                             </td>
-                        </tbody>
+                         </tr>
                     {% endfor %}
+                    </tbody>
                 </table>
             </section>
         </div>
