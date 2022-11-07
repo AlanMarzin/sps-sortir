@@ -8,17 +8,15 @@
     {% endblock %}
     <div class="user-card">
      <h1>{{ user.pseudo }}</h1>
-        <div class="img-user">
             <img src="{{ asset('uploads/avatar/' ~ user.photo) }}" alt="{{ user.nom }}">
-        </div>
         <div class="user-info">
             <p class="label">Nom : </p><p> {{ user.nom }}</p>
             <p class="label">Prénom :  </p><p>{{ user.prenom }}</p>
             <p class="label">Email :  </p><p>{{ user.email }}</p>
             <p class="label">Campus :  </p><p>{{ user.campus.nom }}</p>
             <p class="label">Téléphone : </p><p>{{ user.telephone }}</p>
-        <a href="{{ path('sorties') }}"><button >RETOUR</button></a>
         </div>
+        <a href="{{ path('sorties') }}"><button >RETOUR</button></a>
     </div>
 
 {% endblock %}

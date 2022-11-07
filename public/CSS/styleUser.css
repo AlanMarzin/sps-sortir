@@ -30,9 +30,10 @@ body{
     height: 100%;
 }
 
-.img-user{
-    padding: 10px 30px 10px;
-}
+.user-card > img {
+     width: 350px;
+     height: 350px;
+ }
 
 .user-card > h1 {
     text-align: center;
@@ -93,8 +94,9 @@ body{
     color: #216ce7;
 }
 
-.user-info > a > button {
-    width: 20%;
+.user-card > a > button {
+
+    width: 40%;
     height: 56px;
     padding: 0 16px;
     border: 0;
@@ -103,7 +105,7 @@ body{
     color: #f9f9f9;
     font-weight: 600;
 }
-.user-info > a > button:hover {
+.user-card > a > button:hover {
 
     background-color: rgba(255, 217, 254, 0.8);
     color: black;
