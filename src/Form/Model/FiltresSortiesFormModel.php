@@ -9,13 +9,13 @@ class FiltresSortiesFormModel
 {
 
     private ?Campus $campus;
+    #[Assert\Length(
+        max: 20,
+        maxMessage: 'Le terme recherché ne peut excéder 20 caractères',
+    )]
     private ?string $nomRecherche = "";
     private ?\DateTimeInterface $dateDebut;
-
-//    #[Assert\Expression(
-//        "this.getDateFin() > this.getDateDebut()",
-//        message: 'La date de fin doit être postérieure à la date de début'
-//    )]
+    #[Assert\GreaterThan(propertyPath:"dateDebut", message: 'La date de fin doit être postérieure à celle de début.')]
     private ?\DateTimeInterface $dateFin;
     private ?bool $isOrganisateur;
     private ?bool $isInscrit;
