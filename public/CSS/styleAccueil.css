@@ -7,7 +7,6 @@ h1{
     text-align: center;
     margin-top: 0;
 }
-}
 
 h2{
     text-align: center;
@@ -93,6 +92,19 @@ button{
     display: flex;
     background-color: #BC956B;
     justify-content: space-around;
+    max-width: 80%;
+}
+
+.bloc_filtres {
+    max-width: 80%;
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.bloc_filtres h2 {
+    flex-grow: 2;
 }
 
 .infos{
@@ -119,10 +131,11 @@ button{
     top: 0;
     z-index: 1;
     min-height: 20px;
+    background-color: rgb(120, 149, 163);
 }
 
 th, td {
-    padding: 3px 3px;
+    padding: 10px;
 }
 
 table {

@@ -12,6 +12,7 @@ use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use App\Service\DateChecker;
 use DateInterval;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,44 +23,51 @@ class SortieController extends AbstractController
 {
 
     #[Route('/', name: 'sorties')]
-    public function list(Request $request, SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $em, DateChecker $dateChecker): Response
+    public function index(Request $request, SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $em, DateChecker $dateChecker): Response
     {
 
-//        $sorties = $dateChecker->checkDate($sortieRepository, $etatRepository, $em);
-        $dateChecker->checkDate($sortieRepository, $etatRepository, $em);
-
-        $currentUser = $this->getUser();
-
-        // créer le formulaire de filtres
-        $filtresSorties = new FiltresSortiesFormModel();
-        $filtresSortiesForm = $this->createForm(FiltresSortiesType::class, $filtresSorties);
-        $filtresSortiesForm->handleRequest($request);
-
-        // traitement du formulaire de filtres
-        if ($filtresSortiesForm->isSubmitted() && $filtresSortiesForm->isValid()) {
-            $sorties = $sortieRepository->findByFiltresSorties($filtresSorties, $currentUser);
+        if ($this->getUser() == null) {
+            return $this->redirectToRoute('app_plzlogin');
         } else {
-            $sorties = $sortieRepository->findAllAffichables();
-        }
+            //        $sorties = $dateChecker->checkDate($sortieRepository, $etatRepository, $em);
+            $dateChecker->checkDate($sortieRepository, $etatRepository, $em);
 
-        // récupérer toutes les sorties affichables en retirant les historisées et en création par d'autres gens
-        for ($i=0; $i<count($sorties); $i++) {
-            if (($sorties[$i]->getEtat()->getLibelle() === 'en création' and $sorties[$i]->getOrganisateur() != $currentUser) or $sorties[$i]->getEtat()->getLibelle() === 'historisée') {
-                unset($sorties[$i]);
+            $currentUser = $this->getUser();
+
+            // créer le formulaire de filtres
+            $filtresSorties = new FiltresSortiesFormModel();
+            $filtresSortiesForm = $this->createForm(FiltresSortiesType::class, $filtresSorties);
+            $filtresSortiesForm->handleRequest($request);
+
+            // traitement du formulaire de filtres
+            if ($filtresSortiesForm->isSubmitted() && $filtresSortiesForm->isValid()) {
+                $sorties = $sortieRepository->findByFiltresSorties($filtresSorties, $currentUser);
+            } else {
+//                $filtres = new FiltresSortiesFormModel;
+//                $filtres->setCampus($currentUser->getCampus());
+                $sorties = $sortieRepository->findAllAffichables();
+//                $sorties = $sortieRepository->findByFiltresSorties($filtresSorties, $currentUser);
             }
-        }
 
-        return $this->render('sortie/listesorties.html.twig', [
-            'filtresSortiesForm' => $filtresSortiesForm->createView(),
-            'sorties' => $sorties,
-            'filtresSorties' => $filtresSorties
-        ]);
+            // récupérer toutes les sorties affichables en retirant les historisées et en création par d'autres gens
+            for ($i=0; $i<count($sorties); $i++) {
+                if (($sorties[$i]->getEtat()->getLibelle() === 'en création' and $sorties[$i]->getOrganisateur() !== $currentUser) or $sorties[$i]->getEtat()->getLibelle() === 'historisée') {
+                    unset($sorties[$i]);
+                }
+            }
+
+            return $this->render('sortie/listesorties.html.twig', [
+                'filtresSortiesForm' => $filtresSortiesForm->createView(),
+                'sorties' => $sorties,
+                'filtresSorties' => $filtresSorties
+            ]);
+        }
 
     }
 
     //permet d'accéder à la page de détail pour annuler une sortie
     #[Route('/sortie/recapAnnuler/{id}', name: 'annuler_detail', requirements: ['id' => '\d+'])]
-    public function recapAnnulSorti(SortieRepository $sortieRepository, int $id): Response
+    public function recapAnnulSortie(SortieRepository $sortieRepository, int $id): Response
     {
         // Récupérer la sortie à afficher en base de données
         $sortie = $sortieRepository->find($id);
@@ -86,12 +94,18 @@ class SortieController extends AbstractController
         }
 
         // s'inscrire
-        $sortie->addInscrit($this->getUser());
-        // changer l'état de la sortie si le nombre max d'inscrits est atteint
-        if ($sortie->getInscrits()->count() == $sortie->getNbInscriptionsMax()) {
-            $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'clôturée']));
+        if ($sortie->getDateLimiteInscription() <= new DateTime("now")) {
+            $this->addFlash('error', 'Vous ne pouvez pas vous inscrire à cette sortie, la date limite est dépassée !');
+        } else if ($sortie->getNbInscriptionsMax()===count($sortie->getInscrits())) {
+            $this->addFlash('error', 'Vous ne pouvez pas vous inscrire à cette sortie, le nombre maximal de participants est atteint !');
+        } else {
+            $sortie->addInscrit($this->getUser());
+            // changer l'état de la sortie si le nombre max d'inscrits est atteint
+            if ($sortie->getInscrits()->count() == $sortie->getNbInscriptionsMax()) {
+                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'clôturée']));
+            }
+            $em->flush();
         }
-        $em->flush();
 
         return $this->redirectToRoute('sorties');
     }
@@ -149,12 +163,18 @@ class SortieController extends AbstractController
         }
 
         // se désinscrire
-        $sortie->removeInscrit($this->getUser());
-        // changer l'état de la sortie si le nombre max d'inscrits n'est plus atteint et si la date limite n'est pas atteinte
-        if (($sortie->getInscrits()->count() < $sortie->getNbInscriptionsMax()) and  !($sortie->getDateLimiteInscription() <  date('d-m-Y'))) {
-            $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'ouverte']));
+        if ($sortie->getDateLimiteInscription() <= new DateTime("now")) {
+            $this->addFlash('error', 'Vous ne pouvez pas vous désinscrire de cette sortie, la date limite est dépassée !');
+        } else if (!in_array($sortie, $this->getUser()->getSortiesInscrit()->toArray())) {
+            $this->addFlash('error', 'Vous ne pouvez pas vous désinscrire de cette sortie, vous n`\'êtes pas inscrit !');
+        } else {
+            $sortie->removeInscrit($this->getUser());
+            // changer l'état de la sortie si le nombre max d'inscrits n'est plus atteint et si la date limite n'est pas atteinte
+            if (($sortie->getInscrits()->count() < $sortie->getNbInscriptionsMax()) and  !($sortie->getDateLimiteInscription() <  date('d-m-Y'))) {
+                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'ouverte']));
+            }
+            $em->flush();
         }
-        $em->flush();
 
         // Rediriger l'internaute vers la liste des séries
         return $this->redirectToRoute('sorties');

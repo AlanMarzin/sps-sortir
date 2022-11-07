@@ -16,9 +16,10 @@
         </div>
 
 
-        <div class="bloc_filtres">
-            <section>
-                <h2>Filtrer les sorties</h2>
+        <div>
+            <h2>Filtrer les sorties</h2>
+            <section class="bloc_filtres">
+
 
                 {{ form_start(filtresSortiesForm) }}
 
@@ -81,6 +82,7 @@
                         <th>Inscrit</th>
                         <th>Organisateur</th>
                         <th>Actions</th>
+                        <th>Campus</th>
                     </thead>
 
                     <tbody>
@@ -106,7 +108,7 @@
                                     <a href="{{ path('sortie_desinscription', {'id': sortie.id}) }}">Se désister</a>
                                 {% endif %}
                                 {% if app.user == sortie.organisateur %}
-                                    {% if sortie.etat.libelle == 'en création' %}
+                                    {% if sortie.etat.libelle == 'en création' or sortie.etat.libelle == 'ouverte' %}
                                         <a href="{{ path('sortie_modifier', {'id': sortie.id} )}}">Modifier</a>
                                     {% endif %}
                                     {% if sortie.etat.libelle == 'en création' %}
@@ -117,6 +119,7 @@
                                     {% endif %}
                                 {% endif %}
                             </td>
+                            <td>{{ sortie.campus.nom }}</td>
                          </tr>
                     {% endfor %}
                     </tbody>
