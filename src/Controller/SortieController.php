@@ -99,16 +99,28 @@ class SortieController extends AbstractController
     {
         // créer un objet sortie
         $sortie = new Sortie();
-        $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'en création']));
         $sortieForm = $this->createForm(SortieType::class, $sortie);
 
-        // Récupération des données pour les insérer dans l'objet $serie
+        // Récupération des données pour les insérer dans l'objet $sortie
         $sortieForm->handleRequest($request);
 
         // Vérifier si l'utilisateur est en train d'envoyer le formulaire
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+
             //Récupère le nom de l'organisateur
             $sortie->setOrganisateur($this->getUser());
+
+            // si j'ai cliqué sur le bouton publier, passer l'état en 'ouverte'
+            if ($sortieForm->get('publier')->isClicked()) {
+                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'ouverte']));
+                // si j'ai cliqué sur le bouton enregistrer, passer l'état en 'en création'
+            } else if ($sortieForm->get('enregistrer')->isClicked()) {
+                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'en création']));
+            }
+
+            // inscrire l'orga à la sortie
+            $sortie->addInscrit($this->getUser());
+
             // Enregistrer la nouvelle sortie en BDD
             $em->persist($sortie);
             $em->flush();

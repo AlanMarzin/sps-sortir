@@ -9,13 +9,19 @@
     {{ form_start(sortieForm)}}
     {{ form_widget(sortieForm) }}
 
-    <div class="login"><button>Valider</button></div>
+{#    <div class="login"><button value="enregistrer">Enregistrer</button></div>#}
+
+{#    <div class="login">#}
+{#        <button value="publier">Publier la sortie</button>#}
+{#    </div>#}
+
     {{ form_end(sortieForm) }}
 
-    {#    Bouton de retour vers la page d'accueil#}
+    {# Bouton de retour vers la page d'accueil #}
     <div class="login">
         <a href="{{ path('sorties') }}"><button>Annuler</button></a>
     </div>
+
     <div class="login">
         <a href="{{ path('new_lieu') }}"><button>Créer un lieu</button></a>
     </div>
