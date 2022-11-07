@@ -53,6 +53,11 @@ class ProfileType extends AbstractType
             ->add('pseudo', TextType::class, [
                 'label'=>'Pseudo : '
             ])
+            ->add('photo', FileType::class, [
+                'label'=>'Photo : ',
+                'mapped'=> false, //permet de ne pas rendre obligatoire l'image
+                'required'=> false,
+            ])
             ->add('telephone', TextType::class, [
                 'label'=>'Numéro de téléphone : '
             ])

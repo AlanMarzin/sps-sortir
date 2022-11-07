@@ -92,11 +92,13 @@ button{
     width: 100%;
     flex-direction: row-reverse;
     align-items: flex-start;
+    justify-content: space-around;
     background-color: #AAAAAA;
 }
 .infos p{
+
     font-size: 20px;
     height: 30px;
     width: 25%;
-    background-color: #060656;
+   /* background-color: #060656;*/
 }

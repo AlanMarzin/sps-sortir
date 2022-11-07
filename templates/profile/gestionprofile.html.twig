@@ -3,16 +3,21 @@
 {% block tittle %}Modification profile{% endblock %}
 
 {% block body %}
-    <h1>Modifier votre profil {{ user.pseudo }}</h1>
-
-{#  Formulaire de modification du profil utilisateur #}
-    {{ form_start(profileForm)}}
-         {{ form_widget(profileForm) }}
-                 <div class="login"><button>Valider</button></div>
-    {{ form_end(profileForm) }}
-{#    Bouton de retour vers la page d'accueil#}
-    <div class="login">
-        <a href="{{ path('sorties') }}"><button>Annuler</button></a>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/styleUser.css') }}">
+    {% endblock %}
+    <div class="user-card">
+        <h1>Modifier votre profil {{ user.pseudo }}</h1>
+            <div class="user-info">
+                {#  Formulaire de modification du profil utilisateur #}
+                {{ form_start(profileForm)}}
+                {{ form_widget(profileForm) }}
+                <button>Valider</button>
+                {{ form_end(profileForm) }}
+                {#    Bouton de retour vers la page d'accueil#}
+                <a href="{{ path('sorties') }}"><button>RETOUR</button></a>
+            </div>
     </div>
+
 
 {% endblock %}

@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\ProfileType;
 use App\Repository\UserRepository;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\DebugUnitOfWorkListener;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -33,7 +35,7 @@ class UserController extends AbstractController
     #[Route('/update', name: 'profil_update', methods: ['GET', 'POST'])]
         public function update(Request $request,UserRepository $userRepository,
                                UserPasswordHasherInterface $userPasswordHasher,
-                               EntityManagerInterface $em): Response{
+                               EntityManagerInterface $em, FileUploader $fileUploader): Response{
         /*Je cherche dans la class $userRepository qui permet d'accéder à tous mes utilisateurs l'utilisateur avec :
                                      "findOneBy(['id'=>$this->getUser()->getId()])"
                     je cherche l'utilisateur ayant le même id que le "user" en cour d'utilisation du site */
@@ -50,6 +52,14 @@ class UserController extends AbstractController
             if (($profileForm->isSubmitted() && $profileForm->isValid())){
                 $confirmation=$profileForm->get('passwordConfirmation')->getData();
                 $password=$profileForm->get('password')->getData();
+
+                //uploader nos image
+                /** @var  UploadedFile $photoProfil */
+                $photoProfil = $profileForm->get('photo')->getData();
+                if ($photoProfil){
+                    $backdrop = $fileUploader->upload($photoProfil, '/avatar');
+                    $user->setPhoto($backdrop);
+                }
 
             /*Je test que mon l'email renseigné dans mon champ confirmation est identique au mot de passe
                     Si oui je mofifie le mot de passe dans la BDD en le hachant
@@ -74,6 +84,8 @@ class UserController extends AbstractController
                     $em->flush();
                     $this->addFlash('success', 'Votre profil a été mis à jour');
                 }
+                // Rediriger l'internaute vers l'accueil
+                return $this->redirectToRoute('sorties');
             }
 
         return $this->render('profile/gestionprofile.html.twig',[
