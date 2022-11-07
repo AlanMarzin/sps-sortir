@@ -21,7 +21,6 @@ class FiltresSortiesFormModel
     private ?bool $isInscrit;
     private ?bool $isNotInscrit;
     private ?bool $isPassee;
-    private ?bool $isOuverte;
 
     /**
      * @return bool|null

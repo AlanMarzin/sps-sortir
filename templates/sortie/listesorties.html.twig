@@ -22,7 +22,40 @@
 
                 {{ form_start(filtresSortiesForm) }}
 
-                {{ form_widget(filtresSortiesForm) }}
+                <div class="filtres_gauche">
+                    <div>
+                        {{ form_label(filtresSortiesForm.campus) }}
+                        {{ form_widget(filtresSortiesForm.campus) }}
+                    </div>
+                    <div>
+                        {{ form_label(filtresSortiesForm.nomRecherche) }}
+                        {{ form_widget(filtresSortiesForm.nomRecherche) }}
+                    </div>
+                    <div>
+                        {{ form_label(filtresSortiesForm.dateDebut) }}
+                        {{ form_widget(filtresSortiesForm.dateDebut) }}
+                        {{ form_label(filtresSortiesForm.dateFin) }}
+                        {{ form_widget(filtresSortiesForm.dateFin) }}
+                    </div>
+                </div>
+                <div class="'filtres_droite">
+                    <div>
+                        {{ form_widget(filtresSortiesForm.isOrganisateur) }}
+                        {{ form_label(filtresSortiesForm.isOrganisateur) }}
+                    </div>
+                    <div>
+                        {{ form_widget(filtresSortiesForm.isInscrit) }}
+                        {{ form_label(filtresSortiesForm.isInscrit) }}
+                    </div>
+                    <div>
+                        {{ form_widget(filtresSortiesForm.isNotInscrit) }}
+                        {{ form_label(filtresSortiesForm.isNotInscrit) }}
+                    </div>
+                    <div>
+                        {{ form_widget(filtresSortiesForm.isPassee) }}
+                        {{ form_label(filtresSortiesForm.isPassee) }}
+                    </div>
+                </div>
 
                 <button>Rechercher</button>
 
@@ -68,8 +101,10 @@
                                 {% endif %}
                                 {% if app.user == sortie.organisateur %}
                                     {% if sortie.etat.libelle == 'en création' %}
-                                        Modifier
-                                        Publier
+                                        <a href="{{ path('sortie_modifier', {'id': sortie.id} )}}">Modifier</a>
+                                    {% endif %}
+                                    {% if sortie.etat.libelle == 'en création' %}
+                                        <a href="{{ path('sortie_modifier', {'id': sortie.id} )}}">Publier</a>
                                     {% endif %}
                                     {% if sortie.etat.libelle == 'ouverte' or sortie.etat.libelle == 'clôturée' %}
                                         <a href="{{ path('annuler_detail', {'id': sortie.id} )}}">Annuler</a>

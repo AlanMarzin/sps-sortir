@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Form\FiltresSortiesType;
 use App\Form\Model\FiltresSortiesFormModel;
+use App\Form\UpdateSortieType;
 use App\Repository\EtatRepository;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
@@ -180,6 +182,50 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('sorties');
 
     }
+
+    #[Route('/sortie/modification/{id}', name: 'sortie_modifier', requirements: ['id' => '\d+'])]
+    public function modifier(Request $request, SortieRepository $sortieRepository, EtatRepository $etatRepository, int $id, EntityManagerInterface $em): Response
+    {
+        // Récupérer la sortie à afficher en base de données
+        $sortie = $sortieRepository->findOneBy(['id' => $id]);
+        if ($sortie === null) {
+            throw $this->createNotFoundException('Page not found');
+        }
+
+        $sortieForm = $this->createForm(UpdateSortieType::class, $sortie);
+        $sortieForm->handleRequest($request);
+
+        // Vérifier si l'utilisateur est en train d'envoyer le formulaire
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+
+            // si j'ai cliqué sur le bouton enregistrer, màj la sortie
+            if ($sortieForm->get('enregistrer')->isClicked()) {
+                $em->flush();
+                $this->addFlash('success', 'Votre sortie a bien été mise à jour !');
+            // si j'ai cliqué sur publier, passer l'état de la sortie à ouverte
+            } else if ($sortieForm->get('publier')->isClicked()) {
+                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'ouverte']));
+                $em->flush();
+                $this->addFlash('success', 'Votre sortie a bien été mise à jour !');
+            // si j'ai cliqué sur supprimer, supprimer la sortie et revenir à la liste des sorties
+            } else if ($sortieForm->get('supprimer')->isClicked()) {
+                if ($this->isCsrfTokenValid('delete' . $sortie->getId(), $request->request->get('_token'))) {
+                    $em->remove($sortie);
+                    $em->flush();
+                    $this->addFlash('success', 'Votre sortie a bien été supprimée !');
+                } else {
+                    $this->addFlash('error', 'Le token CSRF est invalide !');
+                }
+            // si j'ai cliqué sur annuler, revenir à la liste des sorties
+            }
+                return $this->redirectToRoute('sorties');
+        }
+
+            return $this->render('sortie/modifier_sortie.html.twig', [
+                'sortieForm' => $sortieForm->createView()
+            ]);
+    }
+
 
     #[Route('/sortie/{slug}', name: 'sortie_detail')]
     public function detail(SortieRepository $sortieRepository, string $slug): Response

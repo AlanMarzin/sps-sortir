@@ -88,18 +88,15 @@ class SortieRepository extends ServiceEntityRepository
 
         if ($filtres->getIsNotInscrit()) {
             $qb->andWhere(':user NOT MEMBER OF sortie.inscrits')
-                ->setParameter('user', $currentUser);
+                ->setParameter('user', $currentUser)
+                ->andWhere('etat.libelle = :ouverte')
+                ->setParameter('ouverte', 'ouverte');
         }
 
         if ($filtres->getIsPassee()) {
             $qb->andWhere('etat.libelle != :encours')
                 ->setParameter('encours', 'en cours')
                 ->andWhere('sortie.dateHeureDebut < CURRENT_DATE()');
-        }
-
-        if ($filtres->getIsOuverte()) {
-            $qb->andWhere('etat.libelle = :ouverte')
-                ->setParameter('ouverte', 'ouverte');
         }
 
         return $qb->getQuery()->getResult();

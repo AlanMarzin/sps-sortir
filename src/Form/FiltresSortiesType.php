@@ -52,10 +52,6 @@ class FiltresSortiesType extends AbstractType
                 'label' => 'Sorties passées ',
                 'required' => false
             ])
-            ->add('isOuverte', CheckboxType::class, [
-                'label' => 'Sorties ouvertes ',
-                'required' => false
-            ])
         ;
     }
 
