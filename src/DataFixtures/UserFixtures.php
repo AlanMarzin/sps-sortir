@@ -2,11 +2,13 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Campus;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Faker;
 
 class UserFixtures extends Fixture implements  DependentFixtureInterface
 {
@@ -17,12 +19,34 @@ class UserFixtures extends Fixture implements  DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
 
+        $faker = Faker\Factory::create('fr_FR');
+        $campus = $manager->getRepository(Campus::class)->findAll();
+
+        $user = Array();
+        for ($i = 0; $i < 50; $i++) {
+            $user[$i] = new User();
+            $user[$i]->setPseudo($faker->userName);
+            $user[$i]->setEmail($faker->email);
+            $user[$i]->setPassword($this->hasher->hashPassword($user[$i], $faker->password));
+            $user[$i]->setCampus($faker->randomElement($campus));
+            $user[$i]->setRoles(['ROLE_USER']);
+            $user[$i]->setActif(true);
+            $user[$i]->setTelephone($faker->phoneNumber);
+            $user[$i]->setNom($faker->firstName);
+            $user[$i]->setPrenom($faker->lastName);
+
+
+            $manager->persist($user[$i]);
+
+        }
+
+
         $axelle = new User();
         $axelle->setPseudo('axelle');
         $axelle->setEmail('axelle.cardin@gmail.com');
         $axelle->setPassword($this->hasher->hashPassword($axelle, 'axelle'));
         $axelle->setCampus($this->getReference('campus-rennes'));
-        $axelle->setRoles(['ROLE_USER']);
+        $axelle->setRoles(['ROLE_ADMIN']);
         $axelle->setActif(true);
         $axelle->setTelephone('0123456789');
         $axelle->setNom('CARDIN');
@@ -35,7 +59,7 @@ class UserFixtures extends Fixture implements  DependentFixtureInterface
         $fred->setEmail('fred.arthaud@gmail.com');
         $fred->setPassword($this->hasher->hashPassword($fred, 'fred'));
         $fred->setCampus($this->getReference('campus-rennes'));
-        $fred->setRoles(['ROLE_USER']);
+        $fred->setRoles(['ROLE_ADMIN']);
         $fred->setActif(true);
         $fred->setTelephone('0123456789');
         $fred->setNom('ARTHAUD');
@@ -48,7 +72,7 @@ class UserFixtures extends Fixture implements  DependentFixtureInterface
         $alan->setEmail('alan.marzin@gmail.com');
         $alan->setPassword($this->hasher->hashPassword($alan, 'alan'));
         $alan->setCampus($this->getReference('campus-rennes'));
-        $alan->setRoles(['ROLE_USER']);
+        $alan->setRoles(['ROLE_ADMIN']);
         $alan->setActif(true);
         $alan->setTelephone('0123456789');
         $alan->setNom('MARZIN');
