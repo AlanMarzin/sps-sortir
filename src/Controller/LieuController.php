@@ -31,7 +31,10 @@ class LieuController extends AbstractController
             // Enregistrer la nouvelle sortie en BDD
             $em->persist($lieu);
             $em->flush();
+            // renvoyer à la page de création de sortie
+            return $this->redirectToRoute('sortie_new');
         }
+
         return $this->render('sortie/new_lieu.html.twig', [
             //'controller_name' => 'LieuController',
             'lieuForm' => $lieuForm->createView(),
