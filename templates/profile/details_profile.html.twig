@@ -4,7 +4,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('css/styleUser.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/styleUserDetail.css') }}">
 {% endblock %}
 
 {% block body %}
@@ -12,19 +12,25 @@
      <h1>{{ user.pseudo }}</h1>
 {#        Mise en place du chargement de la photo de profil de l'utilisateur et chargement
         d'une photo pa défaut en cas d'absence d'une photo uploader.#}
-        {% if   user.photo is not null%}
-        <img src="{{ asset('uploads/avatar/' ~ user.photo) }}" alt="{{ user.nom }}">
-        {%else%}
-        <img src="{{ asset('images/icondefaut.png') }}" alt="image par defaut">
-        {% endif %}
-        <div class="user-info">
-            <p class="label">Nom : </p><p> {{ user.nom }}</p>
-            <p class="label">Prénom :  </p><p>{{ user.prenom }}</p>
-            <p class="label">Email :  </p><p>{{ user.email }}</p>
-            <p class="label">Campus :  </p><p>{{ user.campus.nom }}</p>
-            <p class="label">Téléphone : </p><p>{{ user.telephone }}</p>
+        <div class="container-img">
+            {% if   user.photo is not null%}
+                <img src="{{ asset('uploads/avatar/' ~ user.photo) }}" alt="{{ user.nom }}">
+            {%else%}
+                <img src="{{ asset('images/icondefaut.png') }}" alt="image par defaut">
+            {% endif %}
         </div>
-        <a href="{{ path('sorties') }}"><button >RETOUR</button></a>
+
+        <div class="container-info">
+            <p class="label">Nom : </p><p class="text"> {{ user.nom }}</p>
+            <p class="label">Prénom :  </p><p class="text">{{ user.prenom }}</p>
+            <p class="label">Email :  </p><p class="text">{{ user.email }}</p>
+            <p class="label">Campus :  </p><p class="text">{{ user.campus.nom }}</p>
+            <p class="label">Téléphone : </p><p class="text">{{ user.telephone }}</p>
+        </div>
+        <div class="container-button">
+            <a href="{{ path('sorties') }}"><button >RETOUR</button></a>
+        </div>
+
     </div>
 
 {% endblock %}

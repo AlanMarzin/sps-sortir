@@ -31,8 +31,8 @@
 
 .user-card > h1 {
     text-align: center;
-    margin: 0 0 12px;
-    padding: 0px 5px 15px;
+    /*margin: 0 0 12px;*/
+    /*padding: 0px 5px 15px;*/
     font-size:  50px;
     color: #649dda;
     font-weight: 600;
@@ -48,37 +48,56 @@
     flex-direction: column;
     align-content: center;
     width: 100%;
-    padding: 70px 30px 44px;
+    /*padding: 70px 30px 44px;*/
     border-radius: 24px;
-    background: center;
-    background-color: #f9f9f9;
+    /*background: center;*/
+    /*background-color: #f9f9f9;*/
 }
 
 /*Options pour les boutons des formulaires*/
 .form-widget > button {
-    height: 3em;
-    width: 200px;
-    border-radius: 8px;
-    background-color: #0f1f3b;
-    color: #dfdfdf;
+    /*height: 3em;*/
+    /*width: 200px;*/
+    /*border-radius: 8px;*/
+    /*background-color: #0f1f3b;*/
+    /*color: #dfdfdf;*/
+    background-color: rgb(83,114,116);
+    border-radius: 10px;
+    height: 5em;
+    width: 15em;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: white;
+    margin-left: 1.5em;
+    margin-top: 2em;
+    margin-bottom: 1.5em;
 }
+
 .form-widget > button:hover {
-    background-color: #649dda;
-    color: #dfdfdf;
+    color: black;
+    background-color: rgba(250, 214, 192, 0.8);
 }
 .form-widget > a > button {
-    height: 3em;
-    width: 200px;
-    border-radius: 8px;
-    background-color: #d32e2e;
-    color: #000000;
+    background-color: rgb(162, 15, 15);
+    border-radius: 10px;
+    height: 5em;
+    width: 15em;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: white;
+    margin-left: 1.5em;
+    margin-top: 2em;
+    margin-bottom: 1.5em;
 }
 .form-widget > a > button:hover {
-    height: 3em;
-    width: 200px;
-    border-radius: 8px;
+    border-radius: 10px;
+    height: 5em;
+    width: 15em;
     background-color: #791313;
     color: #000000;
+    margin-left: 1.5em;
+    margin-top: 2em;
+    margin-bottom: 1.5em;
 }
 
 /*Option du container des boutons*/
@@ -86,7 +105,7 @@
     display: flex;
     padding-top: 50px ;
     width: 100%;
-    justify-content: space-around;
+    justify-content: center;
 }
 .container-info {
     width: 400px;
@@ -101,7 +120,6 @@
 
 }
 .container-img > img {
-    border-color: #0f1f3b;
     width: 300px;
     height: 300px;
     border-radius: 30px;
@@ -113,8 +131,9 @@
 }
 
 .container-info > form > label {
-    font-size: 20px;
-    color: #0f1f3b;
+    font-size: 15px;
+    font-weight: bold;
+    color: rgb(83,114,116);
     justify-self: right;
     margin-right: 0.5em;
 }
@@ -123,19 +142,19 @@
     width: 250px;
     border-radius: 8px;
     text-align: center;
-    background-color: #8fbdf5;
+    background-color: rgba(250, 214, 192, 0.4);
     flex-grow: 1;
 
 }
 /*Option visuel pour le select*/
 .container-info > form > select {
-    background-color: #0f1f3b;
+    background-color: rgb(83,114,116);
     color: #dfdfdf;
     border-radius: 8px;
 }
 .container-info > form > select:hover {
-    background-color: #649dda;
-    color: #060656;
+    background-color: rgba(250, 214, 192, 0.8);
+    color: rgb(83,114,116);
 }
 
 .user-info {
@@ -155,19 +174,20 @@
     color: #216ce7;
 }
 
-.user-card > a > button {
-    width: 40%;
-    height: 56px;
-    padding: 0 16px;
-    border: 0;
-    border-radius: 8px;
-    background: #216ce7;
-    color: #f9f9f9;
-    font-weight: 600;
-}
-.user-card > a > button:hover {
+/*.user-card > a > button {*/
+    /*width: 40%;*/
+    /*height: 56px;*/
+    /*padding: 0 16px;*/
+    /*border: 0;*/
+    /*border-radius: 8px;*/
+    /*background: #216ce7;*/
+    /*color: #f9f9f9;*/
+    /*font-weight: 600;*/
 
-    background-color: rgba(255, 217, 254, 0.8);
-    color: black;
-}
+/*}*/
+/*.user-card > a > button:hover {*/
+
+/*    background-color: rgba(255, 217, 254, 0.8);*/
+/*    color: black;*/
+/*}*/
 

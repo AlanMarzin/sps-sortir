@@ -17,7 +17,6 @@
             </div>
         {% endfor %}
     {%  endfor %}
-
     <div class="user-card">
         <h2>Modifier le profil de : </h2>
         <h1>{{ user.pseudo }}</h1>
@@ -30,7 +29,6 @@
                     {% endif %}
                 </div>
                 <div class="container-info">
-
                     <div class="erreurform">
                         {% if not profileForm.vars.valid%}
                             <h2> Erreur :</h2>
