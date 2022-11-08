@@ -69,4 +69,90 @@ tr:nth-child(even) {
     background-color: rgba(250, 214, 192, 0.5);
 }
 
+form p {
+    position: relative;
+}
+
+
+/**************************CHECKBOX ALAN***********************************/
+
+[type="checkbox"] {
+    position: absolute;
+    left: 0;
+    opacity: 0.01;
+}
+
+[type="checkbox"] + label {
+    position: relative;
+    padding-left: 2.3em;
+    font-size: 1.05em;
+    line-height: 1.7;
+    cursor: pointer;
+}
+
+/* Aspect de la case */
+[type="checkbox"]:not(:checked) + label::before,
+[type="checkbox"]:checked + label::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.1em;
+    height: 1.1em;
+    border: 1px solid #aaa;
+    background: #FFF;
+    border-radius: .2em;
+    box-shadow: inset 0 1px 3px cadetblue, 0 0 0 cadetblue;
+    transition: all .275s;
+}
+
+/* Aspect de la coche */
+[type="checkbox"]:not(:checked) + label::after,
+[type="checkbox"]:checked + label::after {
+    content: '✔';
+    speak: never; /* Pour être sûr que le lecteur d'écran ne lira pas "fois" */
+    position: absolute;
+    top: .38em;
+    left: .18em;
+    font-size: 1.2em;
+    color: cadetblue;
+    line-height: 0;
+    transition: all .2s; /* Petite transition */
+}
+
+/* Aspect non cochée */
+[type="checkbox"]:not(:checked) + label::after {
+    opacity: 0;
+    transform: scale(0) rotate(45deg);
+}
+
+/* Aspect cochée */
+[type="checkbox"]:checked + label::after {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+}
+
+/* Disabled checkbox */
+[type="checkbox"]:disabled:not(:checked) + label::before,
+[type="checkbox"]:disabled:checked + label::before {
+    box-shadow: none;
+    border-color: #bbb;
+    background-color: #e9e9e9;
+}
+
+/* Disabled checked */
+[type="checkbox"]:disabled:checked + label::after {
+    color: #777;
+}
+
+[type="checkbox"]:disabled + label {
+    color: #aaa;
+}
+
+/* Accessibility focus */
+[type="checkbox"]:checked:focus + label::before,
+[type="checkbox"]:not(:checked):focus + label::before {
+    box-shadow: inset 0 1px 3px cadetblue, 0 0 0 6px cadetblue;
+}
+
 
