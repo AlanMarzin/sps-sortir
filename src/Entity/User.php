@@ -20,6 +20,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Email(
+    message: 'L\'adresse, {{value}} n\'est pas valide')]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
@@ -32,13 +34,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-
+    #[Assert\Length(min:3, minMessage: 'Indiquez un nom 3 caractères minimum')]
+    #[Assert\Length(max:20, maxMessage: 'Indiquez un nom de 10 caractères maximum')]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    #[Assert\Length(min:3, minMessage: 'Indiquez un nom 3 caractères minimum')]
+    #[Assert\Length(max:30, maxMessage: 'Indiquez un nom de 30 caractères maximum')]
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
+    #[Assert\Length(max: 15, maxMessage: 'Votre pseudo ne peut faire plus de {{value}} caractères')]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $pseudo = null;
 
