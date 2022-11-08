@@ -209,3 +209,12 @@ footer{
     font-size: 25px;
     margin: 50px;
 }
+
+.erreurform{
+    color: #ff1f31;
+    font-weight: bold;
+
+}
+.erreurform ul li {
+    list-style: none;
+}

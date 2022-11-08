@@ -21,6 +21,8 @@ h2{
 
 header{
     background-image: url("../images/font_header.jpg");
+    animation:
+            pan 60s infinite alternate linear;
 }
 
 header img {
