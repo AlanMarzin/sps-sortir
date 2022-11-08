@@ -51,6 +51,7 @@ main {
     margin-top:3em;
     margin-left: auto;
     margin-right: auto;
+    min-width: 75%;
     padding: 10px;
 }
 
