@@ -1,117 +1,52 @@
-body {
-    background: linear-gradient(#000000, #649dda);
-    background-attachment: fixed;
-    background-position: center center;
-    background-size: cover;
-    color: #EEE;
+body{
     font-family: 'Roboto', Arial, sans-serif;
-    margin: 0;
-}
-
-h1{
-    text-align: center;
-    margin-top: 0;
-}
-
-body > .container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 0 24px;
+    background-image: url("../images/font_header.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    animation: pan 20s infinite alternate linear;
 }
 
 header{
-    background-image: url("../images/font_header.jpg");
-}
-
-header img {
-    margin: 2em;
-    height: 90px;
-}
-
-main {
-    flex: 1;
-    margin: 1em;
-}
-
-footer {
-    margin: 1em;
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-size: 1.2em;
+    font-weight: lighter;
 }
 
 nav{
     text-align: center;
     font-weight: bold;
+    display: flex;
+    align-items: flex-end;
 }
 
+nav div{
+    height:20%;
+}
 nav a{
     padding-left: 1em;
     padding-right: 2em;
+    color: black;
+    background-color: rgba(250, 214, 192, 0.8);
 }
 
 a {
-    color: #060656;
+    color: rgb(120,149,163);
     text-decoration: none;
 }
 
 a:hover {
-    color: #BC956B;
+    color: rgb(83,114,116);
 }
 
 
-button{
+footer {
     margin: 2em;
-}
-
-p{
-    margin: 1rem;
-}
-
-.login {
     text-align: center;
-    margin: 1em;
-}
-.accueil{
-    padding: 8em;
-    position: center;
-}
-
-.form-row {
-    display: flex;
-    text-align: center;
-    margin-bottom: 1rem;
-}
-.flash{
-    padding: 1rem;
-}
-.flash-success {
-    background-color: lightgreen;
-}
-.flash-error {
-    background-color: indianred;
-}
-
-.affsortie {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 10px;
-}
-
-.colonne1 {
-    grid-column: 1/2;
-}
-
-.colonne2 {
-    grid-column: 2/2;
-}
-.tableau-Sorties{
-    background-color: #B0413E;
-}
-.filtres{
-    background-color: #BC956B;
-}
-.infos{
-    background-color: #AAAAAA;
-}
-.infos-p{
-    width: 50%;
-    background-color: #060656;
+    font-weight: bold;
 }

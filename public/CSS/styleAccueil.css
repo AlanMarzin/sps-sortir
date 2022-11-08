@@ -1,143 +1,181 @@
-body {
-    background-color: rgb(120, 149, 163);
-    font-family: 'Roboto', Arial, sans-serif;
-    margin: 0;
+
+
+
+
+
+/*body {*/
+/*    background-color: rgb(120, 149, 163);*/
+/*    font-family: 'Roboto', Arial, sans-serif;*/
+/*    margin: 0;*/
+/*}*/
+/*h1{*/
+/*    text-align: center;*/
+/*    margin-top: 0;*/
+/*}*/
+
+/*h2{*/
+/*    text-align: center;*/
+/*    font-size: 30px;*/
+/*}*/
+
+/*!*body > .container {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    min-height: 100vh;*/
+/*}*!*/
+
+/*header{*/
+/*    background-image: url("../images/font_header.jpg");*/
+/*}*/
+
+/*header img {*/
+/*    margin: 2em;*/
+/*    height: 90px;*/
+/*}*/
+
+/*main {*/
+/*    flex: 1;*/
+/*    margin: 1em;*/
+/*}*/
+
+
+
+/*nav{*/
+/*    text-align: center;*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*nav a{*/
+/*    padding-left: 1em;*/
+/*    padding-right: 2em;*/
+/*}*/
+
+/*a {*/
+/*    color: #060656;*/
+/*    text-decoration: none;*/
+/*}*/
+
+/*a:hover {*/
+/*    color: #BC956B;*/
+/*}*/
+
+/*button{*/
+/*    margin: 2em;*/
+/*}*/
+
+/*.flash{*/
+/*    padding: 1rem;*/
+/*}*/
+
+/*.flash-success {*/
+/*    background-color: lightgreen;*/
+/*}*/
+
+/*.flash-error {*/
+/*    background-color: indianred;*/
+/*}*/
+
+
+
+
+
+
+
+
+.infos{
+    display: flex;
+    margin-left: 2em;
+    margin-right: 2em;
+    flex-direction: row-reverse;
+    justify-content: space-between;
 }
-h1{
-    text-align: center;
+/*.infos p{*/
+
+/*    font-size: 20px;*/
+/*    height: 30px;*/
+/*    width: 25%;*/
+/*    !* background-color: #060656;*!*/
+/*}*/
+
+/* Bloc filtres et tableau des sorties */
+
+.sorties {
+    background-color: white;
+    border-radius: 10px ;
+    margin:auto;
+    padding: 10px;
+}
+
+/* Bloc filtres */
+
+.filtres {
+    margin-left: 1.5em;
+    margin-right: 1.5em;
+    display: flex;
+    flex-direction: column;
+}
+
+.titre_filtres {
+    text-align: left;
+}
+
+.form_filtres {
+    margin-bottom: 2em;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.form_filtres div {
+    margin-bottom: 8px;
+}
+
+.form_filtres button {
     margin-top: 0;
 }
 
-h2{
-    text-align: center;
-    font-size: 30px;
-}
-
-/*body > .container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}*/
-
-header{
-    background-image: url("../images/font_header.jpg");
-}
-
-header img {
-    margin: 2em;
-    height: 90px;
-}
-
-main {
-    flex: 1;
-    margin: 1em;
-}
-
-footer {
-    margin: 1em;
-}
-
-nav{
-    text-align: center;
-    font-weight: bold;
-}
-
-nav a{
-    padding-left: 1em;
-    padding-right: 2em;
-}
-
-a {
-    color: #060656;
-    text-decoration: none;
-}
-
-a:hover {
-    color: #BC956B;
-}
-
-button{
-    margin: 2em;
-}
-
-.form-row {
-    background-color: #216ce7;
-    width: 50%;
-    flex-wrap: wrap;
-    text-align: center;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.flash{
-    padding: 1rem;
-}
-
-.flash-success {
-    background-color: lightgreen;
-}
-
-.flash-error {
-    background-color: indianred;
-}
+/* Tableau des sorties */
 
 .tableau-Sorties{
     display: flex;
     align-items: center;
-    background-color: #B0413E;
     justify-content: center;
-}
-
-.filtres{
-    display: flex;
-    background-color: #BC956B;
-    justify-content: space-around;
-    max-width: 80%;
-}
-
-.bloc_filtres {
-    max-width: 80%;
-    margin: auto;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-}
-
-.bloc_filtres h2 {
-    flex-grow: 2;
-}
-
-.infos{
-    display: flex;
-    width: 100%;
-    flex-direction: row-reverse;
-    align-items: flex-start;
-    justify-content: space-around;
-    background-color: #AAAAAA;
-}
-.infos p{
-
-    font-size: 20px;
-    height: 30px;
-    width: 25%;
-   /* background-color: #060656;*/
+    padding: 0px 20px 0px 20px;
 }
 .listeSorties {
     overflow-y: scroll;
     height: 250px;
+    border: solid rgb(83,114,116) 1px;
+    border-radius: 10px;
 }
+
 .listeSorties tr th {
     position: sticky;
     top: 0;
     z-index: 1;
     min-height: 20px;
-    background-color: rgb(120, 149, 163);
+    background-color: white;
+    color: rgb(83,114,116);
 }
 
 th, td {
     padding: 10px;
+    text-align: center;
 }
 
-table {
-    width: 100%;
+tr:nth-child(even) {
+    background-color: rgba(250, 214, 192, 0.5);
+}
+
+button  {
+    background-color: rgb(83,114,116);
+    border-radius: 10px;
+    height: 5em;
+    width: 15em;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: white;
+    margin-left: 1.5em;
+    margin-top: 2em;
+    margin-bottom: 1.5em;
 }
