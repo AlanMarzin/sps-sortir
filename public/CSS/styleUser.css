@@ -138,6 +138,15 @@ body{
     display: flex;
     flex-wrap: wrap;
 }
+.flash{
+    padding: 1rem;
+}
+.flash-success {
+    background-color: lightgreen;
+}
+.flash-error {
+    background-color: indianred;
+}
 
 @media(width: 500px){
     .login-card {

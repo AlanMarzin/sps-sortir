@@ -77,15 +77,18 @@ class UserController extends AbstractController
                         );
                         $em->flush();
                         $this->addFlash('success', 'Votre profil a été mis à jour');
+                        // Rediriger l'internaute vers l'accueil
+                        return $this->redirectToRoute('sorties');
                     }else{
-                        $this->addFlash('error', 'Les mots de passe ne sont identiques');
+                        $this->addFlash('error', 'Les mots de passe ne sont pas identiques');
                     }
                 }else{
                     $em->flush();
                     $this->addFlash('success', 'Votre profil a été mis à jour');
+                    // Rediriger l'internaute vers l'accueil
+                    return $this->redirectToRoute('sorties');
                 }
-                // Rediriger l'internaute vers l'accueil
-                return $this->redirectToRoute('sorties');
+
             }
 
         return $this->render('profile/gestionprofile.html.twig',[

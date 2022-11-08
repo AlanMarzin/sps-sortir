@@ -6,6 +6,16 @@
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/styleUser.css') }}">
     {% endblock %}
+
+    {#    Gestion de l'affichage de messages flash#}
+    {% for label, messages in app.flashes  %}
+        {% for message in messages %}
+            <div class="flash flash-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {%  endfor %}
+
     <div class="user-card">
         <h1>Modifier votre profil {{ user.pseudo }}</h1>
             <div class="user-info">
