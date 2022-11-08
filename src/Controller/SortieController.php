@@ -43,29 +43,9 @@ class SortieController extends AbstractController
             // traiter du formulaire de filtres ou faire une recherche sur le campus de l'utilisateur uniquement
             if ($filtresSortiesForm->isSubmitted() && $filtresSortiesForm->isValid()) {
                 $sorties = $sortieRepository->findByFiltresSorties($filtresSorties, $currentUser);
-                dump($sorties);
             } else {
                 $sorties = $sortieRepository->findAllAffichables($currentUser);
-                dump($sorties);
             }
-
-//            // récupérer toutes les sorties affichables en retirant les historisées et en création par d'autres gens
-//            for ($i=0; $i<count($sorties); $i++) {
-//                dump($sorties[$i]->getId());
-//                if ($sorties[$i]->getId() === 255) {
-//                    dump($sorties[$i]->getEtat()->getLibelle() === 'en création' && $sorties[$i]->getOrganisateur() !== $currentUser);
-//                    dump($sorties[$i]->getEtat()->getLibelle() === 'historisée');
-//                }
-//                if (($sorties[$i]->getEtat()->getLibelle() === 'en création' && $sorties[$i]->getOrganisateur() !== $currentUser)
-//                    or $sorties[$i]->getEtat()->getLibelle() === 'historisée') {
-////                    dump($sorties[$i]);
-//
-//                    if ($sorties[$i]->getId()===255) {
-//                        dump('Je suis dans le if');
-//                    }
-//                    unset($sorties[$i]);
-//                }
-//            }
 
             return $this->render('sortie/listesorties.html.twig', [
                 'filtresSortiesForm' => $filtresSortiesForm->createView(),
@@ -263,9 +243,29 @@ class SortieController extends AbstractController
 
         }
 
-
     }
 
+    #[Route('/sortie/publier/{id}', name: 'sortie_publier', requirements: ['id' => '\d+'])]
+    public function publier(Request $request, SortieRepository $sortieRepository, EtatRepository $etatRepository, int $id, EntityManagerInterface $em): Response
+    {
+
+        // Récupérer la sortie à afficher en base de données
+        $sortie = $sortieRepository->find($id);
+        if ($sortie === null) {
+            throw $this->createNotFoundException('Page not found');
+        }
+
+        if ($sortie->getOrganisateur() != $this->getUser()) {
+            $this->addFlash('error', 'Vous ne pouvez pas publier cette sortie !');
+            return $this->redirectToRoute('sorties');
+        } else {
+            $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'ouverte']));
+                $em->flush();
+                $this->addFlash('success', 'Votre sortie a bien été publiée !');
+        }
+        return $this->redirectToRoute('sorties');
+
+    }
 
     #[Route('/sortie/{slug}', name: 'sortie_detail')]
     public function detail(SortieRepository $sortieRepository, string $slug): Response

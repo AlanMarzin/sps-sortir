@@ -15,6 +15,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UpdateSortieType extends AbstractType
@@ -60,11 +62,19 @@ class UpdateSortieType extends AbstractType
             ])
             ->add('enregistrer', SubmitType::class, [
                 'label' => 'Enregistrer'
-            ])
-            ->add('publier', SubmitType::class, [
-                'label' => 'Publier la sortie'
-            ])
-            ->add('supprimer', SubmitType::class, [
+            ]);
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $sortie = $event->getData();
+            $form = $event->getForm();
+            if ($sortie->getEtat()->getLibelle() == 'en création') {
+                $form->add('publier', SubmitType::class, [
+                    'label' => 'Publier la sortie',
+                ]);
+            }
+        });
+
+        $builder->add('supprimer', SubmitType::class, [
                 'label' => 'Supprimer la sortie'
             ])
             ->add('annuler', SubmitType::class, [
@@ -79,4 +89,5 @@ class UpdateSortieType extends AbstractType
             'data_class' => Sortie::class,
         ]);
     }
+
 }

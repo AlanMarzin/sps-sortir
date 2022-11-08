@@ -30,7 +30,6 @@
             <h2>Filtrer les sorties</h2>
             <section class="bloc_filtres">
 
-
                 {{ form_start(filtresSortiesForm) }}
 
                 <div class="filtres" name="filtres" id="filtres">
@@ -122,7 +121,7 @@
                                         <a href="{{ path('sortie_modifier', {'id': sortie.id} )}}">Modifier</a>
                                     {% endif %}
                                     {% if sortie.etat.libelle == 'en création' %}
-                                        <a href="{{ path('sortie_modifier', {'id': sortie.id} )}}">Publier</a>
+                                        <a href="{{ path('sortie_publier', {'id': sortie.id} )}}">Publier</a>
                                     {% endif %}
                                     {% if sortie.etat.libelle == 'ouverte' or sortie.etat.libelle == 'clôturée' %}
                                         <a href="{{ path('annuler_detail', {'id': sortie.id} )}}">Annuler</a>
