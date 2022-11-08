@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class LieuController extends AbstractController
 {
     #[Route('/lieu', name: 'new_lieu', requirements: ['id' => '\d+'])]
-    public function newLieu( Request $request, EntityManagerInterface $em, ): Response
+    public function newLieu( Request $request, EntityManagerInterface $em): Response
     {
         //Créer un objet lieu
         $lieu = new Lieu();
@@ -46,22 +46,21 @@ class LieuController extends AbstractController
     }
 
     #[Route('/getLieuxFromVille/{id}', name: 'lieux_from_ville', requirements: ['id' => '\d+'])]
-    public function getLieuxFromVille(VilleRepository $villeRepository, LieuRepository $lieuRepository, int $id ): Response
+    public function getLieuxFromVille(EntityManagerInterface $em, VilleRepository $villeRepository, LieuRepository $lieuRepository, int $id ): Response
     {
         // récupérer la ville
-        $ville = $villeRepository->findAll();
-        dump($ville);
+        $ville = $villeRepository->find($id);
 
         // récupérer les lieux
         $lieux = $lieuRepository->findBy(['ville'=>$ville]);
-//        if ($lieux === null) {
-//            throw $this->createNotFoundException('Page not found');
-//        }
-//
-//        dump($lieux);
+        if ($lieux === null) {
+            throw $this->createNotFoundException('Page not found');
+        }
 
-        $response = new JsonResponse(['data' => 123]);
+        $query = $em->createQuery('SELECT l FROM App\Entity\Lieu l WHERE l.ville = :ville')
+            ->setParameter('ville', $ville);
+        $lieux = $query->getArrayResult();
 
-        return $response;
+        return new JsonResponse($lieux);
     }
 }
