@@ -49,25 +49,28 @@ class UserController extends AbstractController
                      et celui du champ 2 'confirmation' dans '$confirmation'*/
 
             /*TODO : Gérer les assets de vérification formulaire users.*/
+
             if (($profileForm->isSubmitted() && $profileForm->isValid())){
                 $confirmation=$profileForm->get('passwordConfirmation')->getData();
                 $password=$profileForm->get('password')->getData();
-
                 //uploader nos image
                 /** @var  UploadedFile $photoProfil */
                 $photoProfil = $profileForm->get('photo')->getData();
                 if ($photoProfil){
                     $backdrop = $fileUploader->upload($photoProfil, '/avatar');
                     $user->setPhoto($backdrop);
+                    $this->addFlash('success', 'Votre photo à été ajoutée');
                 }
 
             /*Je test que mon l'email renseigné dans mon champ confirmation est identique au mot de passe
                     Si oui je mofifie le mot de passe dans la BDD en le hachant
                     Si non j'affiche un message d'errreur
                     Si aucune modif de mot de passe n'est souhaitée je valide directemnt les changements sans
-                    m'occuper du mot de passe, & j'affiche un message de "success*/
+                    m'occuper du mot de passe, & j'affiche un message de "success"
+            Si un des deux champs est rempit obligation de remplir le second*/
 
-                if (isset($confirmation) && isset($password)){
+                else if (isset($confirmation) || isset($password)){
+
                     if ($confirmation ===  $profileForm->get('password')->getData() ){
                         $user->setPassword(
                             $userPasswordHasher->hashPassword(
@@ -80,15 +83,15 @@ class UserController extends AbstractController
                         // Rediriger l'internaute vers l'accueil
                         return $this->redirectToRoute('sorties');
                     }else{
-                        $this->addFlash('error', 'Les mots de passe ne sont pas identiques');
+                        $this->addFlash('error', '!! Renseignez deux "Mot de passe" identiques !!');
                     }
-                }else{
+                }
+                else{
                     $em->flush();
                     $this->addFlash('success', 'Votre profil a été mis à jour');
                     // Rediriger l'internaute vers l'accueil
                     return $this->redirectToRoute('sorties');
                 }
-
             }
 
         return $this->render('profile/gestionprofile.html.twig',[
