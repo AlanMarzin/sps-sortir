@@ -1,10 +1,9 @@
 <nav>
-    <ul>
+{#    <ul>#}
             {% if app.user %}
-                    <a class="nav" href="{{ path('profil_update') }}">Modifier mon compte</a>
+                    <div><a class="nav" href="{{ path('profil_update') }}">Modifier mon compte</a></div>
 
-                    <a class="nav" href="{{ path('app_logout') }}">Déconnexion</a>
-
+                    <div><a class="nav" href="{{ path('app_logout') }}">Déconnexion</a></div>
             {% endif %}
-    </ul>
+{#    </ul>#}
 </nav>

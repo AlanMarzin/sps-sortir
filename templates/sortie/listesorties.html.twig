@@ -4,6 +4,7 @@
 
 {% block body %}
     {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('css/styleAccueil.css') }}">
     {% endblock %}
 
@@ -18,6 +19,7 @@
     {% endfor %}
 
     {% if app.user %}
+
         <div class="infos">
             <p>Date du jour : {{ 'now'|date('d/m/Y') }}</p>
                 {% if app.user %}
@@ -25,14 +27,11 @@
                 {% endif %}
         </div>
 
-
-        <div>
-            <h2>Filtrer les sorties</h2>
-            <section class="bloc_filtres">
-
-                {{ form_start(filtresSortiesForm) }}
-
-                <div class="filtres" name="filtres" id="filtres">
+        <div class="sorties">
+            <div class="filtres">
+                <h2 class="titre_filtres">Filtrer les sorties</h2>
+{#                <section class="bloc_filtres">#}
+                    {{ form_start(filtresSortiesForm, { 'attr' : { 'class': 'form_filtres' } }) }}
                     <div class="filtres_gauche">
                         <div>
                             {{ form_label(filtresSortiesForm.campus) }}
@@ -69,74 +68,69 @@
                             {{ form_label(filtresSortiesForm.isPassee) }}
                         </div>
                     </div>
-                </div>
+
+                    <button>Rechercher</button>
+                    {{ form_end(filtresSortiesForm) }}
+{#                </section>#}
+            </div>
 
 
-                <button>Rechercher</button>
-
-                {{ form_end(filtresSortiesForm) }}
-            </section>
-        </div>
-
-
-        <div class="tableau-Sorties">
-            <section class='listeSorties' name="listeSorties" id="listeSorties">
-                <table>
-                    <thead>
+            <div class="tableau-Sorties">
+                <section class='listeSorties' name="listeSorties" id="listeSorties">
+                    <table>
+                        <thead>
                         <th>Nom de la sortie</th>
                         <th>Date de la sortie</th>
                         <th>Clôture</th>
-                        <th>Inscrits/Places</th>
+                        <th>Inscrits / Places</th>
                         <th>Etat</th>
                         <th>Inscrit</th>
                         <th>Organisateur</th>
                         <th>Actions</th>
-                        <th>Campus</th>
-                    </thead>
+                        </thead>
 
-                    <tbody>
-                    {% for sortie in sorties %}
-                         <tr>
-                            <td>{{ sortie.nom }}</td>
-                            <td>{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</td>
-                            <td>{{ sortie.dateLimiteInscription|date('d/m/Y') }}</td>
-                            <td>{{ sortie.inscrits.count }}/{{ sortie.nbInscriptionsMax }}</td>
-                            <td>{{ sortie.etat.libelle }}</td>
-                            <td>
-                                {% if app.user in sortie.inscrits %}
-                                    x
-                                {% endif %}
-                            </td>
-                            <td><a href="{{ path('user_details', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.prenom }}</td>
-                            <td>
-                                <a href="{{ path('sortie_detail', {'slug': sortie.slug}) }}">Afficher</a>
-                                {% if sortie.etat.libelle == 'ouverte' and app.user not in sortie.inscrits and app.user != sortie.organisateur %}
-                                    <a href="{{ path('sortie_inscription', {'id': sortie.id}) }}">S'inscrire</a>
-                                {% endif %}
-                                {% if app.user in sortie.inscrits and app.user != sortie.organisateur %}
-                                    <a href="{{ path('sortie_desinscription', {'id': sortie.id}) }}">Se désister</a>
-                                {% endif %}
-                                {% if app.user == sortie.organisateur %}
-                                    {% if sortie.etat.libelle == 'en création' or sortie.etat.libelle == 'ouverte' %}
-                                        <a href="{{ path('sortie_modifier', {'id': sortie.id} )}}">Modifier</a>
+                        <tbody>
+                        {% for sortie in sorties %}
+                            <tr>
+                                <td>{{ sortie.nom }}</td>
+                                <td>{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</td>
+                                <td>{{ sortie.dateLimiteInscription|date('d/m/Y') }}</td>
+                                <td>{{ sortie.inscrits.count }}/{{ sortie.nbInscriptionsMax }}</td>
+                                <td>{{ sortie.etat.libelle }}</td>
+                                <td>
+                                    {% if app.user in sortie.inscrits %}
+                                        x
                                     {% endif %}
-                                    {% if sortie.etat.libelle == 'en création' %}
-                                        <a href="{{ path('sortie_publier', {'id': sortie.id} )}}">Publier</a>
+                                </td>
+                                <td><a href="{{ path('user_details', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.prenom }}</td>
+                                <td>
+                                    <a href="{{ path('sortie_detail', {'slug': sortie.slug}) }}">Afficher</a>
+                                    {% if sortie.etat.libelle == 'ouverte' and app.user not in sortie.inscrits and app.user != sortie.organisateur %}
+                                        <br /><a href="{{ path('sortie_inscription', {'id': sortie.id}) }}">S'inscrire</a>
                                     {% endif %}
-                                    {% if sortie.etat.libelle == 'ouverte' or sortie.etat.libelle == 'clôturée' %}
-                                        <a href="{{ path('annuler_detail', {'id': sortie.id} )}}">Annuler</a>
+                                    {% if app.user in sortie.inscrits and app.user != sortie.organisateur %}
+                                        <br /><a href="{{ path('sortie_desinscription', {'id': sortie.id}) }}">Se désister</a>
                                     {% endif %}
-                                {% endif %}
-                            </td>
-                            <td>{{ sortie.campus.nom }}</td>
-                         </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </section>
+                                    {% if app.user == sortie.organisateur %}
+                                        {% if sortie.etat.libelle == 'en création' or sortie.etat.libelle == 'ouverte' %}
+                                            <br /><a href="{{ path('sortie_modifier', {'id': sortie.id} )}}">Modifier</a>
+                                        {% endif %}
+                                        {% if sortie.etat.libelle == 'en création' %}
+                                            <br /><a href="{{ path('sortie_publier', {'id': sortie.id} )}}">Publier</a>
+                                        {% endif %}
+                                        {% if sortie.etat.libelle == 'ouverte' or sortie.etat.libelle == 'clôturée' %}
+                                            <br /><a href="{{ path('annuler_detail', {'id': sortie.id} )}}">Annuler</a>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+            <a href="{{ path('sortie_new') }}"><button>Créer une sortie</button></a>
         </div>
-        <a href="{{ path('sortie_new') }}"><button>Créer une sortie</button></a>
-
 
     {% else %}
 
