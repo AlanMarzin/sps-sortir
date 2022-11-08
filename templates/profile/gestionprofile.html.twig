@@ -29,10 +29,13 @@
                 </div>
                 <div class="container-info">
 
-
-
+                    <div class="erreurform">
+                    {{ form_errors(profileForm.pseudo) }}
+                    {{ form_errors(profileForm.email) }}
+                    </div>
                     {#  Formulaire de modification du profil utilisateur #}
                     {{ form_start(profileForm)}}
+
 
                         {{ form_label(profileForm.nom) }}
                         {{ form_widget(profileForm.nom) }}
@@ -50,8 +53,10 @@
                         {{ form_label(profileForm.passwordConfirmation) }}
                         {{ form_widget(profileForm.passwordConfirmation) }}
 
+
                         {{ form_label(profileForm.pseudo) }}
                         {{ form_widget(profileForm.pseudo) }}
+
 
                         {{ form_label(profileForm.photo) }}
                         {{ form_widget(profileForm.photo) }}

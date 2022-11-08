@@ -32,8 +32,8 @@ class UserFixtures extends Fixture implements  DependentFixtureInterface
             $user[$i]->setRoles(['ROLE_USER']);
             $user[$i]->setActif(true);
             $user[$i]->setTelephone($faker->phoneNumber);
-            $user[$i]->setNom($faker->firstName);
-            $user[$i]->setPrenom($faker->lastName);
+            $user[$i]->setNom($faker->lastName);
+            $user[$i]->setPrenom($faker->firstName);
 
 
             $manager->persist($user[$i]);
