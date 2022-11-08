@@ -30,8 +30,18 @@
                 <div class="container-info">
 
                     <div class="erreurform">
-                    {{ form_errors(profileForm.pseudo) }}
-                    {{ form_errors(profileForm.email) }}
+                        {% if not profileForm.vars.valid%}
+                            <h2> Erreur :</h2>
+                            {{ form_errors(profileForm.nom)}}
+                            {{ form_errors(profileForm.prenom) }}
+                            {{ form_errors(profileForm.email) }}
+                            {{ form_errors(profileForm.password) }}
+                            {{ form_errors(profileForm.passwordConfirmation) }}
+                            {{ form_errors(profileForm.pseudo) }}
+                            {{ form_errors((profileForm.photo)) }}
+                            {{ form_errors(profileForm.telephone) }}
+                            {{ form_errors(profileForm.campus) }}
+                       {% endif %}
                     </div>
                     {#  Formulaire de modification du profil utilisateur #}
                     {{ form_start(profileForm)}}
@@ -56,7 +66,6 @@
 
                         {{ form_label(profileForm.pseudo) }}
                         {{ form_widget(profileForm.pseudo) }}
-
 
                         {{ form_label(profileForm.photo) }}
                         {{ form_widget(profileForm.photo) }}

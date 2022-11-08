@@ -50,6 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $pseudo = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Regex(pattern: '/^[0-9]+$/i', message: 'Le numéro de téléphone ne peut contenir que des chiffres entre 0 & 9')]
     #[Assert\Length(min:10, minMessage: 'Le numéro doit être composé de 10 numéros ex: 0601020304')]
     private ?string $telephone = null;
 

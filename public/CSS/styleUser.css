@@ -210,11 +210,26 @@ footer{
     margin: 50px;
 }
 
-.erreurform{
+.erreurform {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
     color: #ff1f31;
     font-weight: bold;
-
 }
-.erreurform ul li {
+.erreurform > h2 {
+    justify-content: center;
+    padding: 0.5em;
+    border-radius: 4px;
+    background-color: #791313;
+    color: white;
+    font-weight: bold;
+}
+.erreurform > ul  {
     list-style: none;
+    padding: 0.5em;
+    border-radius: 4px;
+    background-color: #791313;
+    color: white;
+    font-weight: bold;
 }
