@@ -42,7 +42,7 @@ class ProfileType extends AbstractType
                 ]
             ])
             ->add('passwordConfirmation', PasswordType::class, [
-                'label'=> 'Confirmer Mot de Passe : ',
+                'label'=> 'Mot de Passe : ',
                 'required'=>false,
                 'mapped'=>false,
                 ])

@@ -17,46 +17,52 @@
     {%  endfor %}
 
     <div class="user-card">
-        <h1>Modifier votre profil {{ user.pseudo }}</h1>
+        <h2>Modifier le profil de : </h2>
+        <h1>{{ user.pseudo }}</h1>
             <div class="user-info">
+                <div class="container-img">
+                    {% if   user.photo is not null%}
+                        <img src="{{ asset('uploads/avatar/' ~ user.photo) }}" alt="{{ user.nom }}">
+                    {%else%}
+                        <img src="{{ asset('images/icondefaut.png') }}" alt="image par defaut">
+                    {% endif %}
+                </div>
                 <div class="container-info">
+
+
+
                     {#  Formulaire de modification du profil utilisateur #}
                     {{ form_start(profileForm)}}
-                    <div class="form-widget">
+
                         {{ form_label(profileForm.nom) }}
                         {{ form_widget(profileForm.nom) }}
-                    </div>
-                    <div class="form-widget">
+
+
                         {{ form_label(profileForm.prenom )}}
                         {{ form_widget(profileForm.prenom) }}
-                    </div>
-                    <div class="form-widget">
+
                         {{ form_label(profileForm.email) }}
                         {{ form_widget(profileForm.email) }}
-                    </div>
-                    <div class="form-widget">
+
                         {{ form_label(profileForm.password) }}
                         {{ form_widget(profileForm.password) }}
-                    </div>
-                    <div class="form-widget">
+
                         {{ form_label(profileForm.passwordConfirmation) }}
                         {{ form_widget(profileForm.passwordConfirmation) }}
-                    </div>
-                    <div class="form-widget">
+
                         {{ form_label(profileForm.pseudo) }}
                         {{ form_widget(profileForm.pseudo) }}
-                    </div>
-                    <div class="form-widget-upload">
+
                         {{ form_label(profileForm.photo) }}
                         {{ form_widget(profileForm.photo) }}
-                    </div>
-                    <div class="form-widget">
+
                         {{ form_label(profileForm.telephone) }}
                         {{ form_widget(profileForm.telephone) }}
-                    </div>
-                    <div class="form-widget">
+
                         {{ form_label(profileForm.campus )}}
                         {{ form_widget(profileForm.campus) }}
+
+
                     </div>
 
                 </div>
