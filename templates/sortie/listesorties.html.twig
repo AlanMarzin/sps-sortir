@@ -2,11 +2,12 @@
 
 {% block title %}{{ parent() }} - Liste des sorties{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/styleAccueil.css') }}">
+{% endblock %}
+
 {% block body %}
-    {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/styleAccueil.css') }}">
-    {% endblock %}
 
 {#    Gestion de l'affichage de messages flash#}
     {% for label, messages in app.flashes  %}

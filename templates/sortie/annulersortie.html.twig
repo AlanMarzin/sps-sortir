@@ -1,7 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Annuler la sortie : {{ sortie.nom }}
+    {{ parent() }} - Annuler la sortie : {{ sortie.nom }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
 {% endblock %}
 
 {% block body %}

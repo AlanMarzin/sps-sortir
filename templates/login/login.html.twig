@@ -1,20 +1,21 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}{{ parent() }} - Se connecter{% endblock %}
-{% block nav %}
-    
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/styleLogin.css') }}">
 {% endblock %}
 
+{% block nav %}{% endblock %}
+
 {% block body %}
-    {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('css/styleLogin.css') }}">
-    {% endblock %}
     {% if error is not null %}
      <div class="flash flash-error">Le mot de passe ou l'identifiant est incorrect !</div>
     {% endif %}
             <div class="login-card">
                 <h2>CONNEXION</h2>
-                <h3> Entrer vos identifiants </h3>
+                <h3> Entrez vos identifiants </h3>
                     <form class="login-form" action="{{ path('app_login') }}" method="post">
                             <input type="text" id="username" name="_username" value="{{ last_username }}"/>
                             <input type="password" id="password" name="_password"/>
@@ -23,7 +24,7 @@
                                     Se souvenir de moi
                                     <input  type="checkbox" name="_remember_me" checked/>
                                 </div>
-                            <button type="submit">connexion</button>
+                            <button type="submit">Se connecter</button>
                     </form>
             </div>
 

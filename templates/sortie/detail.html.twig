@@ -1,7 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Détails {{ sortie.nom }}
+    {{ parent() }} - Détails {{ sortie.nom }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
 {% endblock %}
 
 {% block body %}

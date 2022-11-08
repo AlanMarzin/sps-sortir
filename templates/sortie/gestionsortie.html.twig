@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block tittle %}Modification sortie{% endblock %}
+{% block title %}{{ parent() }} - Modification sortie{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
 
 {% block body %}
     <h1>Modifier votre sortie {{ user.pseudo }}</h1>

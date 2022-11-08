@@ -1,11 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block tittle %}Modification profile{% endblock %}
+{% block title %}{{ parent() }} - Modifiez votre profil{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/styleUser.css') }}">
+{% endblock %}
 
 {% block body %}
-    {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('css/styleUser.css') }}">
-    {% endblock %}
 
     {#    Gestion de l'affichage de messages flash#}
     {% for label, messages in app.flashes  %}

@@ -1,18 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('css/stylePlzLogin.css') }}">
-    {% endblock %}
+{% block title %}{{ parent() }} - Connectez-vous !{% endblock %}
 
-<div class="login-card">
-    <div class ="policelog">
-        <p>Ce site est réservé aux étudiants de l'ENI, merci de vous logger sur <a href="{{ path('app_login') }}">cette page</a>.</p>
-    </div>
-
-</div>
-
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/stylePlzLogin.css') }}">
 {% endblock %}
 
-{% block title %}Connectez-vous !{% endblock %}
+{% block body %}
 
+    <div class="login-card">
+        <div class ="policelog">
+            <p>Ce site est réservé aux étudiants de l'ENI, merci de vous logger sur <a href="{{ path('app_login') }}">cette page</a>.</p>
+        </div>
+
+    </div>
+
+{% endblock %}
