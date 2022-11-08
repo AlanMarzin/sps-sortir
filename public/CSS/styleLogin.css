@@ -45,10 +45,6 @@
     margin-top: 0em;
     margin-bottom: 0em;
 }
-.login-form > button:hover{
-    background-color: rgb(250, 214, 192);
-    color: black;
-}
 
 .remember{
     display: grid;

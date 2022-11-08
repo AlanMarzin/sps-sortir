@@ -1,0 +1,36 @@
+main{
+    width: 40%;
+    padding: 20px 40px 40px 40px;
+}
+
+.form_sortie {
+    margin-bottom: 2em;
+}
+
+.form_colonnes{
+    display: flex;
+    justify-content: space-around;
+}
+
+.form_sortie div {
+    margin-bottom: 8px;
+}
+
+.form_boutons {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.form_droite a button{
+    background-color: rgb(250, 214, 192);
+    height: 5em;
+    width: 15em;
+    font-weight: bold;
+    color: black;
+}
+
+.form_droite a button:hover{
+    background-color: rgb(83,114,116);
+    color: white;
+}
