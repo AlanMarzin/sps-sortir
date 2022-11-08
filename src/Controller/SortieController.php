@@ -28,8 +28,9 @@ class SortieController extends AbstractController
 
         if ($this->getUser() == null) {
             return $this->redirectToRoute('app_plzlogin');
+
         } else {
-            //        $sorties = $dateChecker->checkDate($sortieRepository, $etatRepository, $em);
+            // màj l'état des sorties en BDD
             $dateChecker->checkDate($sortieRepository, $etatRepository, $em);
 
             $currentUser = $this->getUser();
@@ -39,22 +40,32 @@ class SortieController extends AbstractController
             $filtresSortiesForm = $this->createForm(FiltresSortiesType::class, $filtresSorties);
             $filtresSortiesForm->handleRequest($request);
 
-            // traitement du formulaire de filtres
+            // traiter du formulaire de filtres ou faire une recherche sur le campus de l'utilisateur uniquement
             if ($filtresSortiesForm->isSubmitted() && $filtresSortiesForm->isValid()) {
                 $sorties = $sortieRepository->findByFiltresSorties($filtresSorties, $currentUser);
+                dump($sorties);
             } else {
-//                $filtres = new FiltresSortiesFormModel;
-//                $filtres->setCampus($currentUser->getCampus());
-                $sorties = $sortieRepository->findAllAffichables();
-//                $sorties = $sortieRepository->findByFiltresSorties($filtresSorties, $currentUser);
+                $sorties = $sortieRepository->findAllAffichables($currentUser);
+                dump($sorties);
             }
 
-            // récupérer toutes les sorties affichables en retirant les historisées et en création par d'autres gens
-            for ($i=0; $i<count($sorties); $i++) {
-                if (($sorties[$i]->getEtat()->getLibelle() === 'en création' and $sorties[$i]->getOrganisateur() !== $currentUser) or $sorties[$i]->getEtat()->getLibelle() === 'historisée') {
-                    unset($sorties[$i]);
-                }
-            }
+//            // récupérer toutes les sorties affichables en retirant les historisées et en création par d'autres gens
+//            for ($i=0; $i<count($sorties); $i++) {
+//                dump($sorties[$i]->getId());
+//                if ($sorties[$i]->getId() === 255) {
+//                    dump($sorties[$i]->getEtat()->getLibelle() === 'en création' && $sorties[$i]->getOrganisateur() !== $currentUser);
+//                    dump($sorties[$i]->getEtat()->getLibelle() === 'historisée');
+//                }
+//                if (($sorties[$i]->getEtat()->getLibelle() === 'en création' && $sorties[$i]->getOrganisateur() !== $currentUser)
+//                    or $sorties[$i]->getEtat()->getLibelle() === 'historisée') {
+////                    dump($sorties[$i]);
+//
+//                    if ($sorties[$i]->getId()===255) {
+//                        dump('Je suis dans le if');
+//                    }
+//                    unset($sorties[$i]);
+//                }
+//            }
 
             return $this->render('sortie/listesorties.html.twig', [
                 'filtresSortiesForm' => $filtresSortiesForm->createView(),

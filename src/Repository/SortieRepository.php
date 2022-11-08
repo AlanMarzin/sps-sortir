@@ -53,7 +53,25 @@ class SortieRepository extends ServiceEntityRepository
             ->leftJoin('sortie.organisateur', 'organisateur')
             ->addSelect('organisateur')
             ->addSelect('inscrits')
-            ->leftJoin('sortie.inscrits', 'inscrits');
+            ->leftJoin('sortie.inscrits', 'inscrits')
+            ->where('etat.libelle != :historisee')
+            ->setParameter('historisee', 'historisée');
+
+            // création de l'expression AND (en création et créée par l'ut en cours)
+            $andModule = $qb->expr()->andX();
+            $andModule->add($qb->expr()->eq('etat.libelle', ':encreation'));
+            $andModule->add($qb->expr()->eq('sortie.organisateur', ':id'));
+
+            // création de l'expression OR (pas en création ou en création et créée par l'ut en cours)
+            $orModule = $qb->expr()->orx();
+            $orModule->add($qb->expr()->neq('etat.libelle', ':encreation'));
+            $orModule->add($andModule);
+
+            // ajout de l'expression à la requête
+            $qb->andWhere($orModule)
+                ->setParameter('encreation', 'en création')
+                ->setParameter('encreation', 'en création')
+                ->setParameter('id', $currentUser->getId());
 
         if ($filtres->getCampus()) {
             $qb->andWhere('campus.nom = :campus')
@@ -102,16 +120,9 @@ class SortieRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function findAllAffichables(): array
+    public function findAllAffichables(UserInterface $currentUser): array
     {
         $qb = $this->createQueryBuilder('sortie');
-//        $qb->addSelect('sortie')
-//            ->leftJoin('sortie.etat', 'etat')
-//            ->addSelect('etat')
-//            ->andWhere('etat.libelle != :creation')
-//            ->setParameter('creation', 'en création')
-//            ->andWhere('etat.libelle != :historisee')
-//            ->setParameter('historisee', 'historisée');
 
         $qb->addSelect('sortie')
             ->leftJoin('sortie.campus', 'campus')
@@ -121,7 +132,17 @@ class SortieRepository extends ServiceEntityRepository
             ->leftJoin('sortie.organisateur', 'organisateur')
             ->addSelect('organisateur')
             ->addSelect('inscrits')
-            ->leftJoin('sortie.inscrits', 'inscrits');
+            ->leftJoin('sortie.inscrits', 'inscrits')
+            // filtrer sur le campus de l'utilisateur connecté
+            ->andWhere('campus.nom = :campus')
+            ->setParameter('campus', $currentUser->getCampus()->getNom())
+            // exclure les sorties historisées
+            ->andWhere('etat.libelle != :historisee')
+            ->setParameter('historisee', 'historisée')
+            // exclure les sorties en création si ce ne sont pas celles de l'ut connecté
+            ->andWhere('etat.libelle != :encreation AND sortie.organisateur != :id')
+            ->setParameter('encreation', 'en création')
+            ->setParameter('id', $currentUser->getId());
 
         return $qb->getQuery()->getResult();
     }

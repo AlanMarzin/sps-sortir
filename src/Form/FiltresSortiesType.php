@@ -28,8 +28,8 @@ class FiltresSortiesType extends AbstractType
                 'class' => Campus::class,
                 'choice_label' => 'nom',
                 'label' => 'Campus ',
-                'required' => false,
-//                'data'=> $this->security->getUser()->getCampus()
+//                'required' => false,
+                'data'=> $this->security->getUser()->getCampus()
             ])
             ->add('nomRecherche', SearchType::class, [
                 'label' => 'Le nom de la sortie contient : ',

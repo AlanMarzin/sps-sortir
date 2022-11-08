@@ -26,7 +26,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         $faker = Faker\Factory::create('fr_FR');
 
         $sorties = Array();
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 300; $i++) {
             $sorties[$i] = new Sortie();
             $sorties[$i]->setNom($faker->sentence(3));
             $sorties[$i]->setDateHeureDebut($faker->dateTimeBetween('-3 months', '+3 months'));
