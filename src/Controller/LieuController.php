@@ -6,9 +6,12 @@ namespace App\Controller;
 use App\Entity\Lieu;
 use App\Form\LieuType;
 use App\Form\SortieType;
+use App\Repository\LieuRepository;
+use App\Repository\VilleRepository;
 use Container7hDeg5A\getSortieTypeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -40,5 +43,25 @@ class LieuController extends AbstractController
             'lieuForm' => $lieuForm->createView(),
             'sortieForm' => $sortieForm->createview(),
         ]);
+    }
+
+    #[Route('/getLieuxFromVille/{id}', name: 'lieux_from_ville', requirements: ['id' => '\d+'])]
+    public function getLieuxFromVille(VilleRepository $villeRepository, LieuRepository $lieuRepository, int $id ): Response
+    {
+        // récupérer la ville
+        $ville = $villeRepository->findAll();
+        dump($ville);
+
+        // récupérer les lieux
+        $lieux = $lieuRepository->findBy(['ville'=>$ville]);
+//        if ($lieux === null) {
+//            throw $this->createNotFoundException('Page not found');
+//        }
+//
+//        dump($lieux);
+
+        $response = new JsonResponse(['data' => 123]);
+
+        return $response;
     }
 }
