@@ -42,7 +42,7 @@ class ProfileType extends AbstractType
                 ]
             ])
             ->add('passwordConfirmation', PasswordType::class, [
-                'label'=> 'Mot de Passe : ',
+                'label'=> 'Confirmation : ',
                 'required'=>false,
                 'mapped'=>false,
                 ])
@@ -62,7 +62,7 @@ class ProfileType extends AbstractType
                 'required'=> false,
             ])
             ->add('telephone', TextType::class, [
-                'label'=>'Numéro de téléphone : '
+                'label'=>'Téléphone : '
             ])
             ->add('campus' ,EntityType::class, [
                 'class' => Campus::class,

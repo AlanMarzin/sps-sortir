@@ -53,6 +53,7 @@ a, button{
 
 body{
     display: grid;
+
     place-items: center;
     max-resolution: 0;
     padding: 0 24px;
@@ -100,12 +101,15 @@ body{
 .remember{
     display: grid;
     padding: 20px 55px 20px;
+    font: caption;
 }
 
 footer{
     color: #0f1f3b;
     font-size: 25px;
     margin: 50px;
+    font: caption;
+
 }
 
 
