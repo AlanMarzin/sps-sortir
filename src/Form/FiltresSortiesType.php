@@ -11,9 +11,16 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Security;
 
 class FiltresSortiesType extends AbstractType
 {
+    private $security;
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -21,6 +28,8 @@ class FiltresSortiesType extends AbstractType
                 'class' => Campus::class,
                 'choice_label' => 'nom',
                 'label' => 'Campus ',
+                'required' => false,
+//                'data'=> $this->security->getUser()->getCampus()
             ])
             ->add('nomRecherche', SearchType::class, [
                 'label' => 'Le nom de la sortie contient : ',

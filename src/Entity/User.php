@@ -241,7 +241,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->sortiesOrganisees->contains($sortieOrganisee)) {
             $this->sortiesOrganisees->add($sortieOrganisee);
-            $sortieOrganisee->setOrganisateur($this);
         }
 
         return $this;

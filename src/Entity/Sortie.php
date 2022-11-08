@@ -163,6 +163,9 @@ class Sortie
         if (!$organisateur->getSortiesOrganisees()->contains($this)) {
             $organisateur->addSortieOrganisee($this);
         }
+        if (!$organisateur->getSortiesInscrit()->contains($this)) {
+            $organisateur->addSortiesInscrit($this);
+        }
         return $this;
     }
 

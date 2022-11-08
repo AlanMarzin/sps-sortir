@@ -107,3 +107,14 @@ footer{
     font-size: 25px;
     margin: 50px;
 }
+
+
+.flash{
+    padding: 1rem;
+}
+.flash-success {
+    background-color: lightgreen;
+}
+.flash-error {
+    background-color: indianred;
+}

@@ -9,8 +9,8 @@
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/styleLogin.css') }}">
     {% endblock %}
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% if error is not null %}
+     <div class="flash flash-error">Le mot de passe ou l'identifiant est incorrect !</div>
     {% endif %}
             <div class="login-card">
                 <h2>CONNEXION</h2>

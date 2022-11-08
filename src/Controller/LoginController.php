@@ -23,5 +23,11 @@ class LoginController extends AbstractController
             'error' => $error
         ]);
     }
+
+    #[Route('/plzlogin', name: 'app_plzlogin')]
+    public function plzLogin(AuthenticationUtils $authentificationUtils): Response
+    {
+        return $this->render('login/plzlogin.html.twig');
+    }
 }
 

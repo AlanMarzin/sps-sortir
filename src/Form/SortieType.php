@@ -60,11 +60,14 @@ class SortieType extends AbstractType
                 'mapped' => false,
                 'choice_label'=>'nom',
                 'label'=>'Ville : ',
+                'required' => false
             ])
             ->add('lieu', EntityType::class, [
+                'placeholder' => 'Lieux ici',
                 'class'=>Lieu::class,
                 'choice_label'=>'nom',
                 'label'=>'Lieu : ',
+                'required' => false
             ])
             ->add('enregistrer', SubmitType::class, [
                 'label' => 'Enregistrer'
@@ -81,4 +84,5 @@ class SortieType extends AbstractType
             'data_class' => Sortie::class,
         ]);
     }
+
 }
