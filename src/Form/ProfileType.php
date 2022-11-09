@@ -21,11 +21,11 @@ class ProfileType extends AbstractType
     {
         $builder
             //Pour la gestion des Photos de profil
-//            ->add('photoProfil', FileType::class, [
-//                'mapped' => true,
-//                'label' => 'Modifier votre Photo : '
+//            ->add('photo', FileType::class, [
+////                'mapped' => true,
+//                'label' => 'Modifiez votre photo : '
 //            ])
-            ->add('email',EmailType::class, [
+            ->add('email', EmailType::class, [
                 'label'=> 'Email : '
             ])
 

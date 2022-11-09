@@ -1,5 +1,5 @@
 main{
-    width: 40%;
+    width: 60%;
     padding: 20px 40px 40px 40px;
 }
 
@@ -78,4 +78,8 @@ button {
 #sortie_nvLieu:hover {
     background-color: rgb(83,114,116);
     color: white;
+}
+
+form:last-child {
+    text-align: center;
 }
