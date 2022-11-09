@@ -21,8 +21,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Assert\Email(
-    message: 'L\'adresse, {{value}} n\'est pas valide')]
+//    #[Assert\Regex('/^[\w\.=-]+@[\w\.-]+\.[\w]{2,3}$/', message: 'L\'adresse mail n\'est pas au bon
+//                  format ex: adresses.exemple@mail.com')]
+    #[Assert\Email]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
@@ -35,22 +36,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[Assert\Regex(pattern:'/^[A-Z]+$/', message: 'Votre nom ne  peut contenir que des majuscules')]
     #[Assert\Length(min:3, minMessage: 'Indiquez un nom 3 caractères minimum')]
     #[Assert\Length(max:20, maxMessage: 'Indiquez un nom de 10 caractères maximum')]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    #[Assert\Regex(pattern:'/^[A-zÀ-ú-]+$/', message: 'Votre prénom ne  peut contenir que des lettres entre a & b')]
     #[Assert\Length(min:3, minMessage: 'Indiquez un nom 3 caractères minimum')]
     #[Assert\Length(max:30, maxMessage: 'Indiquez un nom de 30 caractères maximum')]
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
-    #[Assert\Length(max: 15, maxMessage: 'Votre pseudo ne peut faire plus de {{value}} caractères')]
+    #[Assert\Regex('/^[A-z0-9]+$/', message: 'Votre pseudo ne peut contenir que des caractères alphanumérique pas 
+    d\'accents ou de caractères spéciaux' )]
+    #[Assert\Length(max: 10, maxMessage: 'Votre pseudo ne peut faire plus de {{value}} caractères')]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $pseudo = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Regex(pattern: '/^[0-9]+$/i', message: 'Le numéro de téléphone ne peut contenir que des chiffres entre 0 & 9')]
+    #[Assert\Regex(pattern: '/(0|\+33)[1-9]( *[0-9]{2}){4}/', message: 'Le numéro de téléphone saisie est incorrecte 
+                            Format : +33000000000 ou 0000000000')]
     #[Assert\Length(min:10, minMessage: 'Le numéro doit être composé de 10 numéros ex: 0601020304')]
     private ?string $telephone = null;
 
