@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation\Slug;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
 class Sortie
@@ -20,15 +21,19 @@ class Sortie
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    #[Assert\GreaterThan("today", message: 'La date de début doit être ultérieure à la date du jour.')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateHeureDebut = null;
 
+    #[Assert\Positive(message: 'la durée ne peut pas être négative voyons...')]
     #[ORM\Column]
     private ?int $duree = null;
 
+    #[Assert\LessThan(propertyPath:"dateHeureDebut", message: 'La date de limite inscription doit être antérieure à celle de début.')]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateLimiteInscription = null;
 
+    #[Assert\Positive(message: 'Vous voulez un nombre négatif pour vos inscrits ? VRAIMENT ?!...')]
     #[ORM\Column]
     private ?int $nbInscriptionsMax = null;
 
