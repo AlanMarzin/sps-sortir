@@ -1,0 +1,42 @@
+main{
+    width: 30%;
+    padding: 20px 40px 40px 40px;
+}
+
+.form-row {
+    margin-bottom: 1em;
+}
+
+.form-row div {
+    display: grid;
+}
+
+input, select {
+    grid-column-start: 2;
+}
+
+.form_boutons {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.boutons {
+    display: flex;
+    margin-bottom: 1em;
+    justify-content: space-around;
+}
+
+button {
+    margin: 0px;
+}
+
+#sortie_nvLieu {
+    background-color: rgb(250, 214, 192);
+    color: black;
+}
+
+#sortie_nvLieu:hover {
+    background-color: rgb(83,114,116);
+    color: white;
+}

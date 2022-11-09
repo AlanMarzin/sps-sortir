@@ -46,6 +46,7 @@ main{
 .form_gauche input, .form_gauche textarea {
     grid-column-start: 2;
     margin-left: 1em;
+    margin-right: 1em;
 }
 
 .form_droite{
@@ -56,4 +57,25 @@ main{
 .form_droite input {
     grid-column-start: 2;
     margin-left: 1em;
+    margin-right: 1em;
+}
+
+.boutons {
+    display: flex;
+    margin: 0;
+    justify-content: space-around;
+}
+
+button {
+    margin: 0px;
+}
+
+#sortie_nvLieu {
+    background-color: rgb(250, 214, 192);
+    color: black;
+}
+
+#sortie_nvLieu:hover {
+    background-color: rgb(83,114,116);
+    color: white;
 }
