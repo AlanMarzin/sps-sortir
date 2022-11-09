@@ -1,0 +1,76 @@
+main{
+    padding: 20px 40px 40px 40px;
+}
+
+h1 {
+    margin-bottom: 1em;
+}
+
+.affsortie {
+    display: flex;
+    justify-content: space-around;
+}
+
+.colonne1{
+    max-width: 45%;
+    display: grid;
+}
+
+.colonne1 div {
+    margin-bottom: 0.8em;
+}
+
+.colonne1 span {
+    grid-column-start: 2;
+    margin-left: 1em;
+}
+
+.colonne2{
+    max-width: 45%;
+    display: grid;
+}
+
+.colonne2 span {
+    grid-column-start: 2;
+    margin-left: 1em;
+}
+
+.listeinscrits {
+    margin-top: 3em;
+    text-align: center;
+    font-weight: bold;
+}
+
+table {
+    margin: auto;
+}
+
+.tableau {
+    margin-top: 1em;
+    width: 280px;
+    overflow-y: scroll;
+    height: 200px;
+    border: solid rgb(83,114,116) 1px;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.inscrits tr th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    /*min-height: 10px;*/
+    background-color: white;
+    color: rgb(83,114,116);
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    font-weight: normal;
+}
+
+tr:nth-child(even) {
+    background-color: rgba(250, 214, 192, 0.5);
+}

@@ -31,8 +31,8 @@ class SortieType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        /** @var Sortie|null $sortie */
-        $sortie = $options['data'] ?? null;
+//        /** @var Sortie|null $sortie */
+//        $sortie = $options['data'] ?? null;
 
         $builder
             ->add('nom', TextType::class, [
@@ -75,20 +75,20 @@ class SortieType extends AbstractType
                 'label' => 'Publier la sortie'
             ]);
 
-//        $builder->addEventListener(
-//            FormEvents::PRE_SET_DATA,
-//            function (FormEvent $event) {
-//                /** @var Sortie|null $data */
-//                $data = $event->getData();
-//                if (!$data) {
-//                    return;
-//                }
-//                $this->setupLieuNameField(
-//                    $event->getForm(),
-//                    $data->getLieu()->getVille()
-//                );
-//            }
-//        );
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) {
+                /** @var Sortie|null $data */
+                $data = $event->getData();
+                if (!$data) {
+                    return;
+                }
+                $this->setupLieuNameField(
+                    $event->getForm(),
+                    $data->getLieu()->getVille()
+                );
+            }
+        );
 //
 //        $builder->get('ville')->addEventListener(
 //            FormEvents::POST_SUBMIT,
@@ -101,8 +101,8 @@ class SortieType extends AbstractType
 //            }
 //        );
 
-//        $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'));
-//        $builder->addEventListener(FormEvents::PRE_SUBMIT, array($this, 'onPreSubmit'));
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'));
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, array($this, 'onPreSubmit'));
 
 //        $builder->add('lieu', EntityType::class, [
 //                'placeholder' => 'Lieux ici',
@@ -121,44 +121,44 @@ class SortieType extends AbstractType
         ]);
     }
 
-//    protected function addElements(FormInterface $form, Ville $ville = null) {
-//
-//        // ajouter le select Ville
-//        $form->add('ville', EntityType::class, [
-//            'class'=>Ville::class,
-//            'mapped' => false,
-//            'choice_label'=>'nom',
-//            'label'=>'Ville : ',
-//            'required' => true,
-//            'data' => $ville,
-//            'placeholder' => 'Sélectionnez une ville...',
-//        ]);
-//
-//        // Lieux vide, sauf si une ville est sélectionnée
-//        $lieux = [];
+    protected function addElements(FormInterface $form, Ville $ville = null) {
+
+        // ajouter le select Ville
+        $form->add('ville', EntityType::class, [
+            'class'=>Ville::class,
+            'mapped' => false,
+            'choice_label'=>'nom',
+            'label'=>'Ville : ',
+            'required' => true,
+            'data' => $ville,
+            'placeholder' => 'Sélectionnez une ville...',
+        ]);
+
+        // Lieux vide, sauf si une ville est sélectionnée
+        $lieux = [];
 
         // If there is a ville stored in the Sortie entity, load the lieux of it
-//        if ($ville) {
-//            // Fetch Neighborhoods of the City if there's a selected city
-//            $lieuxRepo = $this->em->getRepository(Lieu::class);
-//
-//            $lieux = $lieuxRepo->createQueryBuilder('l')
-//                ->where("l.ville = :villeid")
-//                ->setParameter("villeid", $ville->getId())
-//                ->getQuery()
-//                ->getResult();
-//        }
+        if ($ville) {
+            // Fetch Neighborhoods of the City if there's a selected city
+            $lieuxRepo = $this->em->getRepository(Lieu::class);
 
-//        // Add the Neighborhoods field with the proper data
-//        $form->add('lieu', EntityType::class, [
-//            'placeholder' => 'Choisissez d`\'abord une ville...',
-//            'class'=>Lieu::class,
-//            'choice_label'=>'nom',
-//            'label'=>'Lieu : ',
-//            'required' => true,
-//            'choices' => $lieux
-//        ]);
-//    }
+            $lieux = $lieuxRepo->createQueryBuilder('l')
+                ->where("l.ville = :villeid")
+                ->setParameter("villeid", $ville->getId())
+                ->getQuery()
+                ->getResult();
+        }
+
+        // Add the Neighborhoods field with the proper data
+        $form->add('lieu', EntityType::class, [
+            'placeholder' => 'Choisissez d`\'abord une ville...',
+            'class'=>Lieu::class,
+            'choice_label'=>'nom',
+            'label'=>'Lieu : ',
+            'required' => true,
+            'choices' => $lieux
+        ]);
+    }
 //
 //    function onPreSubmit(FormEvent $event) {
 //        $form = $event->getForm();
@@ -195,26 +195,26 @@ class SortieType extends AbstractType
 //        return $lieuxChoices[$ville];
 //    }
 //
-//    private function setupLieuNameField(FormInterface $form, ?string $ville)
-//    {
-//        if (null === $ville) {
-//            $form->remove('lieu');
-//            return;
-//        }
-//
-//        $choices = $this->getLieuxChoices($ville);
-//        if (null === $choices) {
-//            $form->remove('lieu');
-//            return;
-//        }
-//
-//        $form->add('lieu', EntityType::class, [
-//                'placeholder' => 'Lieux ici',
-//                'class'=>Lieu::class,
-//                'choice_label'=>'nom',
-//                'label'=>'Lieu : ',
-//                'required' => false
-//        ]);
-//
-//    }
+    private function setupLieuNameField(FormInterface $form, ?string $ville)
+    {
+        if (null === $ville) {
+            $form->remove('lieu');
+            return;
+        }
+
+        $choices = $this->getLieuxChoices($ville);
+        if (null === $choices) {
+            $form->remove('lieu');
+            return;
+        }
+
+        $form->add('lieu', EntityType::class, [
+                'placeholder' => 'Lieux ici',
+                'class'=>Lieu::class,
+                'choice_label'=>'nom',
+                'label'=>'Lieu : ',
+                'required' => false
+        ]);
+
+    }
 }
