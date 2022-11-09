@@ -34,3 +34,26 @@ main{
     background-color: rgb(83,114,116);
     color: white;
 }
+
+.form_gauche{
+    display: grid;
+}
+
+.form_gauche div {
+    margin-bottom: 0.8em;
+}
+
+.form_gauche input, .form_gauche textarea {
+    grid-column-start: 2;
+    margin-left: 1em;
+}
+
+.form_droite{
+    /*max-width: 45%;*/
+    display: grid;
+}
+
+.form_droite input {
+    grid-column-start: 2;
+    margin-left: 1em;
+}

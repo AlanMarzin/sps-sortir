@@ -7,7 +7,47 @@
     <link rel="stylesheet" href="{{ asset('css/styleNewSortie.css') }}">
 {% endblock %}
 
+{% block javascripts %}
+    <script>
+        function init() {
+            let select = document.getElementById('villes');
+            select.addEventListener('change', function(e) {
+                //console.log(select.options[select.selectedIndex].value);
+                console.log('test');
+                useApi(select.options[select.selectedIndex].value);
+            });
+        }
+
+        async function useApi(idVille) {
+            let select = document.getElementById('lieux');
+            select.innerHTML = '';
+            let lieux = await callApi(idVille);
+            for (const lieu of lieux) {
+                var option = document.createElement("option");
+                option.value = lieu.id;
+                option.text = lieu.nom;
+                select.appendChild(option);
+            }
+        }
+
+        async function callApi(idVille) {
+            const response = await fetch("{{ path('lieux_from_ville') }}/"+ idVille);
+            if (response.ok) return response.json();
+        }
+
+        window.onload = init;
+    </script>
+{% endblock %}
+
 {% block body %}
+    {% for label, messages in app.flashes  %}
+        {% for message in messages %}
+            <div class="flash flash-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
     <h1>Créer une sortie</h1>
 
     {{ form_start(sortieForm, { 'attr' : { 'class': 'form_sortie' } }) }}
@@ -51,18 +91,11 @@
                 {{ form_widget(sortieForm.campus) }}
             </div>
             <div>
-                {{ form_errors(sortieForm.ville) }}
-                {{ form_label(sortieForm.ville) }}
-                {{ form_widget(sortieForm.ville) }}
+                {{ form_row(sortieForm.ville, { 'id': 'villes' }) }}
             </div>
-            {%  if sortieForm.lieu is defined %}
             <div>
-                {{ form_row(sortieForm.lieu, { 'id': 'lieux'}) }}
-{#                {{ form_errors(sortieForm.lieu) }}#}
-{#                {{ form_label(sortieForm.lieu) }}#}
-{#                {{ form_widget(sortieForm.lieu) }}#}
+                {{ form_row(sortieForm.lieu, { 'id': 'lieux' }) }}
             </div>
-            {% endif %}
 
         </div>
     </div>
@@ -87,14 +120,4 @@
     </div>
 
 {% endblock %}
-
-{% block javascripts %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script>
-        function init() {
-
-        }
-    </script>
-{% endblock %}
-
 

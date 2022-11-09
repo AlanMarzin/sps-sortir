@@ -188,6 +188,7 @@ class SortieController extends AbstractController
         $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'annulée']));
         $sortie->setInfosSortie($sortie->getInfosSortie()."ANNULÉE".$motif);
         $em->flush();
+        $this->addFlash('success', 'Votre sortie a bien été annulée !');
 
         // Rediriger l'internaute vers la liste des sorties
         return $this->redirectToRoute('sorties');

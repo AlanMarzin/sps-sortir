@@ -71,6 +71,10 @@
     color: rgb(83,114,116);
 }
 
+table {
+    margin: auto;
+}
+
 th, td {
     padding: 10px;
     text-align: center;
