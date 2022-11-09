@@ -4,19 +4,24 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/styleNewLieu.css') }}">
 {% endblock %}
 
 {% block body %}
     <h1>Créer un lieu</h1>
 
     {# Formulaire de modification du profil utilisateur #}
-    {{ form_start(lieuForm)}}
-        {{ form_widget(lieuForm) }}
-            <div class="login"><button>Valider</button></div>
+    {{ form_start(lieuForm, { 'attr' : { 'class': 'form_lieu' } })}}
+        {{ form_row(lieuForm.nom) }}
+        {{ form_row(lieuForm.rue) }}
+        {{ form_row(lieuForm.latitude) }}
+        {{ form_row(lieuForm.longitude) }}
+        {{ form_row(lieuForm.ville) }}
+            <div class="boutons"><button>Valider</button></div>
     {{ form_end(lieuForm) }}
 
     {# Bouton de retour vers la page de création de sortie #}
-    <div class="login">
+    <div class="boutons">
         <a href="{{ path('sortie_new') }}"><button>Annuler</button></a>
     </div>
 

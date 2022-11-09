@@ -12,10 +12,18 @@
         function init() {
             let select = document.getElementById('villes');
             select.addEventListener('change', function(e) {
-                //console.log(select.options[select.selectedIndex].value);
-                console.log('test');
                 useApi(select.options[select.selectedIndex].value);
             });
+
+            let nvLieu = document.getElementById('sortie_nvLieu');
+            nvLieu.addEventListener('click', function(e) {
+                window.location.href = '{{ path('new_lieu') }}';
+            })
+
+            let annuler = document.getElementById('sortie_annuler');
+            annuler.addEventListener('click', function(e) {
+                window.location.href = '{{ path('sorties') }}';
+            })
         }
 
         async function useApi(idVille) {
@@ -96,6 +104,10 @@
             <div>
                 {{ form_row(sortieForm.lieu, { 'id': 'lieux' }) }}
             </div>
+            <div>
+                {{ form_label(sortieForm.nvLieu, { 'id': 'nvLieu' }) }}
+                {{ form_widget(sortieForm.nvLieu) }}
+            </div>
 
         </div>
     </div>
@@ -108,16 +120,14 @@
             {{ form_label(sortieForm.publier) }}
             {{ form_widget(sortieForm.publier) }}
         </div>
+        <div>
+            {{ form_label(sortieForm.annuler, { 'id': 'annuler' }) }}
+            {{ form_widget(sortieForm.annuler) }}
+        </div>
+
     </div>
 
     {{ form_end(sortieForm) }}
-
-    <div>
-        <a href="{{ path('new_lieu') }}"><button>Créer un lieu</button></a>
-    </div>
-    <div>
-        <a href="{{ path('sorties') }}"><button>Annuler</button></a>
-    </div>
 
 {% endblock %}
 

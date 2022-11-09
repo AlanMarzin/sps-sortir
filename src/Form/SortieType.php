@@ -8,6 +8,7 @@ use App\Entity\Lieu;
 use App\Entity\Sortie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -68,7 +69,6 @@ class SortieType extends AbstractType
                 'placeholder' => 'Sélectionnez une ville',
             ])
             ->add('lieu', EntityType::class, [
-                'placeholder' => 'Lieux ici',
                 'class'=>Lieu::class,
                 'choice_label'=>'nom',
                 'label'=>'Lieu : ',
@@ -80,6 +80,12 @@ class SortieType extends AbstractType
             ])
             ->add('publier', SubmitType::class, [
                 'label' => 'Publier la sortie'
+            ])
+            ->add('nvLieu', ButtonType::class, [
+                'label' => 'Créer un lieu'
+            ])
+            ->add('annuler', ButtonType::class, [
+                'label' => 'Annuler'
             ]);
 
     }

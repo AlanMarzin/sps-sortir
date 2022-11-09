@@ -21,7 +21,7 @@
              <div class="datelimite">Date limite d'inscription :</div><span>{{ sortie.dateLimiteInscription|date('d/m/Y') }}</span>
              <div class="nbplaces">Nombre de places :</div><span>{{ sortie.nbInscriptionsMax }}</span>
              <div class="duree">Durée :</div><span>{{ sortie.duree }} minutes</span>
-             <div class="description">Description et infos :</div><span>{{ sortie.infosSortie }}</span>
+             <div class="description">Description et infos :</div><span>{{ sortie.infosSortie|nl2br }}</span>
          </div>
 
          <div class="colonne2">
