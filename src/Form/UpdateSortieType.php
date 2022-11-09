@@ -69,7 +69,7 @@ class UpdateSortieType extends AbstractType
             $form = $event->getForm();
             if ($sortie->getEtat()->getLibelle() == 'en création') {
                 $form->add('publier', SubmitType::class, [
-                    'label' => 'Publier la sortie',
+                    'label' => 'Publier la sortie'
                 ]);
             }
         });

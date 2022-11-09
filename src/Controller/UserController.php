@@ -59,7 +59,8 @@ class UserController extends AbstractController
                 if ($photoProfil){
                     $backdrop = $fileUploader->upload($photoProfil, '/avatar');
                     $user->setPhoto($backdrop);
-                    $this->addFlash('success', 'Votre photo à été ajoutée');
+                    $em->flush();
+                    $this->addFlash('success', 'Votre photo a été ajoutée');
                 }
 
             /*Je test que mon l'email renseigné dans mon champ confirmation est identique au mot de passe
