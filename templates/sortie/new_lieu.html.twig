@@ -8,21 +8,42 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Créer un lieu</h1>
 
-    {# Formulaire de modification du profil utilisateur #}
-    {{ form_start(lieuForm, { 'attr' : { 'class': 'form_lieu' } })}}
-        {{ form_row(lieuForm.nom) }}
-        {{ form_row(lieuForm.rue) }}
-        {{ form_row(lieuForm.latitude) }}
-        {{ form_row(lieuForm.longitude) }}
-        {{ form_row(lieuForm.ville) }}
-            <div class="boutons"><button>Valider</button></div>
-    {{ form_end(lieuForm) }}
+    <div class="container-info">
+        <h1>Créer un lieu</h1>
+        <div class="erreurform">
+            {% if not lieuForm.vars.valid%}
+                <h2> Erreur :</h2>
+                    {{ form_errors(lieuForm.nom) }}
+                    {{ form_errors(lieuForm.rue) }}
+                    {{ form_errors(lieuForm.latitude) }}
+                    {{ form_errors(lieuForm.longitude) }}
+                    {{ form_errors(lieuForm.ville) }}
+            {% endif %}
+        </div>
+        {# Formulaire de modification du profil utilisateur #}
+        {{ form_start(lieuForm, { 'attr' : { 'class': 'form_lieu' } })}}
+                     {{ form_label(lieuForm.nom) }}
+                    {{ form_widget(lieuForm.nom) }}
 
-    {# Bouton de retour vers la page de création de sortie #}
-    <div class="boutons">
-        <a href="{{ path('sortie_new') }}"><button>Annuler</button></a>
+                    {{ form_label(lieuForm.rue) }}
+                    {{ form_widget(lieuForm.rue) }}
+
+                    {{ form_label(lieuForm.latitude) }}
+                    {{ form_widget(lieuForm.latitude) }}
+
+                    {{ form_label(lieuForm.longitude) }}
+                    {{ form_widget(lieuForm.longitude) }}
+
+                    {{ form_label(lieuForm.ville) }}
+                    {{ form_widget(lieuForm.ville) }}
+                <div class="boutons"><button>Valider</button></div>
+        {{ form_end(lieuForm) }}
+        {# Bouton de retour vers la page de création de sortie #}
+        <div class="boutons">
+            <a href="{{ path('sortie_new') }}"><button>Annuler</button></a>
+        </div>
     </div>
+
 
 {% endblock %}
