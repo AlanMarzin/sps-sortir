@@ -16,6 +16,15 @@
     display: flex;
     flex-direction: column;
 }
+.filtres.filtres_droite {
+    padding-right: 3em;
+    padding-left: 2em;
+}
+
+.filtres .filtres_gauche {
+    padding-right: 2em;
+    padding-left: 1em;
+}
 
 .titre_filtres {
     text-align: left;
@@ -43,12 +52,14 @@
     align-items: center;
     justify-content: center;
     padding: 0px 20px 0px 20px;
+
 }
 .listeSorties {
     overflow-y: scroll;
     height: 250px;
     border: solid rgb(83,114,116) 1px;
     border-radius: 10px;
+    min-width: 100%;
 }
 
 .listeSorties tr th {
@@ -72,6 +83,7 @@ tr:nth-child(even) {
 form p {
     position: relative;
 }
+
 
 
 /**************************CHECKBOX ALAN***********************************/
