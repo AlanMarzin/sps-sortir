@@ -57,9 +57,10 @@
             </div>
             {%  if sortieForm.lieu is defined %}
             <div>
-                {{ form_errors(sortieForm.lieu) }}
-                {{ form_label(sortieForm.lieu) }}
-                {{ form_widget(sortieForm.lieu) }}
+                {{ form_row(sortieForm.lieu, { 'id': 'lieux'}) }}
+{#                {{ form_errors(sortieForm.lieu) }}#}
+{#                {{ form_label(sortieForm.lieu) }}#}
+{#                {{ form_widget(sortieForm.lieu) }}#}
             </div>
             {% endif %}
 
@@ -90,36 +91,9 @@
 {% block javascripts %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
-        $('#appbundle_sortie_ville').change(function () {
-            var villeSelector = $(this);
+        function init() {
 
-            // Request the neighborhoods of the selected city.
-            $.ajax({
-                url: "{{ path('lieux_from_ville') }}",
-                type: "GET",
-                dataType: "JSON",
-                data: {
-                    id: villeSelector.val()
-                },
-                success: function (lieux) {
-                    var lieuSelect = $("#appbundle_sortie_lieu");
-
-                    // Remove current options
-                    lieuSelect.html('');
-
-                    // Empty value ...
-                    lieuSelect.append('<option value>Choisissez un lieu de ' + villeSelector.find("option:selected").text() + ' ...</option>');
-
-
-                    $.each(lieux, function (key, lieu) {
-                        lieuSelect.append('<option value="' + lieu.id + '">' + lieu.name + '</option>');
-                    });
-                },
-                error: function (err) {
-                    alert("An error ocurred while loading data ...");
-                }
-            });
-        });
+        }
     </script>
 {% endblock %}
 
