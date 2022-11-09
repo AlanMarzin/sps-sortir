@@ -34,6 +34,8 @@ class LieuController extends AbstractController
             // Enregistrer la nouvelle sortie en BDD
             $em->persist($lieu);
             $em->flush();
+            $this->addFlash('success', 'Votre lieu a bien été créé !');
+
             // renvoyer à la page de création de sortie
             return $this->redirectToRoute('sortie_new');
         }
@@ -46,7 +48,7 @@ class LieuController extends AbstractController
     }
 
     #[Route('/getLieuxFromVille/{id}', name: 'lieux_from_ville', requirements: ['id' => '\d+'])]
-    public function getLieuxFromVille(EntityManagerInterface $em, VilleRepository $villeRepository, LieuRepository $lieuRepository, int $id ): Response
+    public function getLieuxFromVille(EntityManagerInterface $em, VilleRepository $villeRepository, LieuRepository $lieuRepository, int $id =1 ): Response
     {
         // récupérer la ville
         $ville = $villeRepository->find($id);

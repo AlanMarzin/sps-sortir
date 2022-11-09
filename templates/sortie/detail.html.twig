@@ -6,46 +6,50 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/styleDetailSortie.css') }}">
 {% endblock %}
 
 {% block body %}
 
-<div class ="affsortie">
-     <div class="colonne1">
-         <div class ="nom">Nom de la sortie : {{ sortie.nom }}</div>
-         <div class="datedebut">Date de début : {{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</div>
-         <div class="datefin"> Date de fin : {{ dateFin|date('d/m/Y H:i') }}</div>
-         <div class="datelimite">Date limite d'inscription : {{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</div>
-         <div class="nbplaces">Nombre de places : {{ sortie.nbInscriptionsMax }}</div>
-         <div class="duree">Durée : {{ sortie.duree }} minutes</div>
-         <div class="description">Description et infos : {{ sortie.infosSortie }}</div>
-     </div>
+    <h1>{{ sortie.nom }}</h1>
 
-     <div class="colonne2">
-         <div class="campus">Campus : {{ sortie.campus.nom }}</div>
-         <div class="emplacement">Emplacement : {{ sortie.lieu.nom }}</div>
-         <div class="adresse">Adresse : {{ sortie.lieu.rue }} {{ sortie.lieu.ville.codePostal }} {{ sortie.lieu.ville.nom }}</div>
-         <div class="latitude">Latitude : {{ sortie.lieu.latitude }}</div>
-         <div class="longitude">Longitude : {{ sortie.lieu.longitude }}</div>
-     </div>
-</div>
+    <div class ="affsortie">
+         <div class="colonne1">
+             <div class ="nom">Nom de la sortie :</div><span>{{ sortie.nom }}</span>
+             <div class="datedebut">Date de début :</div><span>{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</span>
+             <div class="datefin"> Date de fin :</div><span>{{ dateFin|date('d/m/Y H:i') }}</span>
+             <div class="datelimite">Date limite d'inscription :</div><span>{{ sortie.dateLimiteInscription|date('d/m/Y') }}</span>
+             <div class="nbplaces">Nombre de places :</div><span>{{ sortie.nbInscriptionsMax }}</span>
+             <div class="duree">Durée :</div><span>{{ sortie.duree }} minutes</span>
+             <div class="description">Description et infos :</div><span>{{ sortie.infosSortie }}</span>
+         </div>
 
-<div class="listeinscrits">
-    Liste des participants inscrits :
-    <table>
-        <tr>
-            <th>Pseudo</th>
-            <th>Nom</th>
-        </tr>
-        {% for inscrit in sortie.inscrits %}
-            <tr>
-                <td><a href="{{ path('user_details', {'id': inscrit.id}) }}">{{ inscrit.pseudo }}</td>
-                <td>{{ inscrit.prenom }} {{ inscrit.nom|upper }}</td>
-            </tr>
-        {% endfor %}
-    </table>
+         <div class="colonne2">
+             <div class="campus">Campus :</div><span>{{ sortie.campus.nom }}</span>
+             <div class="emplacement">Emplacement :</div><span>{{ sortie.lieu.nom }}</span>
+             <div class="adresse">Adresse :</div><span>{{ sortie.lieu.rue }} {{ sortie.lieu.ville.codePostal }} {{ sortie.lieu.ville.nom }}</span>
+             <div class="latitude">Latitude :</div><span>{{ sortie.lieu.latitude }}</span>
+             <div class="longitude">Longitude :</div><span>{{ sortie.lieu.longitude }}</span>
+         </div>
+    </div>
 
-</div>
+    <div class="listeinscrits">
+        Liste des participants inscrits :
+        <div class="tableau">
+            <table class="inscrits">
+                <tr>
+                    <th>Pseudo</th>
+                    <th>Nom</th>
+                </tr>
+                {% for inscrit in sortie.inscrits %}
+                    <tr>
+                        <td><a href="{{ path('user_details', {'id': inscrit.id}) }}">{{ inscrit.pseudo }}</td>
+                        <td>{{ inscrit.prenom }} {{ inscrit.nom|upper }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
 
 
 
