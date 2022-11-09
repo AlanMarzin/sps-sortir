@@ -22,7 +22,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
 //    #[Assert\Regex('/^[\w\.=-]+@[\w\.-]+\.[\w]{2,3}$/', message: 'L\'adresse mail n\'est pas au bon
-//                  format ex: adresses.exemple@mail.com')]
+//                 format ex: adresses.exemple@mail.com')]
     #[Assert\Email]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;

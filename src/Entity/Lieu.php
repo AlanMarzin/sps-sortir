@@ -6,6 +6,7 @@ use App\Repository\LieuRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: LieuRepository::class)]
 class Lieu
@@ -15,12 +16,18 @@ class Lieu
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Regex(pattern:'/^[A-zÀ-ú -]+$/', message: 'Format non respecté : 
+                                Celui-ci ne peut pas contenir de caractères spéciaux ou de chiffres')]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
+
+    #[Assert\Regex(pattern: '/^[A-zÀ-ú -]+$/', message: 'Format non respecté : 
+                                Celui-ci ne peut pas contenir de caractères spéciaux ou de chiffres')]
 
     #[ORM\Column(length: 255)]
     private ?string $rue = null;
 
+    #[Assert\Type(type:'float', message: 'Erreur de format : La {{value}} doit être de type {{type}}')]
     #[ORM\Column(nullable: true)]
     private ?float $latitude = null;
 
