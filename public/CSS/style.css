@@ -10,7 +10,7 @@ body{
     background-image: url("../images/font_header.jpg");
     background-repeat: no-repeat;
     background-size: cover;
-    /*animation: pan 60s infinite alternate linear;*/
+    animation: pan 60s infinite alternate linear;
 }
 
 @media (width:500px) {
